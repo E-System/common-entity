@@ -34,6 +34,8 @@ public interface IFileStore extends IPrimaryKey<Long> {
 
     void setMime(String mime);
 
+    String getFullName();
+
     boolean isDeleted();
 
     void setDeleted(boolean deleted);
