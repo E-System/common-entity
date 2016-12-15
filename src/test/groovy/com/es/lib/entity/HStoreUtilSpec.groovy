@@ -28,14 +28,42 @@ class HStoreUtilSpec extends Specification {
         expect:
         HStoreUtil.toString(map as Map<?, ?>) == result
         where:
-        map                        || result
-        null                       || ""
-        []                         || ""
-        ["a": "a"]                 || '"a"=>"a"'
-        ["a": null]                || '"a"=>NULL'
-        ["a": "a", "b": "b"]       || '"a"=>"a", "b"=>"b"'
-        ["a": "a\"b", "b": "b\"a"] || '"a"=>"a\\\\\"b", "b"=>"b\\\\\"a"'
+        map                            || result
+        null                           || ""
+        []                             || ""
+        ["a": "a"]                     || '"a"=>"a"'
+        ["a": null]                    || '"a"=>NULL'
+        ["a": "a", "b": "b"]           || '"a"=>"a", "b"=>"b"'
+        ["a": "a\"b", "b": "b\"a"]     || '"a"=>"a\\\\\"b", "b"=>"b\\\\\"a"'
         ["a": "a\"\\b", "b": "b\\\"a"] || '"a"=>"a\\\\\"\\\\b", "b"=>"b\\\\\\\\\"a"'
-        ["a": "a\\b", "b": "b\\a"] || '"a"=>"a\\\\b", "b"=>"b\\\\a"'
+        ["a": "a\\b", "b": "b\\a"]     || '"a"=>"a\\\\b", "b"=>"b\\\\a"'
+    }
+
+    def "false with null and empty map"() {
+        expect:
+        HStoreUtil.isFlagEnabled(attributes, "code") == result
+        where:
+        attributes || result
+        null       || false
+        [:]        || false
+    }
+
+    def "false with not available key"() {
+        expect:
+        HStoreUtil.isFlagEnabled(attributes, "code") == result
+        where:
+        attributes        || result
+        ['hello': 'true'] || false
+    }
+
+    def "Success isFlagEnabled with String and Boolean"() {
+        expect:
+        HStoreUtil.isFlagEnabled(attributes, "code") == result
+        where:
+        attributes        || result
+        ['code': 'true']  || true
+        ['code': 'false'] || false
+        ['code': true]    || true
+        ['code': false]   || false
     }
 }

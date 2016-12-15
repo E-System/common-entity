@@ -17,6 +17,7 @@
 package com.es.lib.entity;
 
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -37,10 +38,10 @@ public class HStoreUtil {
         }
         StringBuilder sb = new StringBuilder(map.size() * 8);
         map.entrySet().forEach(e -> sb
-                        .append(escape(e.getKey()))
-                        .append(SEPARATOR)
-                        .append(escape(e.getValue()))
-                        .append(", ")
+            .append(escape(e.getKey()))
+            .append(SEPARATOR)
+            .append(escape(e.getValue()))
+            .append(", ")
         );
         sb.setLength(sb.length() - 2);
         return sb.toString();
@@ -51,6 +52,14 @@ public class HStoreUtil {
             return "NULL";
         }
         return "\"" + escapeInner(val.toString()) + "\"";
+    }
+
+    public static boolean isFlagEnabled(Map<String, String> attributes, String code) {
+        if (attributes == null || attributes.isEmpty()) {
+            return false;
+        }
+        Object value = new HashMap<String, Object>(attributes).get(code);
+        return value != null && Boolean.parseBoolean(value.toString());
     }
 
     private static String escapeInner(String val) {
