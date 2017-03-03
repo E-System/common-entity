@@ -17,7 +17,6 @@
 package com.es.lib.entity;
 
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -58,7 +57,7 @@ public class HStoreUtil {
         if (attributes == null || attributes.isEmpty()) {
             return false;
         }
-        Object value = new HashMap<String, Object>(attributes).get(code);
+        Object value = ((Map) (attributes)).get(code);
         return value != null && Boolean.parseBoolean(value.toString());
     }
 

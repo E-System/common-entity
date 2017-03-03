@@ -17,7 +17,6 @@
 package com.es.lib.entity.iface;
 
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Интерфейс сущности блокируемой с определенной даты
@@ -32,7 +31,7 @@ public interface IBlockedFromDate {
     void setDateBlocked(Date dateBlocked);
 
     default boolean isBlocked() {
-        return Objects.nonNull(getDateBlocked());
+        return getDateBlocked() != null;
     }
 
     default void setBlocked(boolean blocked) {
