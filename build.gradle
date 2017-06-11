@@ -48,6 +48,7 @@ version = ext.mainVersion + (ext.snapshot ? '-SNAPSHOT' : '')
 
 repositories {
     jcenter()
+    mavenCentral()
     mavenLocal()
 }
 
