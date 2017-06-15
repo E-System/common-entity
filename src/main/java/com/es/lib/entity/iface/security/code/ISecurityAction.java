@@ -51,6 +51,6 @@ public interface ISecurityAction {
         if (split.length < 2) {
             return null;
         }
-        return new PermissionRow(0, split[0], split[1]);
+        return new PermissionRow(null, split[0], split[1]);
     }
 }

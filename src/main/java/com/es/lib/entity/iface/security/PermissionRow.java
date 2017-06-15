@@ -42,6 +42,7 @@ public class PermissionRow implements Serializable {
     }
 
     public PermissionRow(Integer idRole, String target, String action) {
+        this.idRole = idRole;
         this.target = target;
         this.action = action;
     }
