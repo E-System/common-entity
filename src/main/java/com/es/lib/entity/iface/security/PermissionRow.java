@@ -82,9 +82,9 @@ public class PermissionRow implements Serializable {
 
         PermissionRow that = (PermissionRow) o;
 
-        return idRole != null ?
+        return (idRole != null ?
                 idRole.equals(that.idRole)
-                : that.idRole == null && target.equals(that.target) && action.equals(that.action);
+                : that.idRole == null) && target.equals(that.target) && action.equals(that.action);
 
     }
 
