@@ -35,9 +35,13 @@ import java.sql.Types;
 public interface IJsonType extends IType {
 
     ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     JsonDbType getDbType();
+
+    default boolean isCreateInstance() {
+        return true;
+    }
 
     @Override
     default Object copyObject(Object o, Class<?> returnedClass) {
@@ -51,7 +55,14 @@ public interface IJsonType extends IType {
     @Override
     default Object getObject(ResultSet rs, String[] names, Class<?> returnedClass) throws SQLException {
         if (rs.getObject(names[0]) == null) {
-            return null;
+            if (!isCreateInstance()) {
+                return null;
+            }
+            try {
+                return returnedClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new HibernateException("Error create empty object", e);
+            }
         }
         PGobject pGobject = (PGobject) rs.getObject(names[0]);
         try {
