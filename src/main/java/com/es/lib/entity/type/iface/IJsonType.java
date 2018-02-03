@@ -37,7 +37,7 @@ public interface IJsonType extends IType {
     ObjectMapper OBJECT_MAPPER = new ObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    JsonDbType getDbType();
+    DbTypes.Json getDbType();
 
     default boolean isCreateInstance() {
         return true;

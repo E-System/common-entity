@@ -19,8 +19,8 @@ package com.es.lib.entity.condition
 import spock.lang.Specification
 
 /**
- * Author: diman 
- * Date: 31.05.14
+ * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @since 31.05.14
  */
 class ConditionBuilderSpec extends Specification {
 
@@ -28,13 +28,13 @@ class ConditionBuilderSpec extends Specification {
         expect:
         " exp1" == cb
         where:
-        cb = new Conditions().add().first("exp1").end().statement;
+        cb = new Conditions().add().first("exp1").end().statement
     }
 
     def "Expect (and exp1 and exp2)"() {
         expect:
         " and exp1 and exp2" == cb
         where:
-        cb = new Conditions().add().first("and exp1").add().first("and exp2").end().statement;
+        cb = new Conditions().add().first("and exp1").add().first("and exp2").end().statement
     }
 }

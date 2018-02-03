@@ -34,9 +34,5 @@ public interface IType {
 
     Object getObject(ResultSet rs, String[] names, Class<?> returnedClass) throws SQLException;
 
-    default Object getObject(ResultSet rs, String[] names) throws SQLException {
-        return getObject(rs, names, void.class);
-    }
-
     void setObject(PreparedStatement ps, Object value, int index) throws SQLException;
 }

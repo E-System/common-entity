@@ -24,96 +24,96 @@ import spock.lang.Specification
  */
 class JoinsSpec extends Specification {
 
-    def "Набор соединений должен быть пуст при создании нового конструктора"() {
+    def "Joins is empty after construction"() {
         expect:
         new Joins().empty
     }
 
-    def "Должно быть 1 условие полного джоина без подтягивания сущности"() {
+    def "One full join condition without fetch"() {
         when:
         def joins = new Joins().inner("a.a", "a")
         then:
         joins.format(true) == " join a.a a"
     }
 
-    def "Должно быть 1 условие полного джоина с подтягиванием сущности"() {
+    def "One full join condition with fetch"() {
         when:
         def joins = new Joins().innerFetch("a.a", "a")
         then:
         joins.format(true) == " join fetch a.a a"
     }
 
-    def "Должно быть 1 условие полного джоина без подтягиванием сущности(флаг)"() {
+    def "One full join condition without fetch by flag"() {
         when:
         def joins = new Joins().innerFetch("a.a", "a")
         then:
         joins.format(false) == " join a.a a"
     }
 
-    def "Должно быть 1 условие правого джоина без подтягивания сущности"() {
+    def "One right join condition without fetch"() {
         when:
         def joins = new Joins().right("a.a", "a")
         then:
         joins.format(true) == " right join a.a a"
     }
 
-    def "Должно быть 1 условие правого джоина с подтягиванием сущности"() {
+    def "One right join condition with fetch"() {
         when:
         def joins = new Joins().rightFetch("a.a", "a")
         then:
         joins.format(true) == " right join fetch a.a a"
     }
 
-    def "Должно быть 1 условие правого джоина без подтягивания сущности(флаг)"() {
+    def "One right join condition without fetch by flag"() {
         when:
         def joins = new Joins().right("a.a", "a")
         then:
         joins.format(false) == " right join a.a a"
     }
 
-    def "Должно быть 1 условие левого джоина без подтягивания сущности"() {
+    def "One left join condition without fetch"() {
         when:
         def joins = new Joins().left("a.a", "a")
         then:
         joins.format(true) == " left join a.a a"
     }
 
-    def "Должно быть 1 условие левого джоина с подтягиванием сущности"() {
+    def "One left join condition with fetch"() {
         when:
         def joins = new Joins().leftFetch("a.a", "a")
         then:
         joins.format(true) == " left join fetch a.a a"
     }
 
-    def "Должно быть 1 условие левого джоина без подтягивания сущности(флаг)"() {
+    def "One left join condition without fetch by flag"() {
         when:
         def joins = new Joins().left("a.a", "a")
         then:
         joins.format(false) == " left join a.a a"
     }
 
-    def "Альяса не должно быть"() {
+    def "Alias not exist"() {
         when:
         def joins = new Joins().leftFetch("a.a", "a")
         then:
         joins.findAlias("a.b") == "a.b"
     }
 
-    def "Альяса должен быть"() {
+    def "Alias exist"() {
         when:
         def joins = new Joins().leftFetch("a.a", "a")
         then:
         joins.findAlias("a.a") == "a"
     }
 
-    def "Рекурсивный альяс"() {
+    def "Recursive alias"() {
         when:
         def joins = new Joins().inner("a.b", "c").inner("c.a", "d")
         then:
         joins.findAlias("a.b.a") == "d"
     }
 
-    def "Все условия должны быть в порядке добавления"() {
+    def "All conditions in add order with declared fetches"() {
         when:
         def joins = new Joins()
                 .inner("a1.a1", "b1")
@@ -126,7 +126,7 @@ class JoinsSpec extends Specification {
         joins.format(true) == " join a1.a1 b1 join fetch a2.a2 b2 right join a3.a3 b3 right join fetch a4.a4 b4 left join a5.a5 b5 left join fetch a6.a6 b6"
     }
 
-    def "Все условия должны быть в порядке добавления без fetch"() {
+    def "All conditions in add order without fetches"() {
         when:
         def joins = new Joins()
                 .inner("a1.a1", "b1")

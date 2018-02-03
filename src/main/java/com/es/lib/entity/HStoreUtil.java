@@ -47,7 +47,7 @@ public class HStoreUtil {
     }
 
     private static String escape(Object val) {
-        if (Objects.isNull(val)) {
+        if (val == null) {
             return "NULL";
         }
         return "\"" + escapeInner(val.toString()) + "\"";

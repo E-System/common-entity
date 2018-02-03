@@ -24,7 +24,7 @@ import spock.lang.Specification
  */
 class HStoreUtilSpec extends Specification {
 
-    def "Конвертация из Map<?,?> в hstore строку"() {
+    def "Convert from Map<?,?> in hstore string"() {
         expect:
         HStoreUtil.toString(map as Map<?, ?>) == result
         where:

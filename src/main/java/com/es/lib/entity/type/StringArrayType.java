@@ -16,77 +16,16 @@
 
 package com.es.lib.entity.type;
 
-import com.es.lib.entity.type.iface.IStringArrayType;
-import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.usertype.UserType;
-
-import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.List;
-import java.util.Objects;
+import com.es.lib.entity.type.iface.DbTypes;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class StringArrayType implements UserType, IStringArrayType {
+public class StringArrayType extends CommonArrayType {
 
     @Override
-    public Object assemble(Serializable cached, Object owner) {
-        return cached;
+    public DbTypes.Primitive getDbType() {
+        return DbTypes.Primitive.STRING;
     }
-
-    @Override
-    public Object deepCopy(Object o) {
-        return copyObject(o);
-    }
-
-    @Override
-    public Serializable disassemble(Object o) {
-        return (Serializable) o;
-    }
-
-    @Override
-    public boolean equals(Object o1, Object o2) {
-        return Objects.equals(o1, o2);
-    }
-
-    @Override
-    public int hashCode(Object o) {
-        return o.hashCode();
-    }
-
-    @Override
-    public Object nullSafeGet(ResultSet rs, String[] strings, SessionImplementor si, Object o) throws SQLException {
-        return getObject(rs, strings);
-    }
-
-    @Override
-    public void nullSafeSet(PreparedStatement ps, Object o, int i, SessionImplementor si) throws SQLException {
-        setObject(ps, o, i);
-    }
-
-    @Override
-    public boolean isMutable() {
-        return true;
-    }
-
-    @Override
-    public Object replace(Object original, Object target, Object owner) {
-        return original;
-    }
-
-    @Override
-    public Class returnedClass() {
-        return List.class;
-    }
-
-    @Override
-    public int[] sqlTypes() {
-        return new int[]{Types.ARRAY};
-    }
-
 }

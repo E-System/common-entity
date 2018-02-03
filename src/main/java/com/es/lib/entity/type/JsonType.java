@@ -16,7 +16,7 @@
 
 package com.es.lib.entity.type;
 
-import com.es.lib.entity.type.iface.JsonDbType;
+import com.es.lib.entity.type.iface.DbTypes;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -25,7 +25,7 @@ import com.es.lib.entity.type.iface.JsonDbType;
 public class JsonType extends CommonJsonType {
 
     @Override
-    public JsonDbType getDbType() {
-        return JsonDbType.JSON;
+    public DbTypes.Json getDbType() {
+        return DbTypes.Json.JSON;
     }
 }

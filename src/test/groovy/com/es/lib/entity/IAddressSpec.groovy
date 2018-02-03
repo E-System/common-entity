@@ -28,7 +28,7 @@ class IAddressSpec extends Specification {
 
     static class RealAddress implements IAddress<Long> {
 
-        private Map<String, String> parts;
+        private Map<String, String> parts
 
         RealAddress(Map<String, String> parts) {
             this.parts = parts
@@ -36,7 +36,7 @@ class IAddressSpec extends Specification {
 
         @Override
         Map<String, String> getParts() {
-            return parts;
+            return parts
         }
 
         @Override
@@ -46,7 +46,7 @@ class IAddressSpec extends Specification {
 
         @Override
         Long getId() {
-            return null;
+            return null
         }
 
         @Override
@@ -57,7 +57,7 @@ class IAddressSpec extends Specification {
 
     static class ObjectWithAddress {
 
-        RealAddress address;
+        RealAddress address
 
         ObjectWithAddress(RealAddress address) {
             this.address = address
@@ -86,14 +86,14 @@ class IAddressSpec extends Specification {
         void setId(Long id) {
 
         }
-    };
+    }
 
     @Shared
     def testNullPartsAddress = new IAddress<Long>() {
 
         @Override
         Map<String, String> getParts() {
-            return null;
+            return null
         }
 
         @Override
@@ -110,14 +110,14 @@ class IAddressSpec extends Specification {
         void setId(Long id) {
 
         }
-    };
+    }
 
     @Shared
     def testEmptyPartsAddress = new IAddress<Long>() {
 
         @Override
         Map<String, String> getParts() {
-            return [:];
+            return [:]
         }
 
         @Override
@@ -134,7 +134,7 @@ class IAddressSpec extends Specification {
         void setId(Long id) {
 
         }
-    };
+    }
 
     def "SafeGetPart"() {
         expect:

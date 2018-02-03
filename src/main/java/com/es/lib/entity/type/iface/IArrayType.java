@@ -16,44 +16,50 @@
 
 package com.es.lib.entity.type.iface;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 02.05.15
  */
-public interface IHStoreType extends IType {
+public interface IArrayType extends IType {
 
     @Override
     default Object copyObject(Object o, Class<?> returnedClass) {
         if (o == null) {
             return null;
         }
-        Map m = (Map) o;
-        return new HashMap(m);
+        Collection c = (Collection) o;
+        return new ArrayList<>(c);
     }
 
     @Override
     default Object getObject(ResultSet rs, String[] names, Class<?> returnedClass) throws SQLException {
+        return getTypedArrayObject(rs, names, returnedClass);
+    }
+
+    default <T> Object getTypedArrayObject(ResultSet rs, String[] names, Class<T> arrayClass) throws SQLException {
         String col = names[0];
-        Object result = rs.getObject(col);
+        Array result = rs.getArray(col);
+        Collection<T> res = new ArrayList<>();
         if (rs.wasNull()) {
-            return new HashMap<>();
+            return res;
         }
-        return result;
+        Collections.addAll(res, (T[]) result.getArray());
+        return res;
     }
 
     @Override
     default void setObject(PreparedStatement ps, Object value, int index) throws SQLException {
-        if (value == null || ((Map) value).isEmpty()) {
-            ps.setNull(index, Types.OTHER);
+        if (value == null || ((Collection) value).isEmpty()) {
+            ps.setNull(index, Types.ARRAY);
             return;
         }
-        ps.setObject(index, value);
+        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), ((Collection) value).toArray()));
     }
+
+    DbTypes.Primitive getDbType();
 }

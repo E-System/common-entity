@@ -137,6 +137,9 @@ dependencies {
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
     testCompile "cglib:cglib:3.2.5"
     testCompile "org.objenesis:objenesis:2.5.1"
+
+    testCompile 'ru.yandex.qatools.embed:postgresql-embedded:2.6'
+    testCompile "org.postgresql:postgresql:42.2.0.jre7"
 }
 
 def sonarAvailable = properties['sonar_url'] != null && properties['sonar_user'] != null && properties['sonar_password'] != null
