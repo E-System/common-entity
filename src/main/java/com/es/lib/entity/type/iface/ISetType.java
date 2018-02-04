@@ -18,32 +18,39 @@ package com.es.lib.entity.type.iface;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.TreeSet;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 02.05.15
  */
-public interface IArrayType extends IType {
+public interface ISetType extends IType {
 
     @Override
     default Object copyObject(Object o, Class<?> returnedClass) {
         if (o == null) {
             return null;
         }
-        return Arrays.copyOf((Object[]) o, ((Object[]) o).length);
+        Collection c = (Collection) o;
+        return new TreeSet<>(c);
     }
 
     @Override
     default Object getObject(ResultSet rs, String[] names, Class<?> returnedClass) throws SQLException {
+        return getTypedArrayObject(rs, names, returnedClass, getItemClass());
+    }
+
+    default <T> Object getTypedArrayObject(ResultSet rs, String[] names, Class<?> returnedClass, Class<T> arrayClass) throws SQLException {
         String col = names[0];
         Array result = rs.getArray(col);
+        TreeSet<T> res = new TreeSet<>();
         if (rs.wasNull()) {
-            return null;
+            return res;
         }
-        return result.getArray();
+        Collections.addAll(res, (T[]) result.getArray());
+        return res;
     }
 
     @Override
@@ -52,8 +59,10 @@ public interface IArrayType extends IType {
             ps.setNull(index, Types.ARRAY);
             return;
         }
-        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), (Object[]) value));
+        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), ((Collection) value).toArray()));
     }
 
     DbTypes.Primitive getDbType();
+
+    Class<?> getItemClass();
 }

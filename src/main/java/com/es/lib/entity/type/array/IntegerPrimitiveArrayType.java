@@ -14,46 +14,59 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.type.iface;
+package com.es.lib.entity.type.array;
+
+import com.es.lib.entity.type.CommonArrayType;
+import com.es.lib.entity.type.iface.DbTypes;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
- * @since 02.05.15
+ * @since 10.04.15
  */
-public interface IArrayType extends IType {
+public class IntegerPrimitiveArrayType extends CommonArrayType {
 
     @Override
-    default Object copyObject(Object o, Class<?> returnedClass) {
-        if (o == null) {
-            return null;
-        }
-        return Arrays.copyOf((Object[]) o, ((Object[]) o).length);
+    public Class returnedClass() {
+        return int[].class;
     }
 
     @Override
-    default Object getObject(ResultSet rs, String[] names, Class<?> returnedClass) throws SQLException {
+    public DbTypes.Primitive getDbType() {
+        return DbTypes.Primitive.INTEGER;
+    }
+
+    @Override
+    public Object copyObject(Object o, Class<?> returnedClass) {
+        if (o == null) {
+            return null;
+        }
+        return Arrays.copyOf((int[]) o, ((int[]) o).length);
+    }
+
+    @Override
+    public Object getObject(ResultSet rs, String[] names, Class<?> returnedClass) throws SQLException {
         String col = names[0];
         Array result = rs.getArray(col);
         if (rs.wasNull()) {
             return null;
         }
-        return result.getArray();
+        return ArrayUtils.toPrimitive(result.getArray());
     }
 
     @Override
-    default void setObject(PreparedStatement ps, Object value, int index) throws SQLException {
+    public void setObject(PreparedStatement ps, Object value, int index) throws SQLException {
         if (value == null || ((Collection) value).isEmpty()) {
             ps.setNull(index, Types.ARRAY);
             return;
         }
-        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), (Object[]) value));
-    }
+        int[] castObject = (int[]) value;
+        Integer[] values = ArrayUtils.toObject(castObject);
 
-    DbTypes.Primitive getDbType();
+        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), values));
+    }
 }

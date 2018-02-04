@@ -1,7 +1,6 @@
 package com.es.lib.entity.type;
 
 import com.es.lib.entity.type.iface.IArrayListType;
-import com.es.lib.entity.type.iface.IArrayType;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 
@@ -17,7 +16,7 @@ import java.util.Objects;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 03.02.2018
  */
-public abstract class CommonArrayType implements UserType, IArrayType {
+public abstract class CommonArrayListType implements UserType, IArrayListType {
 
     @Override
     public int[] sqlTypes() {
@@ -26,7 +25,7 @@ public abstract class CommonArrayType implements UserType, IArrayType {
 
     @Override
     public Class returnedClass() {
-        return Object[].class;
+        return List.class;
     }
 
     @Override
