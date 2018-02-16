@@ -27,6 +27,6 @@ public class IntegerArrayType extends CommonArrayType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.INTEGER;
+        return DbTypes.Primitive.INT;
     }
 }

@@ -8,8 +8,8 @@ public interface DbTypes {
 
     enum Json {
 
-        JSON("json"),
-        JSONB("jsonb");
+        JSON("JSON"),
+        JSONB("JSONB");
 
         private String value;
 
@@ -24,9 +24,10 @@ public interface DbTypes {
 
     enum Primitive {
 
-        STRING("varchar"),
-        INTEGER("integer"),
-        TIMESTAMP("timestamptz");
+        STRING("VARCHAR"),
+        INT("INT"),
+        BIGINT("BIGINT"),
+        TIMESTAMP("TIMESTAMPTZ");
 
         private String value;
 

@@ -2,6 +2,7 @@ package com.es.lib.entity.type.entity
 
 import com.es.lib.entity.type.array.set.DateSetType
 import com.es.lib.entity.type.array.set.IntegerSetType
+import com.es.lib.entity.type.array.set.LongSetType
 import com.es.lib.entity.type.array.set.StringSetType
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
@@ -13,6 +14,7 @@ import javax.persistence.*
 @TypeDefs([
         @TypeDef(name = "StringSetType", typeClass = StringSetType.class),
         @TypeDef(name = "IntegerSetType", typeClass = IntegerSetType.class),
+        @TypeDef(name = "LongSetType", typeClass = LongSetType.class),
         @TypeDef(name = "DateSetType", typeClass = DateSetType.class)
 ])
 @Table(name = "ArrayEntity")
@@ -22,13 +24,16 @@ class ArraySetEntity {
     @GeneratedValue
     private Integer id
     @Type(type = "StringSetType")
-    @Column(columnDefinition = "varchar[]")
+    @Column(columnDefinition = "VARCHAR[]")
     private TreeSet<String> strings
     @Type(type = "IntegerSetType")
-    @Column(columnDefinition = "integer[]")
+    @Column(columnDefinition = "INT[]")
     private TreeSet<Integer> integers
+    @Type(type = "LongSetType")
+    @Column(columnDefinition = "BIGINT[]")
+    private TreeSet<Integer> longs
     @Type(type = "DateSetType")
-    @Column(columnDefinition = "timestamptz[]")
+    @Column(columnDefinition = "TIMESTAMPTZ[]")
     private TreeSet<Date> dates
 
     Integer getId() {
@@ -53,6 +58,14 @@ class ArraySetEntity {
 
     void setIntegers(TreeSet<Integer> integers) {
         this.integers = integers
+    }
+
+    TreeSet<Integer> getLongs() {
+        return longs
+    }
+
+    void setLongs(TreeSet<Integer> longs) {
+        this.longs = longs
     }
 
     TreeSet<Date> getDates() {

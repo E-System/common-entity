@@ -21,6 +21,7 @@ class CommonArrayListTypeSpec extends PgRunner {
         def entity = new ArrayEntity()
         entity.strings = ["A1", "A2", "A3"]
         entity.integers = [1, 2, 3]
+        entity.longs = [1L, 2L, 3L]
         entity.dates = [date, date, date]
 
         session.persist(entity)
@@ -39,6 +40,11 @@ class CommonArrayListTypeSpec extends PgRunner {
         entity.integers[0] == 1
         entity.integers[1] == 2
         entity.integers[2] == 3
+        entity.longs != null
+        entity.longs.size() == 3
+        entity.longs[0] == 1L
+        entity.longs[1] == 2L
+        entity.longs[2] == 3L
         entity.dates != null
         entity.dates.size() == 3
         println(entity.dates[0].class)
@@ -68,6 +74,10 @@ class CommonArrayListTypeSpec extends PgRunner {
         entity.integers.remove((Object) 1)
         entity.integers.add(5)
 
+        entity.longs.add(4L)
+        entity.longs.remove((Object) 1L)
+        entity.longs.add(5L)
+
         entity.dates.add(date)
         entity.dates.remove(0)
         entity.dates.add(date)
@@ -93,6 +103,12 @@ class CommonArrayListTypeSpec extends PgRunner {
         entity.integers[1] == 3
         entity.integers[2] == 4
         entity.integers[3] == 5
+        entity.longs != null
+        entity.longs.size() == 4
+        entity.longs[0] == 2
+        entity.longs[1] == 3
+        entity.longs[2] == 4
+        entity.longs[3] == 5
         entity.dates != null
         entity.dates.size() == 4
         entity.dates[0] != date
@@ -113,6 +129,12 @@ class CommonArrayListTypeSpec extends PgRunner {
         ent.integers[1] == 3
         ent.integers[2] == 4
         ent.integers[3] == 5
+        ent.longs != null
+        ent.longs.length == 4
+        ent.longs[0] == 2
+        ent.longs[1] == 3
+        ent.longs[2] == 4
+        ent.longs[3] == 5
         ent.dates != null
         ent.dates.length == 4
         ent.dates[0] != date
@@ -133,6 +155,12 @@ class CommonArrayListTypeSpec extends PgRunner {
         entSet.integers[1] == 3
         entSet.integers[2] == 4
         entSet.integers[3] == 5
+        entSet.longs != null
+        entSet.longs.size() == 4
+        entSet.longs[0] == 2
+        entSet.longs[1] == 3
+        entSet.longs[2] == 4
+        entSet.longs[3] == 5
         entSet.dates != null
         entSet.dates.size() == 2
         entSet.dates[0] != date
@@ -151,6 +179,12 @@ class CommonArrayListTypeSpec extends PgRunner {
         entSimple.integers[1] == 3
         entSimple.integers[2] == 4
         entSimple.integers[3] == 5
+        entSimple.longs != null
+        entSimple.longs.length == 4
+        entSimple.longs[0] == 2
+        entSimple.longs[1] == 3
+        entSimple.longs[2] == 4
+        entSimple.longs[3] == 5
         entSimple.dates != null
         entSimple.dates.length == 4
         entSimple.dates[0] != date

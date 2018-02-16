@@ -23,15 +23,15 @@ import com.es.lib.entity.type.iface.DbTypes;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class IntegerSetType extends CommonSetType {
+public class LongSetType extends CommonSetType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.INT;
+        return DbTypes.Primitive.BIGINT;
     }
 
     @Override
     public Class<?> getItemClass() {
-        return Integer.class;
+        return Long.class;
     }
 }

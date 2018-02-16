@@ -28,16 +28,16 @@ import java.util.Collection;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class IntegerPrimitiveArrayType extends CommonArrayType {
+public class LongPrimitiveArrayType extends CommonArrayType {
 
     @Override
     public Class returnedClass() {
-        return int[].class;
+        return long[].class;
     }
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.INT;
+        return DbTypes.Primitive.BIGINT;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class IntegerPrimitiveArrayType extends CommonArrayType {
         if (o == null) {
             return null;
         }
-        return Arrays.copyOf((int[]) o, ((int[]) o).length);
+        return Arrays.copyOf((long[]) o, ((long[]) o).length);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class IntegerPrimitiveArrayType extends CommonArrayType {
             ps.setNull(index, Types.ARRAY);
             return;
         }
-        int[] castObject = (int[]) value;
-        Integer[] values = ArrayUtils.toObject(castObject);
+        long[] castObject = (long[]) value;
+        Long[] values = ArrayUtils.toObject(castObject);
 
         ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), values));
     }

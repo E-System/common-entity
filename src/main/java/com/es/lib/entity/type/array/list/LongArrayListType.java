@@ -14,24 +14,24 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.type.array.set;
+package com.es.lib.entity.type.array.list;
 
-import com.es.lib.entity.type.CommonSetType;
+import com.es.lib.entity.type.CommonArrayListType;
 import com.es.lib.entity.type.iface.DbTypes;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class IntegerSetType extends CommonSetType {
+public class LongArrayListType extends CommonArrayListType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.INT;
+        return DbTypes.Primitive.BIGINT;
     }
 
     @Override
     public Class<?> getItemClass() {
-        return Integer.class;
+        return Long.class;
     }
 }
