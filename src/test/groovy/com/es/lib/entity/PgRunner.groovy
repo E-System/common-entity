@@ -1,7 +1,5 @@
 package com.es.lib.entity
 
-import com.es.lib.entity.type.entity.TestEntity
-import com.es.lib.entity.type.entity.TestJsonEntity
 import org.hibernate.SessionFactory
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder
 import org.hibernate.cfg.Configuration
