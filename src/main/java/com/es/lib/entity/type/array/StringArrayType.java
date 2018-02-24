@@ -27,6 +27,6 @@ public class StringArrayType extends CommonArrayType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.STRING;
+        return DbTypes.Primitive.VARCHAR;
     }
 }

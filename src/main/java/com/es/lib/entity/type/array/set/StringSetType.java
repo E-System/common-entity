@@ -27,7 +27,7 @@ public class StringSetType extends CommonSetType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.STRING;
+        return DbTypes.Primitive.VARCHAR;
     }
 
     @Override

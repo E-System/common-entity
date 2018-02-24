@@ -27,6 +27,6 @@ public class DateArrayType extends CommonArrayType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.TIMESTAMP;
+        return DbTypes.Primitive.TIMESTAMPTZ;
     }
 }

@@ -31,7 +31,7 @@ public class DateArrayListType extends CommonArrayListType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.TIMESTAMP;
+        return DbTypes.Primitive.TIMESTAMPTZ;
     }
 
     @Override
