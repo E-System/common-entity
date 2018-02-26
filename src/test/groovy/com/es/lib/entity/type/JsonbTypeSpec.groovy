@@ -66,7 +66,7 @@ class JsonbTypeSpec extends PgRunner {
     }
 
     @Override
-    protected Collection<Class<?>> getConfigClasses() {
+    protected Collection<Class<?>> getEntityClasses() {
         return [TestJsonEntity.class]
     }
 }

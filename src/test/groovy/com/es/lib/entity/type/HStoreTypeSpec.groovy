@@ -64,7 +64,7 @@ class HStoreTypeSpec extends PgRunner {
     }
 
     @Override
-    protected Collection<Class<?>> getConfigClasses() {
+    protected Collection<Class<?>> getEntityClasses() {
         return [TestEntity.class]
     }
 }
