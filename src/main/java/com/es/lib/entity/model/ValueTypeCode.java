@@ -44,5 +44,29 @@ public enum ValueTypeCode {
     /**
      * Special type for price input (save in coins)
      */
-    PRICE
+    PRICE;
+
+    public boolean isStringValue() {
+        return STRING.equals(this);
+    }
+
+    public boolean isNumericValue() {
+        return NUMERIC.equals(this);
+    }
+
+    public boolean isBooleanValue() {
+        return BOOLEAN.equals(this);
+    }
+
+    public boolean isJsonValue() {
+        return JSON.equals(this);
+    }
+
+    public boolean isPropertyValue() {
+        return PROPERTY.equals(this);
+    }
+
+    public boolean isPriceValue() {
+        return PRICE.equals(this);
+    }
 }
