@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 E-System LLC
+ * Copyright 2018 E-System LLC
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,42 +14,49 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.result;
+package com.es.lib.entity.model;
+
+import java.io.Serializable;
 
 /**
+ * Typed value
+ *
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
- * @since 07.08.15
+ * @since 05.03.18
  */
-public class KeyValue {
+public class TypedValue implements Serializable {
 
-    private String key;
-    private String value;
+    private final ValueTypeCode type;
+    private final String value;
 
-    public KeyValue() {
-    }
-
-    public KeyValue(String key, String value) {
-        this.key = key;
+    public TypedValue(ValueTypeCode type, String value) {
+        this.type = type;
         this.value = value;
     }
 
-    public String getKey() {
-        return key;
+    /**
+     * Value type
+     *
+     * @return value type
+     */
+    public ValueTypeCode getType() {
+        return type;
     }
 
+    /**
+     * Value
+     *
+     * @return value
+     */
     public String getValue() {
         return value;
     }
 
-    public String getPropertyRow() {
-        return getKey() + "=" + getValue();
-    }
-
     @Override
     public String toString() {
-        return "KeyValue{" +
-               "key='" + key + '\'' +
-               ", value='" + value + '\'' +
-               '}';
+        return "TypedValue[" +
+               "type='" + type + "'" +
+               ", value='" + value + "'" +
+               ']';
     }
 }

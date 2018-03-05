@@ -30,7 +30,7 @@ buildscript {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.5.1'
+    gradleVersion = '4.6'
 }
 
 apply from: "build-${profile}.gradle"
@@ -128,6 +128,7 @@ dependencies {
     compile "org.apache.commons:commons-lang3:3.7"
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
     compile "com.fasterxml.jackson.core:jackson-annotations:2.8.8"
+    compile "com.google.code.gson:gson:2.8.2"
     compile "org.hibernate:hibernate-entitymanager:5.1.11.Final"
     compile "org.hibernate:hibernate-core:5.1.11.Final"
 
