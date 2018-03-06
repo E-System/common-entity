@@ -37,6 +37,21 @@ class SPValueSpec extends Specification {
         item.property == null
     }
 
+    def "Price as Long"() {
+        when:
+        def item = new SPValue(ValueTypeCode.PRICE, '100')
+        then:
+        item.type == ValueTypeCode.PRICE
+        item.string == null
+        item.value == '100'
+        item.price == '100'
+        item.priceAsLong == 100L
+        item.numeric == null
+        item.bool == null
+        item.json == null
+        item.property == null
+    }
+
     def "Numeric"() {
         when:
         def item = new SPValue(ValueTypeCode.NUMERIC, '100')

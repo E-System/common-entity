@@ -249,6 +249,13 @@ public class SPValue {
         return price;
     }
 
+    public Long getPriceAsLong() {
+        if (price == null) {
+            return null;
+        }
+        return Long.parseLong(price);
+    }
+
     public void setPrice(String price) {
         this.price = price;
     }
