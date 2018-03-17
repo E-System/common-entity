@@ -70,7 +70,7 @@ public final class ThumbUtil {
             if (thumb.getWidth() > originalThumb.getWidth() && thumb.getHeight() > originalThumb.getHeight()) {
                 FileUtils.copyFile(source, target);
             } else {
-                String extension = getThumbImageExtension(source);
+                String extension = getExtension(source);
                 generator.process(source, extension, target, thumb);
             }
             return target;
@@ -107,16 +107,16 @@ public final class ThumbUtil {
         return result;
     }
 
-    private static String getThumbImageExtension(File source) {
+    private static String getExtension(File source) {
         final String ext = FilenameUtils.getExtension(source.getAbsolutePath()).toLowerCase();
         return StringUtils.isNotBlank(ext) ? ext : "png";
     }
 
-    private static File getTarget(File source, Thumb parameters) {
+    private static File getTarget(File source, Thumb thumb) {
         String postfix = ".thumb";
-        if (!parameters.isDefaultSize()) {
-            postfix = ".thumb_" + parameters.getWidth() + "_" + parameters.getHeight();
+        if (!thumb.isDefaultSize()) {
+            postfix = ".thumb_" + thumb.getWidth() + "_" + thumb.getHeight();
         }
-        return new File(FilenameUtils.removeExtension(source.getAbsolutePath()) + postfix + "." + getThumbImageExtension(source));
+        return new File(FilenameUtils.removeExtension(source.getAbsolutePath()) + postfix + "." + getExtension(source));
     }
 }
