@@ -36,60 +36,62 @@ public final class ThumbUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(ThumbUtil.class);
 
-    public interface ThumbGenerator {
+    public interface Generator {
 
-        void generate(File file, String extension, Thumb thumb);
+        void process(File source, String extension, File target, Thumb thumb);
     }
+
+    private ThumbUtil() {}
 
     /**
      * Generate thumbnail file and return path to generated file
      *
-     * @param originalFile Path to original file
-     * @param thumb        Thumbnail parameters
+     * @param source Original file
+     * @param thumb  Thumbnail parameters
      * @return File object with generated file
      */
-    public File generate(File originalFile, Thumb thumb, IFileStore fileStore, ThumbGenerator generator) {
+    public static File generate(File source, Thumb thumb, IFileStore fileStore, Generator generator) {
         if (thumb == null) {
-            return originalFile;
+            return source;
         }
 
-        File thumbTarget = new File(getPath(originalFile, thumb));
+        File target = getTarget(source, thumb);
 
-        if (thumbTarget.exists() && thumbTarget.canRead()) {
-            return thumbTarget;
+        if (target.exists() && target.canRead()) {
+            return target;
         }
 
-        return generate(originalFile, thumbTarget, thumb, fileStore, generator);
+        return generate(source, target, thumb, fileStore, generator);
     }
 
-    private File generate(File originalFile, File thumbTarget, Thumb thumb, IFileStore fileStore, ThumbGenerator generator) {
+    private static File generate(File source, File target, Thumb thumb, IFileStore fileStore, Generator generator) {
         try {
-            Thumb originalThumb = create(originalFile, fileStore);
+            Thumb originalThumb = create(source, fileStore);
             if (thumb.getWidth() > originalThumb.getWidth() && thumb.getHeight() > originalThumb.getHeight()) {
-                FileUtils.copyFile(originalFile, thumbTarget);
+                FileUtils.copyFile(source, target);
             } else {
-                String extension = getThumbImageExtension(originalFile);
-                generator.generate(originalFile, extension, thumb);
+                String extension = getThumbImageExtension(source);
+                generator.process(source, extension, target, thumb);
             }
-            return thumbTarget;
+            return target;
         } catch (IOException e) {
-            LOG.warn("Thumb save error for " + originalFile + ": " + e.getMessage());
-            return originalFile;
+            LOG.warn("Thumb save error for " + source + ": " + e.getMessage());
+            return source;
         }
     }
 
-    private Thumb create(File originalFile, IFileStore fileStore) {
+    private static Thumb create(File source, IFileStore fileStore) {
         Thumb result = null;
         if (fileStore != null) {
             result = create(fileStore.getAttributes());
         }
         if (result == null) {
-            result = create(ImageSizeUtil.get(originalFile.toPath()));
+            result = create(ImageSizeUtil.get(source.toPath()));
         }
         return result;
     }
 
-    private Thumb create(Map<String, String> attributes) {
+    private static Thumb create(Map<String, String> attributes) {
         Thumb result = null;
         int width = 0;
         int height = 0;
@@ -105,16 +107,16 @@ public final class ThumbUtil {
         return result;
     }
 
-    private String getThumbImageExtension(File originalFile) {
-        final String ext = FilenameUtils.getExtension(originalFile.getAbsolutePath()).toLowerCase();
+    private static String getThumbImageExtension(File source) {
+        final String ext = FilenameUtils.getExtension(source.getAbsolutePath()).toLowerCase();
         return StringUtils.isNotBlank(ext) ? ext : "png";
     }
 
-    private String getPath(File originalFile, Thumb parameters) {
+    private static File getTarget(File source, Thumb parameters) {
         String postfix = ".thumb";
         if (!parameters.isDefaultSize()) {
             postfix = ".thumb_" + parameters.getWidth() + "_" + parameters.getHeight();
         }
-        return FilenameUtils.removeExtension(originalFile.getAbsolutePath()) + postfix + "." + getThumbImageExtension(originalFile);
+        return new File(FilenameUtils.removeExtension(source.getAbsolutePath()) + postfix + "." + getThumbImageExtension(source));
     }
 }
