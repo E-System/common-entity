@@ -131,8 +131,10 @@ dependencies {
     compile "com.google.code.gson:gson:2.8.2"
     compile "org.hibernate:hibernate-entitymanager:5.1.11.Final"
     compile "org.hibernate:hibernate-core:5.1.11.Final"
+    compile "commons-io:commons-io:2.6"
 
     compileOnly "org.postgresql:postgresql:42.2.0.jre7"
+    compileOnly "org.slf4j:slf4j-api:1.7.25"
 
 
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
