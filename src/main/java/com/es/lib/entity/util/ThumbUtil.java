@@ -38,7 +38,7 @@ public final class ThumbUtil {
 
     public interface Generator {
 
-        void process(File source, String extension, File target, Thumb thumb);
+        void process(File source, String extension, File target, Thumb thumb) throws IOException;
     }
 
     private ThumbUtil() {}
