@@ -46,8 +46,10 @@ public final class ThumbUtil {
     /**
      * Generate thumbnail file and return path to generated file
      *
-     * @param source Original file
-     * @param thumb  Thumbnail parameters
+     * @param source    Original file
+     * @param thumb     Thumbnail parameters
+     * @param fileStore FileStore reference
+     * @param generator Thumb generate implementation
      * @return File object with generated file
      */
     public static File generate(File source, Thumb thumb, IFileStore fileStore, Generator generator) {
