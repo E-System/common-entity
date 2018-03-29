@@ -17,7 +17,8 @@ class IAuditActionCodeSpec extends Specification {
                   IAuditActionCode.DELETE,
                   IAuditActionCode.LOGIN_SUCCESS,
                   IAuditActionCode.LOGIN_ERROR,
-                  IAuditActionCode.LOGOUT
+                  IAuditActionCode.LOGOUT,
+                  IAuditActionCode.CHANGE_PASSWORD
         ]
     }
 }

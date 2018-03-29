@@ -29,4 +29,5 @@ public interface IAuditActionCode {
     String LOGIN_SUCCESS = "LOGIN_SUCCESS";
     String LOGIN_ERROR = "LOGIN_ERROR";
     String LOGOUT = "LOGOUT";
+    String CHANGE_PASSWORD = "CHANGE_PASSWORD";
 }
