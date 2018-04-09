@@ -18,7 +18,8 @@ class IAuditActionCodeSpec extends Specification {
                   IAuditActionCode.LOGIN_SUCCESS,
                   IAuditActionCode.LOGIN_ERROR,
                   IAuditActionCode.LOGOUT,
-                  IAuditActionCode.CHANGE_PASSWORD
+                  IAuditActionCode.CHANGE_PASSWORD,
+                  IAuditActionCode.CHANGE_PERMISSION
         ]
     }
 }
