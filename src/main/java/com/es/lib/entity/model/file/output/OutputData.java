@@ -15,6 +15,9 @@
  */
 package com.es.lib.entity.model.file.output;
 
+import java.io.File;
+import java.io.InputStream;
+
 public abstract class OutputData {
 
     private String fileName;
@@ -27,5 +30,23 @@ public abstract class OutputData {
         return fileName;
     }
 
-    public abstract boolean isStream();
+    public boolean isStream() {
+        return false;
+    }
+
+    public boolean isBytes() {
+        return false;
+    }
+
+    public static OutputData create(String fileName, File file) {
+        return new OutputFileData(fileName, file);
+    }
+
+    public static OutputData create(String fileName, String contentType, InputStream stream) {
+        return new OutputStreamData(fileName, contentType, stream);
+    }
+
+    public static OutputData create(String fileName, String contentType, byte[] bytes) {
+        return new OutputByteData(fileName, contentType, bytes);
+    }
 }

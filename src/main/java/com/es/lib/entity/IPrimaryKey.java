@@ -28,25 +28,25 @@ import java.util.stream.Collectors;
 public interface IPrimaryKey<PK extends Number> extends Serializable {
 
     /**
-     * Стандартный альяс для сущностей в HQL
+     * Default alias for HQL entity
      */
     String PREFIX = "e";
     /**
-     * Разделитель полей в HQL
+     * Field separator in HQL
      */
     String SEPARATOR = ".";
 
     /**
-     * Получить идентификатор сущности
+     * Get entity unique ID
      *
-     * @return идентификатор сущности
+     * @return Entity unique ID
      */
     PK getId();
 
     /**
-     * Задать идентификатор сущности
+     * Set entity unique ID
      *
-     * @param id идентификатор сущности
+     * @param id Entity unique ID
      */
     void setId(PK id);
 
@@ -75,33 +75,33 @@ public interface IPrimaryKey<PK extends Number> extends Serializable {
     }
 
     /**
-     * Получить идентификатор сущности или null
+     * Get entity ID or null
      *
-     * @param entity сущность
-     * @param <PK>   тип первичного ключа
-     * @return идентификтор сущности или null
+     * @param entity Entity
+     * @param <PK>   Primary key type
+     * @return Entity ID or null
      */
     static <PK extends Number> PK getNullOrId(IPrimaryKey<PK> entity) {
         return entity != null ? entity.getId() : null;
     }
 
     /**
-     * Проверить установлен ли идентификатор у сущности
+     * Check entity ID exist
      *
-     * @param instance сущность
-     * @param <T>      тип сущности
-     * @return true если instance != null and id != null
+     * @param instance Entity
+     * @param <T>      Entity type
+     * @return True if instance != null and id != null
      */
     static <T extends IPrimaryKey> boolean isManaged(final T instance) {
         return getNullOrId(instance) != null;
     }
 
     /**
-     * Получить коллекцию идентификаторов из коллекции сущностей
+     * Get entity ID collection from entity collection
      *
-     * @param list коллекция сущностей
-     * @param <PK> тип первичного ключа
-     * @return коллекция идентификаторов
+     * @param list Entity collection
+     * @param <PK> Primary key type
+     * @return Entity ID collection
      */
     static <PK extends Number> Collection<PK> getIds(Collection<? extends IPrimaryKey<PK>> list) {
         return list.stream().map(IPrimaryKey::getId).collect(Collectors.toList());

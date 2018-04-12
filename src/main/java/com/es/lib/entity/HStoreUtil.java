@@ -18,30 +18,27 @@ package com.es.lib.entity;
 
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 20.07.15
  */
-public class HStoreUtil {
+public final class HStoreUtil {
 
     private static final String SEPARATOR = "=>";
 
-    private HStoreUtil() {
-    }
+    private HStoreUtil() {}
 
     public static String toString(Map<?, ?> map) {
         if (map == null || map.isEmpty()) {
             return "";
         }
         StringBuilder sb = new StringBuilder(map.size() * 8);
-        map.entrySet().forEach(e -> sb
-            .append(escape(e.getKey()))
+        map.forEach((key, value) -> sb
+            .append(escape(key))
             .append(SEPARATOR)
-            .append(escape(e.getValue()))
-            .append(", ")
-        );
+            .append(escape(value))
+            .append(", "));
         sb.setLength(sb.length() - 2);
         return sb.toString();
     }

@@ -29,19 +29,18 @@ public class IdConstructor {
 
     private static final Map<Class<?>, Constructor<?>> CONSTRUCTOR_HASH_MAP = new ConcurrentHashMap<>();
 
-    private IdConstructor() {
-    }
+    private IdConstructor() {}
 
     public static Constructor<?> get(Class<?> objectClass, Supplier<RuntimeException> exceptionSupplier) {
         return CONSTRUCTOR_HASH_MAP.computeIfAbsent(
-                objectClass,
-                aClass -> {
-                    try {
-                        return objectClass.getMethod("getId").getReturnType().getConstructor(String.class);
-                    } catch (NoSuchMethodException e) {
-                        throw exceptionSupplier.get();
-                    }
+            objectClass,
+            aClass -> {
+                try {
+                    return objectClass.getMethod("getId").getReturnType().getConstructor(String.class);
+                } catch (NoSuchMethodException e) {
+                    throw exceptionSupplier.get();
                 }
+            }
         );
     }
 }

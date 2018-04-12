@@ -15,18 +15,27 @@
  */
 package com.es.lib.entity.model.file.output;
 
-import java.io.File;
+public class OutputByteData extends OutputData {
 
-public class OutputFileData extends OutputData {
+    private String contentType;
+    private byte[] bytes;
 
-    private File file;
-
-    public OutputFileData(String fileName, File file) {
+    public OutputByteData(String fileName, String contentType, byte[] bytes) {
         super(fileName);
-        this.file = file;
+        this.contentType = contentType;
+        this.bytes = bytes;
     }
 
-    public File getFile() {
-        return file;
+    public String getContentType() {
+        return contentType;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    @Override
+    public boolean isBytes() {
+        return true;
     }
 }
