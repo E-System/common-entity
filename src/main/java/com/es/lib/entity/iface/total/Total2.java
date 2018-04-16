@@ -34,19 +34,11 @@ public class Total2 implements Serializable {
     @Id
     private long sum2;
 
-    public Total2() {
-    }
+    public Total2() {}
 
     public Total2(long sum1, long sum2) {
         this.sum1 = sum1;
         this.sum2 = sum2;
-    }
-
-    public Total2(Number sum1, Number sum2) {
-        this(
-                sum1 != null ? sum1.longValue() : 0,
-                sum2 != null ? sum2.longValue() : 0
-        );
     }
 
     public long getSum1() {

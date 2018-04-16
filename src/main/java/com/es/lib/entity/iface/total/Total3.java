@@ -36,21 +36,12 @@ public class Total3 implements Serializable {
     @Id
     private long sum3;
 
-    public Total3() {
-    }
+    public Total3() {}
 
     public Total3(long sum1, long sum2, long sum3) {
         this.sum1 = sum1;
         this.sum2 = sum2;
         this.sum3 = sum3;
-    }
-
-    public Total3(Number sum1, Number sum2, Number sum3) {
-        this(
-                sum1 != null ? sum1.longValue() : 0,
-                sum2 != null ? sum2.longValue() : 0,
-                sum3 != null ? sum3.longValue() : 0
-        );
     }
 
     public long getSum1() {

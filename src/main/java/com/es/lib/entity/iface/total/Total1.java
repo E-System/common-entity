@@ -31,17 +31,10 @@ public class Total1 implements Serializable {
     @Id
     private long sum1;
 
-    public Total1() {
-    }
+    public Total1() {}
 
     public Total1(long sum1) {
         this.sum1 = sum1;
-    }
-
-    public Total1(Number sum1) {
-        this(
-                sum1 != null ? sum1.longValue() : 0
-        );
     }
 
     public long getSum1() {
