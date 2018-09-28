@@ -25,6 +25,7 @@ public interface DbTypes {
     enum Primitive {
 
         VARCHAR("varchar"),
+        SMALLINT("smallint"),
         INT("int"),
         BIGINT("bigint"),
         TIMESTAMPTZ("timestamptz");
