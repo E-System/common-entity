@@ -41,6 +41,10 @@ public interface FieldViewCode {
          * Checkbox, Radio button
          */
         String Separate = "separate";
+        /**
+         * Menu
+         */
+        String Menu = "menu";
     }
 
     /**

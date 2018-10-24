@@ -84,7 +84,8 @@ public enum FieldTypeCode {
         public Collection<String> getAvailableView() {
             return Arrays.asList(
                 FieldViewCode.Selector.Holistic,
-                FieldViewCode.Selector.Separate
+                FieldViewCode.Selector.Separate,
+                FieldViewCode.Selector.Menu
             );
         }
 
