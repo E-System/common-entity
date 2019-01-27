@@ -109,6 +109,14 @@ public enum FieldTypeCode {
     },
 
     /**
+     * Address
+     */
+    ADDRESS {
+        @Override
+        public boolean isAddress() { return true; }
+    },
+
+    /**
      * Hidden
      */
     HIDDEN {
@@ -212,6 +220,15 @@ public enum FieldTypeCode {
      * @return true - Is hidden
      */
     public boolean isHidden() {
+        return false;
+    }
+
+    /**
+     * Is address
+     *
+     * @return true - Is address
+     */
+    public boolean isAddress() {
         return false;
     }
 
