@@ -106,6 +106,22 @@ public enum FieldTypeCode {
     DATE {
         @Override
         public boolean isDate() { return true; }
+    },
+
+    /**
+     * Address
+     */
+    ADDRESS {
+        @Override
+        public boolean isAddress() { return true; }
+    },
+
+    /**
+     * Hidden
+     */
+    HIDDEN {
+        @Override
+        public boolean isHidden() { return true; }
     };
 
     /**
@@ -195,6 +211,24 @@ public enum FieldTypeCode {
      * @return true - Is date
      */
     public boolean isDate() {
+        return false;
+    }
+
+    /**
+     * Is hidden
+     *
+     * @return true - Is hidden
+     */
+    public boolean isHidden() {
+        return false;
+    }
+
+    /**
+     * Is address
+     *
+     * @return true - Is address
+     */
+    public boolean isAddress() {
         return false;
     }
 

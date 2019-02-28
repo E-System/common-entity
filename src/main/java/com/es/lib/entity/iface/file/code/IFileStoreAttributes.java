@@ -17,7 +17,7 @@
 package com.es.lib.entity.iface.file.code;
 
 /**
- * Атрибуты элемента файлового хранилища
+ * File store element attributes
  *
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 27.05.15
@@ -25,25 +25,34 @@ package com.es.lib.entity.iface.file.code;
 public interface IFileStoreAttributes {
 
     /**
-     * Атрибуты изображения
+     * Image attributes
      */
     interface Image {
 
         /**
-         * Признак изображения
+         * Image flag
          */
         String IMAGE = "IMAGE";
         /**
-         * Ширина в пикселях
+         * Image width in pixels
          */
         String WIDTH = "WIDTH";
         /**
-         * Высота в пикселях
+         * Image height in pixels
          */
         String HEIGHT = "HEIGHT";
         /**
-         * Признак вертикального изображения (высота больше ширины)
+         * Vertical image flag (height greater than width)
          */
         String VERTICAL = "VERTICAL";
+    }
+
+    /**
+     * Security attributes
+     */
+    interface Security {
+        String OWNER_LOGGED_CODE = "LOGGED";
+        String OWNER = "S_OWNER";
+        String OWNER_ID = "S_OWNER_ID";
     }
 }

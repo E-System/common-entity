@@ -17,6 +17,7 @@
 package com.es.lib.entity.iface.file;
 
 import com.es.lib.entity.IPrimaryKey;
+import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
 
 import java.util.Map;
 
@@ -43,4 +44,38 @@ public interface IFileStore extends IPrimaryKey<Long> {
     Map<String, String> getAttributes();
 
     void setAttributes(Map<String, String> attributes);
+
+    default boolean isPublicVisible() {
+        return getOwner() == null;
+    }
+
+    default boolean isLoggedVisible() {
+        String owner = getOwner();
+        return IFileStoreAttributes.Security.OWNER_LOGGED_CODE.equals(owner);
+    }
+
+    default boolean isOwnedVisible() {
+        String owner = getOwner();
+        return owner != null && !owner.isEmpty() && !IFileStoreAttributes.Security.OWNER_LOGGED_CODE.equals(owner);
+    }
+
+    default boolean isVisible(String code, String id) {
+        return code.equals(getOwner()) && id.equals(getOwnerId());
+    }
+
+    default String getOwnerId() {
+        return getAttr(IFileStoreAttributes.Security.OWNER_ID);
+    }
+
+    default String getOwner() {
+        return getAttr(IFileStoreAttributes.Security.OWNER);
+    }
+
+    default String getAttr(String code) {
+        Map<String, String> attributes = getAttributes();
+        if (attributes == null) {
+            return null;
+        }
+        return attributes.get(code);
+    }
 }
