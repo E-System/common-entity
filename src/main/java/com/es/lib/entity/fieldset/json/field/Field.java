@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Field
@@ -87,6 +88,18 @@ public class Field implements Serializable {
     }
 
     public boolean isEmpty() { return values == null || values.isEmpty(); }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Field)) {
+            return false;
+        }
+        Field f = (Field) obj;
+        return Objects.equals(type, f.type) &&
+            Objects.equals(code, f.code) &&
+            Objects.equals(title, f.title) &&
+            Objects.equals(values, f.values);
+    }
 
     @JsonIgnore
     public FieldValue getSingleValue() {
