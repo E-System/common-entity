@@ -23,6 +23,8 @@ public interface IFieldSetOwner {
 
     Long getOwnerId();
 
+    int getSorting();
+
     String getName();
 
     void setName(String name);
