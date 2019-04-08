@@ -48,6 +48,10 @@ public interface IFieldAttributes {
      * Value format (for example date pattern: dd-MM-yyyy)
      */
     String FORMAT = "FORMAT";
+    /**
+     * Visible flag
+     */
+    String VISIBLE = "VISIBLE";
 
 
     interface Position {
