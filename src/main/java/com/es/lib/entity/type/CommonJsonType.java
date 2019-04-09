@@ -17,7 +17,7 @@
 package com.es.lib.entity.type;
 
 import com.es.lib.entity.type.iface.IJsonType;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
@@ -54,12 +54,12 @@ public abstract class CommonJsonType implements UserType, IJsonType {
     }
 
     @Override
-    public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor si, Object o) throws SQLException {
+    public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor si, Object o) throws SQLException {
         return this.getObject(rs, names, this.returnedClass());
     }
 
     @Override
-    public void nullSafeSet(PreparedStatement ps, Object value, int index, SessionImplementor si) throws SQLException {
+    public void nullSafeSet(PreparedStatement ps, Object value, int index, SharedSessionContractImplementor si) throws SQLException {
         this.setObject(ps, value, index);
     }
 
