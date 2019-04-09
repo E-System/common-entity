@@ -9,7 +9,7 @@
 package com.es.lib.entity.type.geo;
 
 import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
@@ -40,7 +40,7 @@ public class GeoPointType implements UserType {
     }
 
     @Override
-    public Object nullSafeGet(ResultSet resultSet, String[] names, SessionImplementor sessionImplementor, Object o) throws HibernateException, SQLException {
+    public Object nullSafeGet(ResultSet resultSet, String[] names, SharedSessionContractImplementor sessionImplementor, Object o) throws HibernateException, SQLException {
         if (names.length != 1)
             throw new IllegalArgumentException("names.length != 1, names = " + names);
 
@@ -53,7 +53,7 @@ public class GeoPointType implements UserType {
     }
 
     @Override
-    public void nullSafeSet(PreparedStatement preparedStatement, Object value, int i, SessionImplementor sessionImplementor) throws HibernateException, SQLException {
+    public void nullSafeSet(PreparedStatement preparedStatement, Object value, int i, SharedSessionContractImplementor sessionImplementor) throws HibernateException, SQLException {
         GeoPoint p = (GeoPoint) value;
         if (p == null || (p.x == 0 && p.y == 0)) {
             preparedStatement.setNull(i, Types.OTHER);
