@@ -1,5 +1,6 @@
 package com.es.lib.entity.fieldset;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -9,4 +10,8 @@ import java.util.Map;
 public interface IFieldTemplateEvaluator {
 
     String evaluateVelocity(String template, Map<String, Object> context);
+
+    default Map<String, Object> createGeneralContext() {
+        return new HashMap<>();
+    }
 }
