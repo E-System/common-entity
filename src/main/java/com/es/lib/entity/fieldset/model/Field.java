@@ -11,8 +11,8 @@ package com.es.lib.entity.fieldset.model;
 import com.es.lib.entity.fieldset.IFieldSetOwner;
 import com.es.lib.entity.fieldset.code.FieldTypeCode;
 import com.es.lib.entity.fieldset.code.IFieldAttributes;
-import com.es.lib.entity.fieldset.json.field.JsonFieldValue;
 import com.es.lib.entity.fieldset.json.field.JsonFieldMetadata;
+import com.es.lib.entity.fieldset.json.field.JsonFieldValue;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -123,7 +123,7 @@ public class Field implements Serializable {
         try {
             String format = this.value.getSingleValue().getFormat();
             if (StringUtils.isNotBlank(format)) {
-                new SimpleDateFormat(format).parse(this.value.getSingleValue().getValue());
+                return new SimpleDateFormat(format).parse(this.value.getSingleValue().getValue());
             }
             return sdf.parse(this.value.getSingleValue().getValue());
         } catch (Exception e) {
