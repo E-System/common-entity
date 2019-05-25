@@ -14,8 +14,7 @@ import java.util.function.Supplier;
  */
 public class LocalizedJson extends HashMap<String, HashMap<String, String>> {
 
-    public LocalizedJson() {
-    }
+    public LocalizedJson() { }
 
     public LocalizedJson(int initialCapacity) {
         super(initialCapacity);

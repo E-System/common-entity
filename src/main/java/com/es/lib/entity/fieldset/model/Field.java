@@ -11,8 +11,8 @@ package com.es.lib.entity.fieldset.model;
 import com.es.lib.entity.fieldset.IFieldSetOwner;
 import com.es.lib.entity.fieldset.code.FieldTypeCode;
 import com.es.lib.entity.fieldset.code.IFieldAttributes;
-import com.es.lib.entity.fieldset.json.FieldSetValuesJson;
-import com.es.lib.entity.fieldset.json.field.FieldValue;
+import com.es.lib.entity.fieldset.json.field.JsonFieldValue;
+import com.es.lib.entity.fieldset.json.field.JsonFieldMetadata;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -31,17 +31,16 @@ public class Field implements Serializable {
     private Form form;
     private String name;
     private IFieldSetOwner field;
-    private FieldSetValuesJson json;
-    private com.es.lib.entity.fieldset.json.field.Field value;
+    private JsonFieldMetadata value;
     private Collection<String> parents;
     private Collection<Field> childElements;
-    private Collection<FieldValue> selectorValues;
+    private Collection<JsonFieldValue> selectorValues;
 
     private SimpleDateFormat sdf;
 
     public Field() { }
 
-    public Field load(Form form, IFieldSetOwner field, Collection<? extends IFieldSetOwner> fields, FieldSetValuesJson json, Collection<String> parents) {
+    public Field load(Form form, IFieldSetOwner field, Collection<? extends IFieldSetOwner> fields, Collection<String> parents) {
         this.form = form;
         this.name = field.getCode();
         this.field = field;
@@ -52,23 +51,22 @@ public class Field implements Serializable {
             }
             sdf = new SimpleDateFormat(format);
         }
-        this.json = json;
         if (field.getSelector() != null) {
             this.selectorValues =
                 field.getSelector()
-                    .stream()
-                    .map(v -> new FieldValue(v.getValue(), v.getTitle()))
-                    .collect(Collectors.toList());
+                     .stream()
+                     .map(v -> new JsonFieldValue(v.getValue(), v.getTitle()))
+                     .collect(Collectors.toList());
         }
-        this.value = json.computeIfAbsent(name, k -> new com.es.lib.entity.fieldset.json.field.Field(field.getFieldType(), field.getCode(), field.getName()));
+        this.value = form.getJson().computeIfAbsent(name, k -> new JsonFieldMetadata(field.getFieldType(), field.getCode(), field.getName()));
         this.getParents().addAll(parents);
         Collection<String> newParents = new ArrayList<>(parents);
         newParents.add(name);
         fields.stream()
-            .filter(e -> Objects.equals(field.getOwnerId(), e.getOwnerId()) && name.equals(e.getAttributes().get(IFieldAttributes.PARENT)))
-            .forEach(
-                e -> getChildElements().add(new Field().load(form, e, fields, json, newParents))
-            );
+              .filter(e -> Objects.equals(field.getOwnerId(), e.getOwnerId()) && name.equals(e.getAttributes().get(IFieldAttributes.PARENT)))
+              .forEach(
+                  e -> getChildElements().add(new Field().load(form, e, fields, newParents))
+              );
         return this;
     }
 
@@ -106,19 +104,19 @@ public class Field implements Serializable {
     }
 
     //Все значения
-    public List<FieldValue> getValues() { return this.value.getValues(); }
+    public List<JsonFieldValue> getValues() { return this.value.getValues(); }
 
-    public void setValues(List<FieldValue> values) { this.value.setValues(values); }
+    public void setValues(List<JsonFieldValue> values) { this.value.setValues(values); }
 
     //Единичное значение
-    public FieldValue getSingleValue() { return this.value.getSingleValue(); }
+    public JsonFieldValue getSingleValue() { return this.value.getSingleValue(); }
 
-    public void setSingleValue(FieldValue value) { this.value.setSingleValue(value); }
+    public void setSingleValue(JsonFieldValue value) { this.value.setSingleValue(value); }
 
     //Единичное значение в строковом виде
     public String getSingleStringValue() { return this.value.getSingleValue().getValue(); }
 
-    public void setSingleStringValue(String value) { this.value.setSingleValue(new FieldValue(value)); }
+    public void setSingleStringValue(String value) { this.value.setSingleValue(new JsonFieldValue(value)); }
 
     //Единичное значение в виде даты
     public Date getSingleDateValue() {
@@ -139,10 +137,10 @@ public class Field implements Serializable {
         if (StringUtils.isBlank(format) || CALENDAR_DATE_PATTERN.equals(format)) {
             format = null;
         }
-        this.value.setSingleValue(new FieldValue(val, val, format));
+        this.value.setSingleValue(new JsonFieldValue(val, val, format));
     }
 
-    public Collection<FieldValue> getSelectorValues() { return selectorValues; }
+    public Collection<JsonFieldValue> getSelectorValues() { return selectorValues; }
 
     public boolean isVisible() {
         String visible = getAttributes().get(IFieldAttributes.VISIBLE);

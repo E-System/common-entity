@@ -8,12 +8,13 @@
 
 package com.es.lib.entity.fieldset.model;
 
-import com.es.lib.entity.fieldset.IFieldTemplateEvaluator;
 import com.es.lib.entity.fieldset.IFieldSetOwner;
+import com.es.lib.entity.fieldset.IFieldTemplateEvaluator;
 import com.es.lib.entity.fieldset.code.IFieldAttributes;
 import com.es.lib.entity.fieldset.json.FieldSetValuesJson;
-import com.es.lib.entity.fieldset.json.field.FieldValue;
-import com.es.lib.entity.fieldset.json.field.SelectorItem;
+import com.es.lib.entity.fieldset.json.field.JsonFieldValue;
+import com.es.lib.entity.fieldset.json.field.JsonFieldMetadata;
+import com.es.lib.entity.fieldset.json.field.JsonSelectorItem;
 
 import java.io.Serializable;
 import java.util.*;
@@ -33,10 +34,10 @@ public class Form implements Serializable {
     public Form load(Collection<? extends IFieldSetOwner> fields, FieldSetValuesJson json, IFieldTemplateEvaluator fieldEvaluator, Map<String, Object> context) {
         this.json = json;
         fields.stream()
-            .filter(e -> e.getAttributes().get(IFieldAttributes.PARENT) == null)
-            .forEach(
-                e -> addField(e, fields, json)
-            );
+              .filter(e -> e.getAttributes().get(IFieldAttributes.PARENT) == null)
+              .forEach(
+                  e -> addField(e, fields)
+              );
 
         processDefaultValues(fields, fieldEvaluator, context);
         processVisibility(null, getFields(), fieldEvaluator, context);
@@ -54,23 +55,23 @@ public class Form implements Serializable {
     }
 
     private void fillDefaultValue(IFieldSetOwner field, IFieldTemplateEvaluator fieldEvaluator, Map<String, Object> context) {
-        com.es.lib.entity.fieldset.json.field.Field v = json.computeIfAbsent(field.getCode(), k -> new com.es.lib.entity.fieldset.json.field.Field(field.getFieldType(), field.getCode(), field.getName()));
+        JsonFieldMetadata v = json.computeIfAbsent(field.getCode(), k -> new JsonFieldMetadata(field.getFieldType(), field.getCode(), field.getName()));
         if (v.isEmpty()) {
             if (!v.getType().isFile()) {
                 if (v.getType().isSelector() && !v.getType().isManyAvailable()) {
-                    Iterator<SelectorItem> keyIterator = field.getSelector().iterator();
+                    Iterator<JsonSelectorItem> keyIterator = field.getSelector().iterator();
                     if (keyIterator.hasNext()) {
-                        SelectorItem selector = keyIterator.next();
-                        v.setSingleValue(new FieldValue(selector.getValue(), selector.getTitle()));
+                        JsonSelectorItem selector = keyIterator.next();
+                        v.setSingleValue(new JsonFieldValue(selector.getValue(), selector.getTitle()));
                     }
                 } else {
                     String defaultValue = field.getAttributes().get(IFieldAttributes.VALUE);
                     String defaultValueTemplate = field.getAttributes().get(IFieldAttributes.VALUE_TEMPLATE);
                     if (defaultValueTemplate != null) {
                         String value = fieldEvaluator.evaluateVelocity(defaultValueTemplate, context);
-                        v.setSingleValue(new FieldValue(value));
+                        v.setSingleValue(new JsonFieldValue(value));
                     } else if (defaultValue != null) {
-                        v.setSingleValue(new FieldValue(defaultValue));
+                        v.setSingleValue(new JsonFieldValue(defaultValue));
                     }
                 }
             }
@@ -104,8 +105,8 @@ public class Form implements Serializable {
         });
     }
 
-    private void addField(IFieldSetOwner field, Collection<? extends IFieldSetOwner> fields, FieldSetValuesJson json) {
-        getFields().add(new Field().load(this, field, fields, json, Collections.emptyList()));
+    private void addField(IFieldSetOwner field, Collection<? extends IFieldSetOwner> fields) {
+        getFields().add(new Field().load(this, field, fields, Collections.emptyList()));
     }
 
 

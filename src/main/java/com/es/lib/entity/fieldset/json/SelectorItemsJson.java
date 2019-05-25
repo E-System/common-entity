@@ -9,7 +9,7 @@
 package com.es.lib.entity.fieldset.json;
 
 
-import com.es.lib.entity.fieldset.json.field.SelectorItem;
+import com.es.lib.entity.fieldset.json.field.JsonSelectorItem;
 
 import java.util.ArrayList;
 
@@ -19,4 +19,4 @@ import java.util.ArrayList;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
-public class SelectorItemsJson extends ArrayList<SelectorItem> {}
+public class SelectorItemsJson extends ArrayList<JsonSelectorItem> {}

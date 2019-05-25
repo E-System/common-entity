@@ -24,36 +24,35 @@ import java.util.function.Supplier;
  */
 public final class QC {
 
-	public static final IQStatement STATEMENT_EMPTY = new QStatementEmpty();
+    public static final IQStatement STATEMENT_EMPTY = new QStatementEmpty();
 
-	private QC() {
-	}
+    private QC() { }
 
-	public static QCondition always(IQStatement first) {
-		return new QCondition(first);
-	}
+    public static QCondition always(IQStatement first) {
+        return new QCondition(first);
+    }
 
-	public static QCondition ifTrue(Supplier<Boolean> decisionFunction, IQStatement first) {
-		return new QCondition(decisionFunction, first);
-	}
+    public static QCondition ifTrue(Supplier<Boolean> decisionFunction, IQStatement first) {
+        return new QCondition(decisionFunction, first);
+    }
 
-	public static QCondition ifTrue(Supplier<Boolean> decisionFunction, IQStatement first, IQStatement second) {
-		return new QCondition(decisionFunction, first, second);
-	}
+    public static QCondition ifTrue(Supplier<Boolean> decisionFunction, IQStatement first, IQStatement second) {
+        return new QCondition(decisionFunction, first, second);
+    }
 
-	public static IQStatement stmt() {
-		return STATEMENT_EMPTY;
-	}
+    public static IQStatement stmt() {
+        return STATEMENT_EMPTY;
+    }
 
-	public static IQStatement stmt(String expression) {
-		return new QStatement(expression);
-	}
+    public static IQStatement stmt(String expression) {
+        return new QStatement(expression);
+    }
 
-	public static IQStatement stmt(String expression, QParam... params) {
-		return new QStatement(expression, params);
-	}
+    public static IQStatement stmt(String expression, QParam... params) {
+        return new QStatement(expression, params);
+    }
 
-	public static QParam param(String name, Supplier<Object> value) {
-		return new QParam(name, value);
-	}
+    public static QParam param(String name, Supplier<Object> value) {
+        return new QParam(name, value);
+    }
 }
