@@ -69,7 +69,7 @@ public final class ThumbUtil {
     private static File generate(File source, File target, Thumb thumb, IFileStore fileStore, Generator generator) {
         try {
             Thumb originalThumb = create(source, fileStore);
-            if (thumb.getWidth() > originalThumb.getWidth() && thumb.getHeight() > originalThumb.getHeight()) {
+            if (originalThumb != null && thumb.getWidth() > originalThumb.getWidth() && thumb.getHeight() > originalThumb.getHeight()) {
                 FileUtils.copyFile(source, target);
             } else {
                 String extension = getExtension(source);

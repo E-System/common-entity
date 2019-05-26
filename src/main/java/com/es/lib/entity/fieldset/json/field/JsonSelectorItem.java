@@ -8,6 +8,10 @@
 
 package com.es.lib.entity.fieldset.json.field;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +20,9 @@ import java.io.Serializable;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonSelectorItem implements Serializable, Comparable<JsonSelectorItem> {
 
     private int sorting;
@@ -35,28 +42,11 @@ public class JsonSelectorItem implements Serializable, Comparable<JsonSelectorIt
         this.title = title;
     }
 
-    public int getSorting() {
-        return sorting;
-    }
-
-    public void setSorting(int sorting) {
-        this.sorting = sorting;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    @Override
+    public int compareTo(JsonSelectorItem o) {
+        int v = Integer.compare(sorting, o.sorting);
+        if (v != 0) return v;
+        return String.CASE_INSENSITIVE_ORDER.compare(title, o.title);
     }
 
     @Override
@@ -66,12 +56,5 @@ public class JsonSelectorItem implements Serializable, Comparable<JsonSelectorIt
                ", value='" + value + '\'' +
                ", title='" + title + '\'' +
                '}';
-    }
-
-    @Override
-    public int compareTo(JsonSelectorItem o) {
-        int v = Integer.compare(sorting, o.sorting);
-        if (v != 0) return v;
-        return String.CASE_INSENSITIVE_ORDER.compare(title, o.title);
     }
 }
