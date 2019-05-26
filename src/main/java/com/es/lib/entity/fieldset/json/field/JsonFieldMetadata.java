@@ -27,6 +27,8 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonFieldMetadata implements Serializable {
 
+    public static final String CALENDAR_DATE_PATTERN = "dd.MM.yyyy";
+
     private FieldTypeCode type;
     private String code;
     private String title;
