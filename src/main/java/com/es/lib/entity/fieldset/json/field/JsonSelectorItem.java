@@ -16,20 +16,20 @@ import java.io.Serializable;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
-public class SelectorItem implements Serializable, Comparable<SelectorItem> {
+public class JsonSelectorItem implements Serializable, Comparable<JsonSelectorItem> {
 
     private int sorting;
     private String value;
     private String title;
 
-    public SelectorItem() { }
+    public JsonSelectorItem() { }
 
-    public SelectorItem(String value, String title) {
+    public JsonSelectorItem(String value, String title) {
         this.value = value;
         this.title = title;
     }
 
-    public SelectorItem(int sorting, String value, String title) {
+    public JsonSelectorItem(int sorting, String value, String title) {
         this.sorting = sorting;
         this.value = value;
         this.title = title;
@@ -61,7 +61,7 @@ public class SelectorItem implements Serializable, Comparable<SelectorItem> {
 
     @Override
     public String toString() {
-        return "SelectorItem{" +
+        return "JsonSelectorItem{" +
                "sorting=" + sorting +
                ", value='" + value + '\'' +
                ", title='" + title + '\'' +
@@ -69,7 +69,7 @@ public class SelectorItem implements Serializable, Comparable<SelectorItem> {
     }
 
     @Override
-    public int compareTo(SelectorItem o) {
+    public int compareTo(JsonSelectorItem o) {
         int v = Integer.compare(sorting, o.sorting);
         if (v != 0) return v;
         return String.CASE_INSENSITIVE_ORDER.compare(title, o.title);

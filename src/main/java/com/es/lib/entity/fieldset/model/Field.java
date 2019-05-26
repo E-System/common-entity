@@ -11,14 +11,15 @@ package com.es.lib.entity.fieldset.model;
 import com.es.lib.entity.fieldset.IFieldSetOwner;
 import com.es.lib.entity.fieldset.code.FieldTypeCode;
 import com.es.lib.entity.fieldset.code.IFieldAttributes;
-import com.es.lib.entity.fieldset.json.FieldSetValuesJson;
-import com.es.lib.entity.fieldset.json.field.FieldValue;
+import com.es.lib.entity.fieldset.json.field.JsonFieldMetadata;
+import com.es.lib.entity.fieldset.json.field.JsonFieldValue;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static com.es.lib.entity.fieldset.json.field.JsonFieldMetadata.CALENDAR_DATE_PATTERN;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -26,48 +27,32 @@ import java.util.stream.Collectors;
  */
 public class Field implements Serializable {
 
-    private static final String CALENDAR_DATE_PATTERN = "dd.MM.yyyy";
-
     private Form form;
     private String name;
     private IFieldSetOwner field;
-    private FieldSetValuesJson json;
-    private com.es.lib.entity.fieldset.json.field.Field value;
+    private JsonFieldMetadata value;
     private Collection<String> parents;
     private Collection<Field> childElements;
-    private Collection<FieldValue> selectorValues;
+    private Collection<JsonFieldValue> selectorValues;
 
     private SimpleDateFormat sdf;
 
     public Field() { }
 
-    public Field load(Form form, IFieldSetOwner field, Collection<? extends IFieldSetOwner> fields, FieldSetValuesJson json, Collection<String> parents) {
+    public Field load(Form form, IFieldSetOwner field, Collection<? extends IFieldSetOwner> fields, Collection<String> parents) {
         this.form = form;
         this.name = field.getCode();
         this.field = field;
-        String format = field.getAttributes().get(IFieldAttributes.FORMAT);
-        if (field.getFieldType() == FieldTypeCode.DATE) {
-            if (StringUtils.isBlank(format)) {
-                format = CALENDAR_DATE_PATTERN;
-            }
-            sdf = new SimpleDateFormat(format);
-        }
-        this.json = json;
-        if (field.getSelector() != null) {
-            this.selectorValues =
-                field.getSelector()
-                    .stream()
-                    .map(v -> new FieldValue(v.getValue(), v.getTitle()))
-                    .collect(Collectors.toList());
-        }
-        this.value = json.computeIfAbsent(name, k -> new com.es.lib.entity.fieldset.json.field.Field(field.getFieldType(), field.getCode(), field.getName()));
+        sdf = field.getDateFormat();
+        this.selectorValues = field.getSelectorValues();
+        this.value = form.getJson().computeIfAbsent(name, k -> new JsonFieldMetadata(field.getFieldType(), field.getCode(), field.getName()));
         this.getParents().addAll(parents);
-        Collection<String> newParents = new ArrayList<>(parents);
-        newParents.add(name);
+        Collection<String> newParentNames = new ArrayList<>(parents);
+        newParentNames.add(name);
         fields.stream()
             .filter(e -> Objects.equals(field.getOwnerId(), e.getOwnerId()) && name.equals(e.getAttributes().get(IFieldAttributes.PARENT)))
             .forEach(
-                e -> getChildElements().add(new Field().load(form, e, fields, json, newParents))
+                e -> getChildElements().add(new Field().load(form, e, fields, newParentNames))
             );
         return this;
     }
@@ -106,26 +91,26 @@ public class Field implements Serializable {
     }
 
     //Все значения
-    public List<FieldValue> getValues() { return this.value.getValues(); }
+    public List<JsonFieldValue> getValues() { return this.value.getValues(); }
 
-    public void setValues(List<FieldValue> values) { this.value.setValues(values); }
+    public void setValues(List<JsonFieldValue> values) { this.value.setValues(values); }
 
     //Единичное значение
-    public FieldValue getSingleValue() { return this.value.getSingleValue(); }
+    public JsonFieldValue getSingleValue() { return this.value.getSingleValue(); }
 
-    public void setSingleValue(FieldValue value) { this.value.setSingleValue(value); }
+    public void setSingleValue(JsonFieldValue value) { this.value.setSingleValue(value); }
 
     //Единичное значение в строковом виде
     public String getSingleStringValue() { return this.value.getSingleValue().getValue(); }
 
-    public void setSingleStringValue(String value) { this.value.setSingleValue(new FieldValue(value)); }
+    public void setSingleStringValue(String value) { this.value.setSingleValue(new JsonFieldValue(value)); }
 
     //Единичное значение в виде даты
     public Date getSingleDateValue() {
         try {
             String format = this.value.getSingleValue().getFormat();
             if (StringUtils.isNotBlank(format)) {
-                new SimpleDateFormat(format).parse(this.value.getSingleValue().getValue());
+                return new SimpleDateFormat(format).parse(this.value.getSingleValue().getValue());
             }
             return sdf.parse(this.value.getSingleValue().getValue());
         } catch (Exception e) {
@@ -139,14 +124,13 @@ public class Field implements Serializable {
         if (StringUtils.isBlank(format) || CALENDAR_DATE_PATTERN.equals(format)) {
             format = null;
         }
-        this.value.setSingleValue(new FieldValue(val, val, format));
+        this.value.setSingleValue(new JsonFieldValue(val, val, format));
     }
 
-    public Collection<FieldValue> getSelectorValues() { return selectorValues; }
+    public Collection<JsonFieldValue> getSelectorValues() { return selectorValues; }
 
     public boolean isVisible() {
-        String visible = getAttributes().get(IFieldAttributes.VISIBLE);
-        return visible == null || Boolean.parseBoolean(visible);
+        return field.isVisible();
     }
 
     public String getParentClassifier() {

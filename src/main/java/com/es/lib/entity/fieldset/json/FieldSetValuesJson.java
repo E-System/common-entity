@@ -9,7 +9,7 @@
 package com.es.lib.entity.fieldset.json;
 
 
-import com.es.lib.entity.fieldset.json.field.Field;
+import com.es.lib.entity.fieldset.json.field.JsonFieldMetadata;
 
 import java.util.LinkedHashMap;
 
@@ -19,4 +19,4 @@ import java.util.LinkedHashMap;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
-public class FieldSetValuesJson extends LinkedHashMap<String, Field> {}
+public class FieldSetValuesJson extends LinkedHashMap<String, JsonFieldMetadata> {}

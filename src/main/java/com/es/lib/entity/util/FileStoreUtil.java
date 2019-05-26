@@ -72,7 +72,7 @@ public class FileStoreUtil {
             String.valueOf(dateTime.getYear()),
             String.valueOf(dateTime.getMonthValue()),
             String.valueOf(dateTime.getDayOfMonth()),
-            String.valueOf(dateTime.format(DateTimeFormatter.ofPattern("N"))),
+            dateTime.format(DateTimeFormatter.ofPattern("N")),
             name + "." + ext
         ).filter(Objects::nonNull)
             .map(FileStoreUtil::getPathPart)

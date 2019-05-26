@@ -25,26 +25,28 @@ import java.util.Objects;
  * @since 30.05.16
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Field implements Serializable {
+public class JsonFieldMetadata implements Serializable {
+
+    public static final String CALENDAR_DATE_PATTERN = "dd.MM.yyyy";
 
     private FieldTypeCode type;
     private String code;
     private String title;
     private String format;
-    private List<FieldValue> values;
+    private List<JsonFieldValue> values;
 
-    public Field() {
+    public JsonFieldMetadata() {
         values = new ArrayList<>();
     }
 
-    public Field(FieldTypeCode type, String code, String title) {
+    public JsonFieldMetadata(FieldTypeCode type, String code, String title) {
         this.type = type;
         this.code = code;
         this.title = title;
         values = new ArrayList<>();
     }
 
-    public Field(FieldTypeCode type, String code, String title, List<FieldValue> values) {
+    public JsonFieldMetadata(FieldTypeCode type, String code, String title, List<JsonFieldValue> values) {
         this.type = type;
         this.code = code;
         this.title = title;
@@ -79,11 +81,11 @@ public class Field implements Serializable {
 
     public void setFormat(String format) { this.format = format; }
 
-    public List<FieldValue> getValues() {
+    public List<JsonFieldValue> getValues() {
         return values;
     }
 
-    public void setValues(List<FieldValue> values) {
+    public void setValues(List<JsonFieldValue> values) {
         this.values = values;
     }
 
@@ -91,26 +93,26 @@ public class Field implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Field)) {
+        if (!(obj instanceof JsonFieldMetadata)) {
             return false;
         }
-        Field f = (Field) obj;
+        JsonFieldMetadata f = (JsonFieldMetadata) obj;
         return Objects.equals(type, f.type) &&
-            Objects.equals(code, f.code) &&
-            Objects.equals(title, f.title) &&
-            Objects.equals(values, f.values);
+               Objects.equals(code, f.code) &&
+               Objects.equals(title, f.title) &&
+               Objects.equals(values, f.values);
     }
 
     @JsonIgnore
-    public FieldValue getSingleValue() {
+    public JsonFieldValue getSingleValue() {
         if (getValues().isEmpty()) {
-            return new FieldValue();
+            return new JsonFieldValue();
         }
         return getValues().get(0);
     }
 
     @JsonIgnore
-    public void setSingleValue(FieldValue value) {
+    public void setSingleValue(JsonFieldValue value) {
         if (getValues().isEmpty()) {
             getValues().add(value);
             return;
@@ -120,7 +122,7 @@ public class Field implements Serializable {
 
     @Override
     public String toString() {
-        return "Field{" +
+        return "JsonFieldMetadata{" +
                "type=" + type +
                ", code='" + code + '\'' +
                ", title='" + title + '\'' +

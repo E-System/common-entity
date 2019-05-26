@@ -12,25 +12,25 @@ import java.util.Objects;
  * @since 30.05.16
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FieldValue implements Serializable {
+public class JsonFieldValue implements Serializable {
 
     private String value;
     private String title;
     private String format;
 
-    public FieldValue() {}
+    public JsonFieldValue() {}
 
-    public FieldValue(String value) {
+    public JsonFieldValue(String value) {
         this.value = value;
         this.title = value;
     }
 
-    public FieldValue(String value, String title) {
+    public JsonFieldValue(String value, String title) {
         this.value = value;
         this.title = title;
     }
 
-    public FieldValue(String value, String title, String format) {
+    public JsonFieldValue(String value, String title, String format) {
         this.value = value;
         this.title = title;
         this.format = format;
@@ -63,7 +63,7 @@ public class FieldValue implements Serializable {
         if (obj == this)
             return true;
         if (obj.getClass() == this.getClass()) {
-            FieldValue v = (FieldValue) obj;
+            JsonFieldValue v = (JsonFieldValue) obj;
             return Objects.equals(value, v.value) && Objects.equals(title, v.title);
         }
         return false;
@@ -71,7 +71,7 @@ public class FieldValue implements Serializable {
 
     @Override
     public String toString() {
-        return "FieldValue{" +
+        return "JsonFieldValue{" +
                "value='" + value + '\'' +
                ", title='" + title + '\'' +
                ", format='" + format + '\'' +
