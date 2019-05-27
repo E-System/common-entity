@@ -12,6 +12,8 @@ package com.es.lib.entity.fieldset.json.field;
 import com.es.lib.entity.fieldset.code.FieldTypeCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import java.util.Objects;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonFieldMetadata implements Serializable {
 
@@ -40,10 +44,10 @@ public class JsonFieldMetadata implements Serializable {
     }
 
     public JsonFieldMetadata(FieldTypeCode type, String code, String title) {
+        this();
         this.type = type;
         this.code = code;
         this.title = title;
-        values = new ArrayList<>();
     }
 
     public JsonFieldMetadata(FieldTypeCode type, String code, String title, List<JsonFieldValue> values) {
@@ -53,55 +57,8 @@ public class JsonFieldMetadata implements Serializable {
         this.values = values;
     }
 
-    public FieldTypeCode getType() {
-        return type;
-    }
-
-    public void setType(FieldTypeCode type) {
-        this.type = type;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getFormat() { return format; }
-
-    public void setFormat(String format) { this.format = format; }
-
-    public List<JsonFieldValue> getValues() {
-        return values;
-    }
-
-    public void setValues(List<JsonFieldValue> values) {
-        this.values = values;
-    }
 
     public boolean isEmpty() { return values == null || values.isEmpty(); }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof JsonFieldMetadata)) {
-            return false;
-        }
-        JsonFieldMetadata f = (JsonFieldMetadata) obj;
-        return Objects.equals(type, f.type) &&
-               Objects.equals(code, f.code) &&
-               Objects.equals(title, f.title) &&
-               Objects.equals(values, f.values);
-    }
 
     @JsonIgnore
     public JsonFieldValue getSingleValue() {
@@ -118,6 +75,23 @@ public class JsonFieldMetadata implements Serializable {
             return;
         }
         this.getValues().set(0, value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof JsonFieldMetadata)) {
+            return false;
+        }
+        JsonFieldMetadata f = (JsonFieldMetadata) obj;
+        return Objects.equals(type, f.type) &&
+               Objects.equals(code, f.code) &&
+               Objects.equals(title, f.title) &&
+               Objects.equals(values, f.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, code, title, format, values);
     }
 
     @Override

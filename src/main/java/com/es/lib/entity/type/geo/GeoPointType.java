@@ -55,7 +55,7 @@ public class GeoPointType implements UserType {
     @Override
     public void nullSafeSet(PreparedStatement preparedStatement, Object value, int i, SharedSessionContractImplementor sessionImplementor) throws HibernateException, SQLException {
         GeoPoint p = (GeoPoint) value;
-        if (p == null || (p.x == 0 && p.y == 0)) {
+        if (p == null || (p.getX() == 0 && p.getY() == 0)) {
             preparedStatement.setNull(i, Types.OTHER);
         } else {
             preparedStatement.setObject(i, p.getValue(), Types.OTHER);

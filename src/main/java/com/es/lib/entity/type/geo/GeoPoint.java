@@ -18,11 +18,10 @@ import java.util.List;
  */
 public class GeoPoint implements Serializable, Cloneable {
 
-    public double x;
-    public double y;
+    private double x;
+    private double y;
 
-    public GeoPoint() {
-    }
+    public GeoPoint() { }
 
     public GeoPoint(double x, double y) {
         this.x = x;
@@ -42,21 +41,6 @@ public class GeoPoint implements Serializable, Cloneable {
     public void setByteValue(byte[] b, int offset) {
         this.x = float8(b, offset);
         this.y = float8(b, offset + 8);
-    }
-
-    public boolean equals(Object obj) {
-        if (!(obj instanceof GeoPoint)) {
-            return false;
-        } else {
-            GeoPoint p = (GeoPoint) obj;
-            return this.x == p.x && this.y == p.y;
-        }
-    }
-
-    public int hashCode() {
-        long v1 = Double.doubleToLongBits(this.x);
-        long v2 = Double.doubleToLongBits(this.y);
-        return (int) (v1 ^ v2 ^ v1 >>> 32 ^ v2 >>> 32);
     }
 
     public String getValue() {
@@ -188,6 +172,22 @@ public class GeoPoint implements Serializable, Cloneable {
 
     public static double float8(byte[] bytes, int idx) {
         return Double.longBitsToDouble(int8(bytes, idx));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof GeoPoint)) {
+            return false;
+        }
+        GeoPoint p = (GeoPoint) obj;
+        return this.x == p.x && this.y == p.y;
+    }
+
+    @Override
+    public int hashCode() {
+        long v1 = Double.doubleToLongBits(this.x);
+        long v2 = Double.doubleToLongBits(this.y);
+        return (int) (v1 ^ v2 ^ v1 >>> 32 ^ v2 >>> 32);
     }
 
     @Override

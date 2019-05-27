@@ -1,6 +1,8 @@
 package com.es.lib.entity.fieldset.json.field;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,6 +13,8 @@ import java.util.Objects;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonFieldValue implements Serializable {
 
@@ -31,42 +35,23 @@ public class JsonFieldValue implements Serializable {
     }
 
     public JsonFieldValue(String value, String title, String format) {
-        this.value = value;
-        this.title = title;
+        this(value, title);
         this.format = format;
     }
 
-    public String getValue() {
-        return value;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JsonFieldValue that = (JsonFieldValue) o;
+        return Objects.equals(value, that.value) &&
+               Objects.equals(title, that.title) &&
+               Objects.equals(format, that.format);
     }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getFormat() { return format; }
-
-    public void setFormat(String format) { this.format = format; }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-        if (obj == this)
-            return true;
-        if (obj.getClass() == this.getClass()) {
-            JsonFieldValue v = (JsonFieldValue) obj;
-            return Objects.equals(value, v.value) && Objects.equals(title, v.title);
-        }
-        return false;
+    public int hashCode() {
+        return Objects.hash(value, title, format);
     }
 
     @Override
