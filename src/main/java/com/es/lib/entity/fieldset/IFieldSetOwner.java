@@ -8,6 +8,7 @@
 
 package com.es.lib.entity.fieldset;
 
+import com.es.lib.entity.IAttributeOwner;
 import com.es.lib.entity.fieldset.code.FieldTypeCode;
 import com.es.lib.entity.fieldset.code.IFieldAttributes;
 import com.es.lib.entity.fieldset.json.SelectorItemsJson;
@@ -16,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.es.lib.entity.fieldset.json.field.JsonFieldMetadata.CALENDAR_DATE_PATTERN;
@@ -25,7 +25,7 @@ import static com.es.lib.entity.fieldset.json.field.JsonFieldMetadata.CALENDAR_D
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 08.04.19
  */
-public interface IFieldSetOwner {
+public interface IFieldSetOwner extends IAttributeOwner {
 
     String getCode();
 
@@ -40,10 +40,6 @@ public interface IFieldSetOwner {
     FieldTypeCode getFieldType();
 
     void setFieldType(FieldTypeCode fieldTypeCode);
-
-    Map<String, String> getAttributes();
-
-    void setAttributes(Map<String, String> attributes);
 
     SelectorItemsJson getSelector();
 

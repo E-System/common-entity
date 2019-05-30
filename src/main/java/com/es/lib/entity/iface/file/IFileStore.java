@@ -16,6 +16,7 @@
 
 package com.es.lib.entity.iface.file;
 
+import com.es.lib.entity.IAttributeOwner;
 import com.es.lib.entity.IPrimaryKey;
 import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
 
@@ -25,7 +26,7 @@ import java.util.Map;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 01.02.16
  */
-public interface IFileStore extends IPrimaryKey<Long> {
+public interface IFileStore extends IAttributeOwner, IPrimaryKey<Long> {
 
     String getFilePath();
 
@@ -40,10 +41,6 @@ public interface IFileStore extends IPrimaryKey<Long> {
     boolean isDeleted();
 
     void setDeleted(boolean deleted);
-
-    Map<String, String> getAttributes();
-
-    void setAttributes(Map<String, String> attributes);
 
     default boolean isPublicVisible() {
         return getOwner() == null;
