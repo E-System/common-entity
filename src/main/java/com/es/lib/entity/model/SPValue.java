@@ -18,7 +18,6 @@ package com.es.lib.entity.model;
 
 
 import com.es.lib.entity.result.KeyValue;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -213,8 +212,8 @@ public class SPValue {
             return null;
         }
         try {
-            return OBJECT_MAPPER.writeValueAsString(json);
-        } catch (JsonProcessingException e) {
+            return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(OBJECT_MAPPER.readValue(json, Object.class));
+        } catch (IOException e) {
             return null;
         }
     }

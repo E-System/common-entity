@@ -1,6 +1,5 @@
 package com.es.lib.entity.model
 
-import com.es.lib.entity.result.KeyValue
 import spock.lang.Specification
 
 /**
@@ -86,7 +85,7 @@ class SPValueSpec extends Specification {
         then:
         item.type == ValueTypeCode.JSON
         item.string == null
-        item.value == '{\n  "asd": "asd"\n}'
+        item.value == '{\n  "asd" : "asd"\n}'
         item.price == null
         item.numeric == null
         item.bool == null
