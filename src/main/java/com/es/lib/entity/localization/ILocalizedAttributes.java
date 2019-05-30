@@ -1,16 +1,14 @@
 package com.es.lib.entity.localization;
 
-import java.util.Map;
+import com.es.lib.entity.IAttributeOwner;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 20.10.2017
  */
-public interface ILocalizedAttributes {
+public interface ILocalizedAttributes extends IAttributeOwner {
 
     String ATTRIBUTES_PREFIX = "attributes.";
-
-    Map<String, String> getAttributes();
 
     LocalizedJson getLocalization();
 
