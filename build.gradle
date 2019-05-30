@@ -128,7 +128,6 @@ dependencies {
     compile "org.apache.commons:commons-lang3:3.9"
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.9"
     compile "com.fasterxml.jackson.core:jackson-annotations:2.9.9"
-    compile "com.google.code.gson:gson:2.8.5"
     compile "org.hibernate:hibernate-entitymanager:5.1.12.Final"
     compile "org.hibernate:hibernate-core:5.1.12.Final"
     compile "commons-io:commons-io:2.6"

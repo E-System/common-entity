@@ -18,10 +18,11 @@ package com.es.lib.entity.model;
 
 
 import com.es.lib.entity.result.KeyValue;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -37,6 +38,12 @@ import java.util.stream.Collectors;
  * @since 05.03.18
  */
 public class SPValue {
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    static {
+        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
     private ValueTypeCode type;
     private String value;
@@ -194,14 +201,22 @@ public class SPValue {
         if (!jsonParse) {
             return value;
         }
-        return new Gson().fromJson(value, Object.class);
+        try {
+            return OBJECT_MAPPER.readValue(value, Object.class);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     private String formatJson(String json) {
         if (json == null) {
             return null;
         }
-        return new GsonBuilder().setPrettyPrinting().create().toJson(new JsonParser().parse(json));
+        try {
+            return OBJECT_MAPPER.writeValueAsString(json);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 
     private Number parseNumber(String value) throws ParseException {
