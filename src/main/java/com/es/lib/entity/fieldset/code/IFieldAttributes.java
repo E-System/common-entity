@@ -17,6 +17,10 @@ package com.es.lib.entity.fieldset.code;
 public interface IFieldAttributes {
 
     /**
+     * View type
+     */
+    String VIEW_TYPE = "VIEW_TYPE";
+    /**
      * Default value
      */
     String VALUE = "VALUE";
