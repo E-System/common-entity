@@ -45,6 +45,10 @@ public interface IFieldAttributes {
      */
     String VALIDATOR_PARAM = "VALIDATOR_PARAM_";
     /**
+     * Validator message
+     */
+    String VALIDATOR_MSG = "VALIDATOR_MSG";
+    /**
      * Position
      */
     String POSITION = "POSITION";
