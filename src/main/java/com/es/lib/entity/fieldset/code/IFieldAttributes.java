@@ -111,6 +111,22 @@ public interface IFieldAttributes {
              */
             String G_NAME = "BIK";
         }
+
+        interface Inn extends Validator {
+
+            /**
+             * Название(код)
+             */
+            String G_NAME = "INN";
+        }
+
+        interface Kpp extends Validator {
+
+            /**
+             * Название(код)
+             */
+            String G_NAME = "KPP";
+        }
     }
 
 }
