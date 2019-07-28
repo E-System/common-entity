@@ -17,6 +17,10 @@ package com.es.lib.entity.fieldset.code;
 public interface IFieldAttributes {
 
     /**
+     * View type
+     */
+    String VIEW_TYPE = "VIEW_TYPE";
+    /**
      * Default value
      */
     String VALUE = "VALUE";
@@ -40,6 +44,10 @@ public interface IFieldAttributes {
      * Validator parameter
      */
     String VALIDATOR_PARAM = "VALIDATOR_PARAM_";
+    /**
+     * Validator message
+     */
+    String VALIDATOR_MSG = "VALIDATOR_MSG";
     /**
      * Position
      */
@@ -102,6 +110,22 @@ public interface IFieldAttributes {
              * Name (code)
              */
             String G_NAME = "BIK";
+        }
+
+        interface Inn extends Validator {
+
+            /**
+             * Название(код)
+             */
+            String G_NAME = "INN";
+        }
+
+        interface Kpp extends Validator {
+
+            /**
+             * Название(код)
+             */
+            String G_NAME = "KPP";
         }
     }
 

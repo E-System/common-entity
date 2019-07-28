@@ -27,6 +27,8 @@ import static com.es.lib.entity.fieldset.json.field.JsonFieldMetadata.CALENDAR_D
  */
 public interface IFieldSetOwner extends IAttributeOwner {
 
+    default String getSectionCode() { return null; }
+
     String getCode();
 
     Long getOwnerId();
