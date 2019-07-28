@@ -1,7 +1,7 @@
 package com.es.lib.entity.type;
 
 import com.es.lib.entity.type.iface.IArrayType;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
@@ -53,12 +53,12 @@ public abstract class CommonArrayType implements UserType, IArrayType {
     }
 
     @Override
-    public Object nullSafeGet(ResultSet rs, String[] strings, SharedSessionContractImplementor si, Object o) throws SQLException {
+    public Object nullSafeGet(ResultSet rs, String[] strings, SessionImplementor si, Object o) throws SQLException {
         return getObject(rs, strings, returnedClass());
     }
 
     @Override
-    public void nullSafeSet(PreparedStatement ps, Object o, int i, SharedSessionContractImplementor si) throws SQLException {
+    public void nullSafeSet(PreparedStatement ps, Object o, int i, SessionImplementor si) throws SQLException {
         setObject(ps, o, i);
     }
 
