@@ -34,6 +34,10 @@ public interface ISecurityAction {
      * Close, block, ending
      */
     String CLOSE = "CLOSE";
+    /**
+     * Delete elements
+     */
+    String DELETE = "DELETE";
 
     static String join(PermissionRow pair) {
         return join(pair.getTarget(), pair.getAction());
