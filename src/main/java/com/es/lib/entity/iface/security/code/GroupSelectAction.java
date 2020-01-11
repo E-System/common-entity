@@ -24,6 +24,10 @@ public enum GroupSelectAction {
      */
     SET_EDIT_ALL,
     /**
+     * Set delete for all
+     */
+    SET_DELETE_ALL,
+    /**
      * Set all for all
      */
     SET_ALL,
@@ -36,6 +40,10 @@ public enum GroupSelectAction {
      * Clear edit for all
      */
     CLEAR_EDIT_ALL,
+    /**
+     * Clear delete for all
+     */
+    CLEAR_DELETE_ALL,
     /**
      * Clear all for all
      */
