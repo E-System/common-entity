@@ -17,6 +17,9 @@
 package com.es.lib.entity.iface.security;
 
 import com.es.lib.entity.iface.security.code.ISecurityAction;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +30,9 @@ import java.io.Serializable;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 05.09.16
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class PermissionRow implements Serializable {
 
@@ -38,70 +44,7 @@ public class PermissionRow implements Serializable {
     @Id
     private String action;
 
-    public PermissionRow() {
-    }
-
-    public PermissionRow(Integer idRole, String target, String action) {
-        this.idRole = idRole;
-        this.target = target;
-        this.action = action;
-    }
-
-    public Integer getIdRole() {
-        return idRole;
-    }
-
-    public void setIdRole(Integer idRole) {
-        this.idRole = idRole;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
     public String getKey() {
         return ISecurityAction.join(getTarget(), getAction());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PermissionRow that = (PermissionRow) o;
-
-        return (idRole != null ?
-                idRole.equals(that.idRole)
-                : that.idRole == null) && target.equals(that.target) && action.equals(that.action);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idRole != null ? idRole.hashCode() : 0;
-        result = 31 * result + target.hashCode();
-        result = 31 * result + action.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "PermissionRow{" +
-               "idRole=" + idRole +
-               ", target='" + target + '\'' +
-               ", action='" + action + '\'' +
-               '}';
     }
 }
