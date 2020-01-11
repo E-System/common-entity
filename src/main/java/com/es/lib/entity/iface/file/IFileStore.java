@@ -20,8 +20,6 @@ import com.es.lib.entity.IAttributeOwner;
 import com.es.lib.entity.IPrimaryKey;
 import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
 
-import java.util.Map;
-
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 01.02.16
@@ -61,18 +59,10 @@ public interface IFileStore extends IAttributeOwner, IPrimaryKey<Long> {
     }
 
     default String getOwnerId() {
-        return getAttr(IFileStoreAttributes.Security.OWNER_ID);
+        return getAttribute(IFileStoreAttributes.Security.OWNER_ID);
     }
 
     default String getOwner() {
-        return getAttr(IFileStoreAttributes.Security.OWNER);
-    }
-
-    default String getAttr(String code) {
-        Map<String, String> attributes = getAttributes();
-        if (attributes == null) {
-            return null;
-        }
-        return attributes.get(code);
+        return getAttribute(IFileStoreAttributes.Security.OWNER);
     }
 }

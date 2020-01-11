@@ -13,6 +13,6 @@ public interface ILocalizedAttributes extends IAttributeOwner {
     LocalizedJson getLocalization();
 
     default String getAttributesValue(String code, String locale) {
-        return getLocalization() == null ? getAttributes().get(code) : getLocalization().getValue(ATTRIBUTES_PREFIX + code, locale, () -> getAttributes().get(code));
+        return getLocalization() == null ? getAttribute(code) : getLocalization().getValue(ATTRIBUTES_PREFIX + code, locale, () -> getAttribute(code));
     }
 }
