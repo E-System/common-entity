@@ -16,6 +16,7 @@
 
 package com.es.lib.entity.iface.security;
 
+import com.es.lib.entity.iface.security.code.ISecurityAction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,4 +43,8 @@ public class PermissionRow implements Serializable {
     private String target;
     @Id
     private String action;
+
+    public String getKey() {
+        return ISecurityAction.join(getTarget(), getAction());
+    }
 }
