@@ -39,15 +39,25 @@ public interface ISecurityAction {
      */
     String DELETE = "DELETE";
 
-    static String join(PermissionRow pair) {
-        return join(pair.getTarget(), pair.getAction());
+    static String join(PermissionRow row) {
+        if (row == null) {
+            return null;
+        }
+        return join(row.getTarget(), row.getAction());
     }
 
     static String join(String target, String action) {
+        if (target == null || action == null) {
+            return null;
+        }
         return target + _JOIN_STRING + action;
     }
 
     static PermissionRow split(String key) {
+        return split(null, key);
+    }
+
+    static PermissionRow split(Integer idRole, String key) {
         if (key == null) {
             return null;
         }
@@ -55,6 +65,6 @@ public interface ISecurityAction {
         if (split.length < 2) {
             return null;
         }
-        return new PermissionRow(null, split[0], split[1]);
+        return new PermissionRow(idRole, split[0], split[1]);
     }
 }
