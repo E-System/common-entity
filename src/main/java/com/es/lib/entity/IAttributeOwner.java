@@ -1,6 +1,7 @@
 package com.es.lib.entity;
 
 import com.es.lib.common.collection.CollectionUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collection;
@@ -27,5 +28,17 @@ public interface IAttributeOwner {
 
     default void setAttribute(String code, String value) {
         setAttributes(Collections.singletonList(Pair.of(code, value)));
+    }
+
+    default boolean isAttributeFilled(String code) {
+        return StringUtils.isNotBlank(getAttribute(code));
+    }
+
+    default void removeEmptyAttributes() {
+        setAttributes(CollectionUtil.removeEmptyValues(getAttributes()));
+    }
+
+    default void removeNullAttributes() {
+        setAttributes(CollectionUtil.removeNullValues(getAttributes()));
     }
 }
