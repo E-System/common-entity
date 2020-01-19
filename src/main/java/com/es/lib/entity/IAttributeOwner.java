@@ -22,6 +22,18 @@ public interface IAttributeOwner {
         return attributes.get(code);
     }
 
+    default <T extends Enum<T>> T getAttribute(String code, Class<T> enumClass) {
+        String value = getAttribute(code);
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+        try {
+            return T.valueOf(enumClass, value);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     default void setAttributes(Collection<? extends Map.Entry<String, String>> items) {
         CollectionUtil.updateValues(this::getAttributes, this::setAttributes, items);
     }
