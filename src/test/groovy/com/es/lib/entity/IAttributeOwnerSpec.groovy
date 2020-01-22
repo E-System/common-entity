@@ -1,9 +1,24 @@
 package com.es.lib.entity
 
-
 import spock.lang.Specification
 
+import java.text.SimpleDateFormat
+
 class IAttributeOwnerSpec extends Specification {
+
+    def "Get date attribute"() {
+        when:
+        def v = new TestAttr(["CODE1": "22.12.2019", "CODE2": null, "CODE3": "", "CODE4": "awd"])
+        def d1 = v.getDateAttribute("CODE1")
+        def d2 = v.getDateAttribute("CODE2")
+        def d3 = v.getDateAttribute("CODE3")
+        def d4 = v.getDateAttribute("CODE4")
+        then:
+        d1 != null && new SimpleDateFormat("dd.MM.yyyy").format(d1) == "22.12.2019"
+        d2 == null
+        d3 == null
+        d4 == null
+    }
 
     def "Get enum attribute"() {
         when:
