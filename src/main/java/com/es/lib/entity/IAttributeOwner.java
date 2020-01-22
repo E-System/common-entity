@@ -1,11 +1,16 @@
 package com.es.lib.entity;
 
+import com.es.lib.common.DateUtil;
 import com.es.lib.common.collection.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.text.ParseException;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 
 public interface IAttributeOwner {
@@ -30,6 +35,18 @@ public interface IAttributeOwner {
         try {
             return T.valueOf(enumClass, value);
         } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    default Date getDateAttribute(String code) {
+        return getDateAttribute(code, DateUtil.CALENDAR_DATE_PATTERN);
+    }
+
+    default Date getDateAttribute(String code, String format) {
+        try {
+            return DateUtil.parse(getAttribute(code), format);
+        } catch (ParseException e) {
             return null;
         }
     }
