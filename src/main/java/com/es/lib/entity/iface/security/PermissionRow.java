@@ -16,7 +16,6 @@
 
 package com.es.lib.entity.iface.security;
 
-import com.es.lib.entity.iface.security.code.ISecurityAction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +23,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.io.Serializable;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -34,7 +32,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class PermissionRow implements Serializable {
+public class PermissionRow implements IPermissionRow {
 
     @Id
     @Column(name = "id_role")
@@ -44,7 +42,9 @@ public class PermissionRow implements Serializable {
     @Id
     private String action;
 
-    public String getKey() {
-        return ISecurityAction.join(getTarget(), getAction());
+    public PermissionRow(IPermissionRow row) {
+        this.idRole = row.getIdRole();
+        this.target = row.getTarget();
+        this.action = row.getAction();
     }
 }
