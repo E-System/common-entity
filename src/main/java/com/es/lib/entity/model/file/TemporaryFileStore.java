@@ -61,6 +61,17 @@ public class TemporaryFileStore {
         this.base64Path = Base64.getUrlEncoder().encodeToString(path.getBytes());
     }
 
+    public String getModeRelativePath() {
+        String result = getPath();
+        if (mode == null || mode.equals(FileStoreMode.PERSISTENT)) {
+            return result;
+        }
+        if (result.startsWith("/" + mode.getPrefix())) {
+            result = result.replaceFirst("/" + mode.getPrefix(), "");
+        }
+        return result;
+    }
+
     public String getFullName() {
         return getBaseName() + "." + getExt();
     }
