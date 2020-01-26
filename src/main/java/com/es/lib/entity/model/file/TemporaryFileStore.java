@@ -16,6 +16,8 @@
 package com.es.lib.entity.model.file;
 
 import com.es.lib.entity.util.FileStoreUtil;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.File;
 import java.util.Base64;
@@ -23,9 +25,11 @@ import java.util.Base64;
 /**
  * Temporary upload file info
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 17.03.18
  */
+@Getter
+@ToString
 public class TemporaryFileStore {
 
     private File file;
@@ -37,10 +41,15 @@ public class TemporaryFileStore {
     private long size;
     private String mime;
     private long crc32;
+    private FileStoreMode mode;
 
     private String base64Path;
 
     public TemporaryFileStore(File file, String path, String baseName, String ext, long size, String mime, long crc32) {
+        this(file, path, baseName, ext, size, mime, crc32, FileStoreMode.TEMPORARY);
+    }
+
+    public TemporaryFileStore(File file, String path, String baseName, String ext, long size, String mime, long crc32, FileStoreMode mode) {
         this.file = file;
         this.path = path;
         this.baseName = baseName;
@@ -48,60 +57,15 @@ public class TemporaryFileStore {
         this.size = size;
         this.mime = mime;
         this.crc32 = crc32;
+        this.mode = mode;
         this.base64Path = Base64.getUrlEncoder().encodeToString(path.getBytes());
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getBaseName() {
-        return baseName;
-    }
-
-    public String getExt() {
-        return ext;
     }
 
     public String getFullName() {
         return getBaseName() + "." + getExt();
     }
 
-    public long getSize() {
-        return size;
-    }
-
-    public String getMime() {
-        return mime;
-    }
-
-    public long getCrc32() {
-        return crc32;
-    }
-
-    public String getBase64Path() {
-        return base64Path;
-    }
-
     public boolean isImage() {
         return FileStoreUtil.isImage(this);
-    }
-
-    @Override
-    public String toString() {
-        return "TemporaryFileStore{" +
-               "file=" + file +
-               ", path='" + path + '\'' +
-               ", baseName='" + baseName + '\'' +
-               ", ext='" + ext + '\'' +
-               ", size=" + size +
-               ", mime='" + mime + '\'' +
-               ", crc32=" + crc32 +
-               ", base64Path='" + base64Path + '\'' +
-               '}';
     }
 }
