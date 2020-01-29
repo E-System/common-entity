@@ -24,7 +24,7 @@ class IFileStoreSpec extends Specification {
 
         @Override
         String getFileName() {
-            return null
+            return "Very long file name"
         }
 
         @Override
@@ -34,7 +34,7 @@ class IFileStoreSpec extends Specification {
 
         @Override
         String getFileExt() {
-            return null
+            return "jpeg"
         }
 
         @Override
@@ -74,7 +74,7 @@ class IFileStoreSpec extends Specification {
 
         @Override
         String getFullName() {
-            return null
+            return getFileName() + "." + getFileExt()
         }
 
         @Override
@@ -176,5 +176,14 @@ class IFileStoreSpec extends Specification {
         new FileStore([(IFileStoreAttributes.Security.OWNER): ""])                                                || ""
         new FileStore([(IFileStoreAttributes.Security.OWNER): (IFileStoreAttributes.Security.OWNER_LOGGED_CODE)]) || (IFileStoreAttributes.Security.OWNER_LOGGED_CODE)
         new FileStore([(IFileStoreAttributes.Security.OWNER): "ASD"])                                             || "ASD"
+    }
+
+    def "Abbreviated name"() {
+        when:
+        def size = 20
+        def value = new FileStore(null).getAbbreviatedFileName(size)
+        then:
+        value == "Very lo..e name.jpeg"
+        value.length() == size
     }
 }
