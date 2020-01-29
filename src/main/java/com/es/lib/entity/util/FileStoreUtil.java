@@ -31,6 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,12 +45,17 @@ import java.util.stream.Stream;
  */
 public class FileStoreUtil {
 
-    public static <T extends IFileStore> T toStore(String basePath, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator) {
+    public static <T extends IFileStore> T toStore(String basePath, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         FileStorePath storePath;
         try {
             storePath = moveTo(temporaryFile, basePath, FileStoreMode.PERSISTENT, true);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            }else {
+                throw new RuntimeException(e);
+            }
         }
         T result = fileStoreCreator.get();
         result.setFilePath(storePath.getPath());
@@ -62,7 +68,7 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static <T extends IFileStore> T toStore(String basePath, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator) {
+    public static <T extends IFileStore> T toStore(String basePath, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, ext);
         T result = fileStoreCreator.get();
         result.setFilePath(storePath.getPath());
@@ -77,13 +83,18 @@ public class FileStoreUtil {
                 data
             );
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            }else {
+                throw new RuntimeException(e);
+            }
         }
         FileStoreImageUtil.processAttributes(result, data);
         return result;
     }
 
-    public static <T extends IFileStore> T copyInStore(String basePath, T fileStore, Supplier<T> fileStoreCreator) {
+    public static <T extends IFileStore> T copyInStore(String basePath, T fileStore, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, fileStore.getFileExt());
         try {
             FileUtils.copyFile(
@@ -91,7 +102,12 @@ public class FileStoreUtil {
                 new File(storePath.getFullPath())
             );
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            }else {
+                throw new RuntimeException(e);
+            }
         }
 
         T result = fileStoreCreator.get();
