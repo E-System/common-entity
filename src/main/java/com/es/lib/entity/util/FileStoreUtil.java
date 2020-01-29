@@ -62,7 +62,7 @@ public class FileStoreUtil {
         return result;
     }
 
-    public <T extends IFileStore> T toStore(String basePath, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator) {
+    public static <T extends IFileStore> T toStore(String basePath, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator) {
         FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, ext);
         T result = fileStoreCreator.get();
         result.setFilePath(storePath.getPath());
