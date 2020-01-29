@@ -210,7 +210,7 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(String basePath, InputStream from, String ext, int size, FileStoreMode mode, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(String basePath, InputStream from, String ext, long size, FileStoreMode mode, Consumer<IOException> exceptionConsumer) {
         if (from == null) {
             return null;
         }
