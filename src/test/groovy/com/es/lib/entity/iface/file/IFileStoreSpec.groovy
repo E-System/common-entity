@@ -23,6 +23,46 @@ class IFileStoreSpec extends Specification {
         }
 
         @Override
+        String getFileName() {
+            return null
+        }
+
+        @Override
+        void setFileName(String fileName) {
+
+        }
+
+        @Override
+        String getFileExt() {
+            return null
+        }
+
+        @Override
+        void setFileExt(String fileExt) {
+
+        }
+
+        @Override
+        long getCrc32() {
+            return 0
+        }
+
+        @Override
+        void setCrc32(long crc32) {
+
+        }
+
+        @Override
+        long getSize() {
+            return 0
+        }
+
+        @Override
+        void setSize(long size) {
+
+        }
+
+        @Override
         String getMime() {
             return null
         }

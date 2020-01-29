@@ -30,6 +30,22 @@ public interface IFileStore extends IAttributeOwner, IPrimaryKey<Long> {
 
     void setFilePath(String filePath);
 
+    String getFileName();
+
+    void setFileName(String fileName);
+
+    String getFileExt();
+
+    void setFileExt(String fileExt);
+
+    long getCrc32();
+
+    void setCrc32(long crc32);
+
+    long getSize();
+
+    void setSize(long size);
+
     String getMime();
 
     void setMime(String mime);
