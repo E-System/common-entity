@@ -149,12 +149,7 @@ public class FileStoreUtil {
         File resultFile = new File(path.getFullPath());
         long crc32;
         try (InputStream is = Files.newInputStream(from)) {
-            CheckedInputStream checkedInputStream = new CheckedInputStream(is, new CRC32());
-            FileUtils.copyInputStreamToFile(
-                checkedInputStream,
-                resultFile
-            );
-            crc32 = checkedInputStream.getChecksum().getValue();
+            crc32 = copyWithCrc32(is, resultFile);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -184,12 +179,7 @@ public class FileStoreUtil {
         File resultFile = new File(path.getFullPath());
         long crc32;
         try (InputStream is = new ByteArrayInputStream(from)) {
-            CheckedInputStream checkedInputStream = new CheckedInputStream(is, new CRC32());
-            FileUtils.copyInputStreamToFile(
-                checkedInputStream,
-                resultFile
-            );
-            crc32 = checkedInputStream.getChecksum().getValue();
+            crc32 = copyWithCrc32(is, resultFile);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -219,12 +209,7 @@ public class FileStoreUtil {
         File resultFile = new File(path.getFullPath());
         long crc32;
         try {
-            CheckedInputStream checkedInputStream = new CheckedInputStream(from, new CRC32());
-            FileUtils.copyInputStreamToFile(
-                checkedInputStream,
-                resultFile
-            );
-            crc32 = checkedInputStream.getChecksum().getValue();
+            crc32 = copyWithCrc32(from, resultFile);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -245,17 +230,12 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(String basePath, InputStream from, FileParts fileParts, int size, String mime, ThumbUtil.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(String basePath, InputStream from, FileParts fileParts, long size, String mime, ThumbUtil.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
         FileStorePath path = getUniquePath(basePath, FileStoreMode.TEMPORARY, fileParts.getExt());
         File resultFile = new File(path.getFullPath());
         long crc32;
         try {
-            CheckedInputStream checkedInputStream = new CheckedInputStream(from, new CRC32());
-            FileUtils.copyInputStreamToFile(
-                checkedInputStream,
-                resultFile
-            );
-            crc32 = checkedInputStream.getChecksum().getValue();
+            crc32 = copyWithCrc32(from, resultFile);
             if (FileStoreUtil.isImage(mime)) {
                 ThumbUtil.generate(resultFile, new Thumb(), null, thumbGenerator);
             }
@@ -276,6 +256,15 @@ public class FileStoreUtil {
             mime,
             crc32
         );
+    }
+
+    private static long copyWithCrc32(InputStream from, File to) throws IOException {
+        CheckedInputStream checkedInputStream = new CheckedInputStream(from, new CRC32());
+        FileUtils.copyInputStreamToFile(
+            checkedInputStream,
+            to
+        );
+        return checkedInputStream.getChecksum().getValue();
     }
 
     public static FileStorePath getPath(String basePath, FileStoreMode mode, String name, String ext) {
