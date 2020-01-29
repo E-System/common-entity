@@ -15,17 +15,16 @@
  */
 package com.es.lib.entity.util;
 
+import com.es.lib.common.MimeUtil;
+import com.es.lib.common.exception.ESRuntimeException;
 import com.es.lib.entity.iface.file.IFileStore;
-import com.es.lib.entity.model.file.FileParts;
-import com.es.lib.entity.model.file.FileStoreMode;
-import com.es.lib.entity.model.file.FileStorePath;
-import com.es.lib.entity.model.file.TemporaryFileStore;
+import com.es.lib.entity.model.file.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
@@ -35,6 +34,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.CRC32;
+import java.util.zip.CheckedInputStream;
 
 
 /**
@@ -53,8 +54,8 @@ public class FileStoreUtil {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
                 return null;
-            }else {
-                throw new RuntimeException(e);
+            } else {
+                throw new ESRuntimeException(e);
             }
         }
         T result = fileStoreCreator.get();
@@ -86,8 +87,8 @@ public class FileStoreUtil {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
                 return null;
-            }else {
-                throw new RuntimeException(e);
+            } else {
+                throw new ESRuntimeException(e);
             }
         }
         FileStoreImageUtil.processAttributes(result, data);
@@ -105,8 +106,8 @@ public class FileStoreUtil {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
                 return null;
-            }else {
-                throw new RuntimeException(e);
+            } else {
+                throw new ESRuntimeException(e);
             }
         }
 
@@ -136,6 +137,145 @@ public class FileStoreUtil {
         }
 
         return result;
+    }
+
+    public static TemporaryFileStore createTemporary(String basePath, Path from, FileStoreMode mode, Consumer<IOException> exceptionConsumer) {
+        if (from == null || from.toFile().isDirectory() || !from.toFile().exists()) {
+            return null;
+        }
+        String fileName = from.getFileName().toString();
+        FileParts fileParts = FileStoreUtil.extractFileParts(fileName);
+        FileStorePath path = getUniquePath(basePath, mode, fileParts.getExt());
+        File resultFile = new File(path.getFullPath());
+        long crc32;
+        try (InputStream is = Files.newInputStream(from)) {
+            CheckedInputStream checkedInputStream = new CheckedInputStream(is, new CRC32());
+            FileUtils.copyInputStreamToFile(
+                checkedInputStream,
+                resultFile
+            );
+            crc32 = checkedInputStream.getChecksum().getValue();
+        } catch (IOException e) {
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            } else {
+                throw new ESRuntimeException(e);
+            }
+        }
+        return new TemporaryFileStore(
+            resultFile,
+            path.getPath(),
+            fileParts.getFileName(),
+            fileParts.getExt(),
+            FileUtils.sizeOf(from.toFile()),
+            MimeUtil.get(fileName),
+            crc32,
+            mode
+        );
+    }
+
+    public static TemporaryFileStore createTemporary(String basePath, byte[] from, String ext, FileStoreMode mode, Consumer<IOException> exceptionConsumer) {
+        if (from == null) {
+            return null;
+        }
+        FileStorePath path = getUniquePath(basePath, mode, ext);
+        FileParts fileParts = FileStoreUtil.extractFileParts(path.getPath());
+        File resultFile = new File(path.getFullPath());
+        long crc32;
+        try (InputStream is = new ByteArrayInputStream(from)) {
+            CheckedInputStream checkedInputStream = new CheckedInputStream(is, new CRC32());
+            FileUtils.copyInputStreamToFile(
+                checkedInputStream,
+                resultFile
+            );
+            crc32 = checkedInputStream.getChecksum().getValue();
+        } catch (IOException e) {
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            } else {
+                throw new ESRuntimeException(e);
+            }
+        }
+        return new TemporaryFileStore(
+            resultFile,
+            path.getPath(),
+            fileParts.getFileName(),
+            fileParts.getExt(),
+            from.length,
+            MimeUtil.getByExt(ext),
+            crc32,
+            mode
+        );
+    }
+
+    public static TemporaryFileStore createTemporary(String basePath, InputStream from, String ext, int size, FileStoreMode mode, Consumer<IOException> exceptionConsumer) {
+        if (from == null) {
+            return null;
+        }
+        FileStorePath path = getUniquePath(basePath, mode, ext);
+        FileParts fileParts = FileStoreUtil.extractFileParts(path.getPath());
+        File resultFile = new File(path.getFullPath());
+        long crc32;
+        try {
+            CheckedInputStream checkedInputStream = new CheckedInputStream(from, new CRC32());
+            FileUtils.copyInputStreamToFile(
+                checkedInputStream,
+                resultFile
+            );
+            crc32 = checkedInputStream.getChecksum().getValue();
+        } catch (IOException e) {
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            } else {
+                throw new ESRuntimeException(e);
+            }
+        }
+        return new TemporaryFileStore(
+            resultFile,
+            path.getPath(),
+            fileParts.getFileName(),
+            fileParts.getExt(),
+            size,
+            MimeUtil.getByExt(ext),
+            crc32,
+            mode
+        );
+    }
+
+    public static TemporaryFileStore createTemporary(String basePath, InputStream from, FileParts fileParts, int size, String mime, ThumbUtil.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
+        FileStorePath path = getUniquePath(basePath, FileStoreMode.TEMPORARY, fileParts.getExt());
+        File resultFile = new File(path.getFullPath());
+        long crc32;
+        try {
+            CheckedInputStream checkedInputStream = new CheckedInputStream(from, new CRC32());
+            FileUtils.copyInputStreamToFile(
+                checkedInputStream,
+                resultFile
+            );
+            crc32 = checkedInputStream.getChecksum().getValue();
+            if (FileStoreUtil.isImage(mime)) {
+                ThumbUtil.generate(resultFile, new Thumb(), null, thumbGenerator);
+            }
+        } catch (IOException e) {
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            } else {
+                throw new ESRuntimeException(e);
+            }
+        }
+        return new TemporaryFileStore(
+            resultFile,
+            path.getPath(),
+            fileParts.getFileName(),
+            fileParts.getExt(),
+            size,
+            mime,
+            crc32
+        );
     }
 
     public static FileStorePath getPath(String basePath, FileStoreMode mode, String name, String ext) {
