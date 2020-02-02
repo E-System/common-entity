@@ -15,6 +15,7 @@
  */
 package com.es.lib.entity.util;
 
+import com.es.lib.common.FileUtil;
 import com.es.lib.common.MimeUtil;
 import com.es.lib.common.exception.ESRuntimeException;
 import com.es.lib.entity.iface.file.IFileStore;
@@ -34,8 +35,6 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.zip.CRC32;
-import java.util.zip.CheckedInputStream;
 
 
 /**
@@ -149,7 +148,7 @@ public class FileStoreUtil {
         File resultFile = new File(path.getFullPath());
         long crc32;
         try (InputStream is = Files.newInputStream(from)) {
-            crc32 = copyWithCrc32(is, resultFile);
+            crc32 = FileUtil.copyWithCrc32(is, resultFile);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -179,7 +178,7 @@ public class FileStoreUtil {
         File resultFile = new File(path.getFullPath());
         long crc32;
         try (InputStream is = new ByteArrayInputStream(from)) {
-            crc32 = copyWithCrc32(is, resultFile);
+            crc32 = FileUtil.copyWithCrc32(is, resultFile);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -209,7 +208,7 @@ public class FileStoreUtil {
         File resultFile = new File(path.getFullPath());
         long crc32;
         try {
-            crc32 = copyWithCrc32(from, resultFile);
+            crc32 = FileUtil.copyWithCrc32(from, resultFile);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -235,7 +234,7 @@ public class FileStoreUtil {
         File resultFile = new File(path.getFullPath());
         long crc32;
         try {
-            crc32 = copyWithCrc32(from, resultFile);
+            crc32 = FileUtil.copyWithCrc32(from, resultFile);
             if (FileStoreUtil.isImage(mime)) {
                 ThumbUtil.generate(resultFile, new Thumb(), null, thumbGenerator);
             }
@@ -256,15 +255,6 @@ public class FileStoreUtil {
             mime,
             crc32
         );
-    }
-
-    private static long copyWithCrc32(InputStream from, File to) throws IOException {
-        CheckedInputStream checkedInputStream = new CheckedInputStream(from, new CRC32());
-        FileUtils.copyInputStreamToFile(
-            checkedInputStream,
-            to
-        );
-        return checkedInputStream.getChecksum().getValue();
     }
 
     public static FileStorePath getPath(String basePath, FileStoreMode mode, String name, String ext) {

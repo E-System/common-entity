@@ -18,11 +18,10 @@ package com.es.lib.entity.util;
 import com.es.lib.entity.iface.file.IFileStore;
 import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
 import com.es.lib.entity.model.file.Thumb;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,9 +31,8 @@ import java.util.Map;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 17.03.2018
  */
+@Slf4j
 public final class ThumbUtil {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ThumbUtil.class);
 
     public interface Generator {
 
@@ -77,7 +75,7 @@ public final class ThumbUtil {
             }
             return target;
         } catch (IOException e) {
-            LOG.warn("Thumb save error for " + source + ": " + e.getMessage());
+            log.warn("Thumb save error for " + source + ": " + e.getMessage());
             return source;
         }
     }
