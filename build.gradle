@@ -148,7 +148,6 @@ dependencies {
     compile "org.hibernate:hibernate-core:5.1.12.Final"
 
     compileOnly "org.postgresql:postgresql:42.2.9"
-    compileOnly "org.slf4j:slf4j-api:1.7.29"
     compileOnly "org.projectlombok:lombok:1.18.10"
     annotationProcessor "org.projectlombok:lombok:1.18.10"
 
