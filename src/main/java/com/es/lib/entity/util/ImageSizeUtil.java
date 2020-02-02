@@ -18,8 +18,7 @@ package com.es.lib.entity.util;
 
 
 import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -40,9 +39,8 @@ import java.util.Map;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 17.03.18
  */
+@Slf4j
 public final class ImageSizeUtil {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ImageSizeUtil.class);
 
     private ImageSizeUtil() {}
 
@@ -50,7 +48,7 @@ public final class ImageSizeUtil {
         try (InputStream stream = Files.newInputStream(source)) {
             return get(stream);
         } catch (IOException e) {
-            LOG.info(e.getMessage(), e);
+            log.info(e.getMessage(), e);
         }
         return Collections.emptyMap();
     }
@@ -59,7 +57,7 @@ public final class ImageSizeUtil {
         try (InputStream stream = new ByteArrayInputStream(data)) {
             return get(stream);
         } catch (IOException e) {
-            LOG.info(e.getMessage(), e);
+            log.info(e.getMessage(), e);
         }
         return Collections.emptyMap();
     }
