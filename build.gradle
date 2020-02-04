@@ -155,7 +155,8 @@ dependencies {
     testCompile "cglib:cglib:3.2.12"
     testCompile "org.objenesis:objenesis:3.0.1"
 
-    testCompile 'ru.yandex.qatools.embed:postgresql-embedded:2.10'
+    testCompile "org.testcontainers:spock:1.12.5"
+    testCompile "org.testcontainers:postgresql:1.12.5"
     testCompile "org.postgresql:postgresql:42.2.9"
     testCompileOnly "org.projectlombok:lombok:1.18.10"
     testAnnotationProcessor "org.projectlombok:lombok:1.18.10"
