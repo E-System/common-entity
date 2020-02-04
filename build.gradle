@@ -175,4 +175,5 @@ if (sonarAvailable) {
 }
 test {
     finalizedBy jacocoTestReport
+    systemProperty 'TESTCONTAINERS_RYUK_DISABLED', 'true'
 }
