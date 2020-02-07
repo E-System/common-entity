@@ -38,8 +38,13 @@ public abstract class OutputData {
         return false;
     }
 
+    @Deprecated
     public static OutputData create(String fileName, File file) {
         return new OutputFileData(fileName, file);
+    }
+    
+    public static OutputData create(String fileName, String relativePath, File file) {
+        return new OutputFileData(fileName, relativePath, file);
     }
 
     public static OutputData create(String fileName, String contentType, InputStream stream) {

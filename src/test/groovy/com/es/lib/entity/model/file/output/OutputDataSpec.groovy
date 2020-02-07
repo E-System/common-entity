@@ -12,6 +12,8 @@ class OutputDataSpec extends Specification {
     @Shared
     def fileName = 'fileName'
     @Shared
+    def relativePath = 'relativePath'
+    @Shared
     def contentType = 'contentType'
 
     def "Create with file"() {
@@ -23,6 +25,18 @@ class OutputDataSpec extends Specification {
         !data.bytes
         data.fileName == fileName
         ((OutputFileData) data).file.name == fileName
+    }
+
+    def "Create with file and relative path"() {
+        when:
+        def data = OutputData.create(fileName, relativePath, new File(fileName))
+        then:
+        data instanceof OutputFileData
+        !data.stream
+        !data.bytes
+        data.fileName == fileName
+        ((OutputFileData) data).file.name == fileName
+        ((OutputFileData) data).relativePath == relativePath
     }
 
     def "Create with stream"() {

@@ -15,18 +15,25 @@
  */
 package com.es.lib.entity.model.file.output;
 
+import lombok.Getter;
+
 import java.io.File;
 
+@Getter
 public class OutputFileData extends OutputData {
 
+    private String relativePath;
     private File file;
 
+    @Deprecated
     public OutputFileData(String fileName, File file) {
         super(fileName);
         this.file = file;
     }
 
-    public File getFile() {
-        return file;
+    public OutputFileData(String fileName, String relativePath, File file) {
+        super(fileName);
+        this.relativePath = relativePath;
+        this.file = file;
     }
 }
