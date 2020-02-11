@@ -285,6 +285,10 @@ public class FileStoreUtil {
         return File.separator + part;
     }
 
+    public static void copyContent(Path path, OutputStream outputStream) throws IOException {
+        copyContent(path.toFile(), outputStream);
+    }
+
     public static void copyContent(File path, OutputStream outputStream) throws IOException {
         if (path.exists() && path.canRead()) {
             FileUtils.copyFile(path, outputStream);
