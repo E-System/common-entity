@@ -19,12 +19,13 @@ import com.es.lib.entity.iface.file.IFileStore;
 import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
 import com.es.lib.entity.model.file.Thumb;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 /**
@@ -36,7 +37,7 @@ public final class ThumbUtil {
 
     public interface Generator {
 
-        void process(File source, String extension, File target, Thumb thumb) throws IOException;
+        void process(Path source, String extension, Path target, Thumb thumb) throws IOException;
     }
 
     private ThumbUtil() {}
@@ -48,27 +49,27 @@ public final class ThumbUtil {
      * @param thumb     Thumbnail parameters
      * @param fileStore FileStore reference
      * @param generator Thumb generate implementation
-     * @return File object with generated file
+     * @return Generated file path
      */
-    public static File generate(File source, Thumb thumb, IFileStore fileStore, Generator generator) {
+    public static Path generate(Path source, Thumb thumb, IFileStore fileStore, Generator generator) {
         if (thumb == null) {
             return source;
         }
 
-        File target = getTarget(source, thumb);
+        Path target = getTarget(source, thumb);
 
-        if (target.exists() && target.canRead()) {
+        if (Files.exists(target) && Files.isReadable(target)) {
             return target;
         }
 
         return generate(source, target, thumb, fileStore, generator);
     }
 
-    private static File generate(File source, File target, Thumb thumb, IFileStore fileStore, Generator generator) {
+    private static Path generate(Path source, Path target, Thumb thumb, IFileStore fileStore, Generator generator) {
         try {
             Thumb originalThumb = create(source, fileStore);
             if (originalThumb != null && thumb.getWidth() > originalThumb.getWidth() && thumb.getHeight() > originalThumb.getHeight()) {
-                FileUtils.copyFile(source, target);
+                Files.copy(source, target);
             } else {
                 String extension = getExtension(source);
                 generator.process(source, extension, target, thumb);
@@ -80,13 +81,13 @@ public final class ThumbUtil {
         }
     }
 
-    private static Thumb create(File source, IFileStore fileStore) {
+    private static Thumb create(Path source, IFileStore fileStore) {
         Thumb result = null;
         if (fileStore != null) {
             result = create(fileStore.getAttributes());
         }
         if (result == null) {
-            result = create(ImageSizeUtil.get(source.toPath()));
+            result = create(ImageSizeUtil.get(source));
         }
         return result;
     }
@@ -107,16 +108,16 @@ public final class ThumbUtil {
         return result;
     }
 
-    private static String getExtension(File source) {
-        final String ext = FilenameUtils.getExtension(source.getAbsolutePath()).toLowerCase();
+    private static String getExtension(Path source) {
+        final String ext = FilenameUtils.getExtension(source.toString()).toLowerCase();
         return StringUtils.isNotBlank(ext) ? ext : "png";
     }
 
-    private static File getTarget(File source, Thumb thumb) {
+    private static Path getTarget(Path source, Thumb thumb) {
         String postfix = ".thumb";
         if (!thumb.isDefaultSize()) {
             postfix = ".thumb_" + thumb.getWidth() + "_" + thumb.getHeight();
         }
-        return new File(FilenameUtils.removeExtension(source.getAbsolutePath()) + postfix + "." + getExtension(source));
+        return Paths.get(FilenameUtils.removeExtension(source.toAbsolutePath().toString()) + postfix + "." + getExtension(source));
     }
 }

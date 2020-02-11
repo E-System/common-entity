@@ -19,7 +19,7 @@ import com.es.lib.entity.util.FileStoreUtil;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Base64;
 
 /**
@@ -32,7 +32,7 @@ import java.util.Base64;
 @ToString
 public class TemporaryFileStore {
 
-    private File file;
+    private Path file;
 
     private String path;
     private String baseName;
@@ -45,11 +45,11 @@ public class TemporaryFileStore {
 
     private String base64Path;
 
-    public TemporaryFileStore(File file, String path, String baseName, String ext, long size, String mime, long crc32) {
+    public TemporaryFileStore(Path file, String path, String baseName, String ext, long size, String mime, long crc32) {
         this(file, path, baseName, ext, size, mime, crc32, FileStoreMode.TEMPORARY);
     }
 
-    public TemporaryFileStore(File file, String path, String baseName, String ext, long size, String mime, long crc32, FileStoreMode mode) {
+    public TemporaryFileStore(Path file, String path, String baseName, String ext, long size, String mime, long crc32, FileStoreMode mode) {
         this.file = file;
         this.path = path;
         this.baseName = baseName;
