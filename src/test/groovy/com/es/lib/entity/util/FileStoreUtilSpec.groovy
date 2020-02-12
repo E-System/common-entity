@@ -15,7 +15,12 @@
  */
 package com.es.lib.entity.util
 
+import com.es.lib.entity.model.file.FileStoreMode
 import spock.lang.Specification
+
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.function.Supplier
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -71,4 +76,97 @@ class FileStoreUtilSpec extends Specification {
         result.ext == ''
     }
 
+    def "Create file in file store"() {
+        when:
+        def basePath = '/tmp'
+        def crc32 = 1231231
+        def data = '1231231'
+        def fileName = 'fileName'
+        def fileExt = 'txt'
+        def mime = 'text/plain'
+        def result = FileStoreUtil.toStore(basePath, crc32, data.length(), fileName, fileExt, mime, data.bytes, new Supplier<FileStore>() {
+            @Override
+            FileStore get() {
+                return new FileStore()
+            }
+        }, null)
+        def path = Paths.get(basePath, result.filePath)
+        then:
+        result != null
+        result.fileName == fileName
+        result.fileExt == fileExt
+        result.mime == mime
+        result.size == data.length()
+        result.crc32 == crc32
+        result.filePath.endsWith(fileExt)
+        Files.exists(path)
+        Files.isReadable(path)
+        new String(Files.readAllBytes(path)) == data
+    }
+
+   /* def "Create temporary file with name"() {
+        when:
+        def basePath = '/tmp'
+        def crc32 = 1231231
+        def data = '1231231'
+        def fileExt = 'txt'
+        def mime = 'raw/text'
+        def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
+        def path = Paths.get(basePath, result.path)
+        then:
+        result != null
+        result.ext == fileExt
+        result.mime == mime
+        result.size == data.length()
+        result.crc32 == crc32
+        Files.exists(path)
+        Files.isReadable(path)
+        new String(Files.readAllBytes(path)) == data
+    }*/
+
+    def "Create temporary file"() {
+        when:
+        def basePath = '/tmp'
+        def crc32 = 4136033880
+        def data = '1231231'
+        def fileExt = 'txt'
+        def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
+        def path = Paths.get(basePath, result.path)
+        then:
+        result != null
+        result.ext == fileExt
+        result.mime == 'text/plain'
+        result.size == data.length()
+        result.crc32 == crc32
+        Files.exists(path)
+        Files.isReadable(path)
+        new String(Files.readAllBytes(path)) == data
+    }
+
+    def "Create file in file store from temporary"() {
+        when:
+        def basePath = '/tmp'
+        def crc32 = 4136033880
+        def data = '1231231'
+        def fileExt = 'txt'
+        def temporary = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
+        def result = FileStoreUtil.toStore(basePath, temporary, new Supplier<FileStore>() {
+            @Override
+            FileStore get() {
+                return new FileStore()
+            }
+        }, null)
+        def temporaryPath = Paths.get(basePath, temporary.path)
+        def path = Paths.get(basePath, result.filePath)
+        then:
+        result != null
+        result.fileExt == fileExt
+        result.mime == 'text/plain'
+        result.size == data.length()
+        result.crc32 == crc32
+        result.filePath.endsWith(fileExt)
+        Files.exists(path)
+        Files.isReadable(path)
+        new String(Files.readAllBytes(path)) == data
+    }
 }

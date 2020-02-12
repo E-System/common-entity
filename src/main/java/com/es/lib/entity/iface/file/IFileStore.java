@@ -63,7 +63,7 @@ public interface IFileStore extends IAttributeOwner, IPrimaryKey<Long> {
         if ((nameSize + extSize + 1) < maxWidth) {
             return getFullName();
         }
-        return StringUtils.abbreviateMiddle(getFileName(),"..", maxWidth - extSize - 1) + "." + getFileExt();
+        return StringUtils.abbreviateMiddle(getFileName(), "..", maxWidth - extSize - 1) + "." + getFileExt();
     }
 
     default boolean isPublicVisible() {
