@@ -82,9 +82,11 @@ public class FileStoreUtil {
         result.setSize(size);
         result.setMime(mime);
         try {
+            Path target = Paths.get(storePath.getFullPath());
+            Files.createDirectories(target.getParent());
             Files.copy(
                 new ByteArrayInputStream(data),
-                Paths.get(storePath.getFullPath())
+                target
             );
         } catch (IOException e) {
             if (exceptionConsumer != null) {
@@ -101,9 +103,11 @@ public class FileStoreUtil {
     public static <T extends IFileStore> T copyInStore(String basePath, T fileStore, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, fileStore.getFileExt());
         try {
+            Path target = Paths.get(storePath.getFullPath());
+            Files.createDirectories(target.getParent());
             Files.copy(
                 Paths.get(basePath, fileStore.getFilePath()),
-                Paths.get(storePath.getFullPath())
+                target
             );
         } catch (IOException e) {
             if (exceptionConsumer != null) {
@@ -134,7 +138,9 @@ public class FileStoreUtil {
     public static FileStorePath moveTo(TemporaryFileStore temporaryFile, String basePath, FileStoreMode mode, boolean deleteOriginal) throws IOException {
         FileStorePath result = getUniquePath(basePath, mode, temporaryFile.getExt());
         Path source = Paths.get(basePath, temporaryFile.getPath());
-        Files.copy(source, Paths.get(result.getFullPath()));
+        Path target = Paths.get(result.getFullPath());
+        Files.createDirectories(target.getParent());
+        Files.copy(source, target);
         if (deleteOriginal) {
             Files.deleteIfExists(source);
         }
