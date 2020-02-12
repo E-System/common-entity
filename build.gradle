@@ -147,6 +147,7 @@ dependencies {
     compile "org.hibernate:hibernate-core:5.3.9.Final"
 
     compileOnly "org.postgresql:postgresql:42.2.9"
+
     compileOnly "org.projectlombok:lombok:1.18.10"
     annotationProcessor "org.projectlombok:lombok:1.18.10"
 
@@ -157,8 +158,6 @@ dependencies {
     testCompile "org.testcontainers:spock:1.12.5"
     testCompile "org.testcontainers:postgresql:1.12.5"
     testCompile "org.postgresql:postgresql:42.2.9"
-    testCompileOnly "org.projectlombok:lombok:1.18.10"
-    testAnnotationProcessor "org.projectlombok:lombok:1.18.10"
 }
 
 def sonarAvailable = properties['sonar_url'] != null && properties['sonar_user'] != null && properties['sonar_password'] != null
