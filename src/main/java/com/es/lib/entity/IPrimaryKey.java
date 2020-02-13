@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public interface IPrimaryKey<PK extends Number> extends Serializable {
+public interface IPrimaryKey<PK extends Serializable> extends Serializable {
 
     /**
      * Default alias for HQL entity
@@ -58,7 +58,7 @@ public interface IPrimaryKey<PK extends Number> extends Serializable {
         if (!_class.isInstance(object)) {
             return false;
         }
-        IPrimaryKey other = (IPrimaryKey) object;
+        IPrimaryKey<PK> other = (IPrimaryKey<PK>) object;
         return !((getId() == null && other.getId() != null) || (getId() != null && !getId().equals(other.getId())));
     }
 
@@ -81,7 +81,7 @@ public interface IPrimaryKey<PK extends Number> extends Serializable {
      * @param <PK>   Primary key type
      * @return Entity ID or null
      */
-    static <PK extends Number> PK getNullOrId(IPrimaryKey<PK> entity) {
+    static <PK extends Serializable> PK getNullOrId(IPrimaryKey<PK> entity) {
         return entity != null ? entity.getId() : null;
     }
 
@@ -92,7 +92,7 @@ public interface IPrimaryKey<PK extends Number> extends Serializable {
      * @param <T>      Entity type
      * @return True if instance != null and id != null
      */
-    static <T extends IPrimaryKey> boolean isManaged(final T instance) {
+    static <PK extends Serializable, T extends IPrimaryKey<PK>> boolean isManaged(final T instance) {
         return getNullOrId(instance) != null;
     }
 
@@ -103,7 +103,7 @@ public interface IPrimaryKey<PK extends Number> extends Serializable {
      * @param <PK> Primary key type
      * @return Entity ID collection
      */
-    static <PK extends Number> Collection<PK> getIds(Collection<? extends IPrimaryKey<PK>> list) {
+    static <PK extends Serializable> Collection<PK> getIds(Collection<? extends IPrimaryKey<PK>> list) {
         return list.stream().map(IPrimaryKey::getId).collect(Collectors.toList());
     }
 }

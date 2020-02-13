@@ -19,6 +19,7 @@ package com.es.lib.entity.iface.periodic;
 
 import com.es.lib.entity.IPrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -27,7 +28,7 @@ import java.util.Date;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public interface IPropEntity<PK extends Number, O extends IPrimaryKey, VS extends IPrimaryKey> extends IPrimaryKey<PK> {
+public interface IPropEntity<PK extends Serializable, O extends IPrimaryKey<? extends Serializable>, VS extends IPrimaryKey<? extends Serializable>> extends IPrimaryKey<PK> {
 
     Date getDbegin();
 

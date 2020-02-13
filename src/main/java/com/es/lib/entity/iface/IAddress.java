@@ -18,6 +18,7 @@ package com.es.lib.entity.iface;
 
 import com.es.lib.entity.IPrimaryKey;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ import java.util.Map;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 25.09.15
  */
-public interface IAddress<PK extends Number> extends IPrimaryKey<PK> {
+public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
 
     /**
      * Безопасно получить часть адреса по имени
@@ -37,7 +38,7 @@ public interface IAddress<PK extends Number> extends IPrimaryKey<PK> {
      * @param name    имя части адреса
      * @return часть адреса
      */
-    static <PK extends Number> String safeGetPart(IAddress<PK> address, String name) {
+    static <PK extends Serializable> String safeGetPart(IAddress<PK> address, String name) {
         if (isNull(address)) {
             return null;
         }
@@ -51,7 +52,7 @@ public interface IAddress<PK extends Number> extends IPrimaryKey<PK> {
      * @param address объект адреса
      * @return true - если address == null || address.parts == null
      */
-    static <PK extends Number> boolean isNull(IAddress<PK> address) {
+    static <PK extends Serializable> boolean isNull(IAddress<PK> address) {
         return address == null || address.getParts() == null;
     }
 
@@ -62,7 +63,7 @@ public interface IAddress<PK extends Number> extends IPrimaryKey<PK> {
      * @param address объект адреса
      * @return true - если address == null || address.parts == null || address.parts is empty
      */
-    static <PK extends Number> boolean isEmpty(IAddress<PK> address) {
+    static <PK extends Serializable> boolean isEmpty(IAddress<PK> address) {
         return isNull(address) || address.getParts() == null || address.getParts().isEmpty();
     }
 
@@ -90,7 +91,7 @@ public interface IAddress<PK extends Number> extends IPrimaryKey<PK> {
      * @param <PK>    address unique identifier type
      * @return parts of address or empty parts
      */
-    static <PK extends Number> Map<String, String> safeGetParts(IAddress<PK> address) {
+    static <PK extends Serializable> Map<String, String> safeGetParts(IAddress<PK> address) {
         if (isNull(address)) {
             return new HashMap<>();
         }

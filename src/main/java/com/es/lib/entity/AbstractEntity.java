@@ -4,13 +4,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 12.04.2018
  */
 @MappedSuperclass
-public class AbstractEntity<PK extends Number> implements IPrimaryKey<PK> {
+public class AbstractEntity<PK extends Serializable> implements IPrimaryKey<PK> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -19,13 +19,15 @@ package com.es.lib.entity.iface.periodic;
 
 import com.es.lib.entity.IPrimaryKey;
 
+import java.io.Serializable;
+
 /**
  * Интерфейс множественного параметра периодического атрибута сущности
  *
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public interface IPropVarEntity<PK extends Number, VS extends IPrimaryKey> extends IPrimaryKey<PK> {
+public interface IPropVarEntity<PK extends Serializable, VS extends IPrimaryKey<? extends Serializable>> extends IPrimaryKey<PK> {
 
     VS getVarSet();
 
