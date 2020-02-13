@@ -45,18 +45,22 @@ class FileStoreUtilSpec extends Specification {
         !FileStoreUtil.isImage("octet/stream")
     }
 
-    def "GetPathPart"() {
-        expect:
-        FileStoreUtil.getPathPart("text") == File.separator + "text"
-    }
-
     def "GetLocalPath"() {
         when:
         def path = FileStoreUtil.getLocalPath("prefix", "name", "ext")
         then:
-        path.startsWith(FileStoreUtil.getPathPart("prefix"))
+        path.startsWith("/prefix")
         path.endsWith("name.ext")
-        Paths.get(path).absolute
+        path.absolute
+    }
+
+    def "GetLocalPath with null prefix"() {
+        when:
+        def path = FileStoreUtil.getLocalPath(null, "name", "ext")
+        then:
+        !path.startsWith("/prefix")
+        path.endsWith("name.ext")
+        path.absolute
     }
 
     def "ExtractFileParts"() {
@@ -79,7 +83,7 @@ class FileStoreUtilSpec extends Specification {
 
     def "Create file in file store"() {
         when:
-        def basePath = '/tmp'
+        def basePath = Paths.get('/tmp')
         def crc32 = 1231231
         def data = '1231231'
         def fileName = 'fileName'
@@ -91,7 +95,7 @@ class FileStoreUtilSpec extends Specification {
                 return new FileStore()
             }
         }, null)
-        def path = Paths.get(basePath, result.filePath)
+        def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
         result.fileName == fileName
@@ -105,34 +109,34 @@ class FileStoreUtilSpec extends Specification {
         new String(Files.readAllBytes(path)) == data
     }
 
-   /* def "Create temporary file with name"() {
-        when:
-        def basePath = '/tmp'
-        def crc32 = 1231231
-        def data = '1231231'
-        def fileExt = 'txt'
-        def mime = 'raw/text'
-        def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
-        def path = Paths.get(basePath, result.path)
-        then:
-        result != null
-        result.ext == fileExt
-        result.mime == mime
-        result.size == data.length()
-        result.crc32 == crc32
-        Files.exists(path)
-        Files.isReadable(path)
-        new String(Files.readAllBytes(path)) == data
-    }*/
+    /* def "Create temporary file with name"() {
+         when:
+         def basePath = '/tmp'
+         def crc32 = 1231231
+         def data = '1231231'
+         def fileExt = 'txt'
+         def mime = 'raw/text'
+         def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
+         def path = Paths.get(basePath, result.path)
+         then:
+         result != null
+         result.ext == fileExt
+         result.mime == mime
+         result.size == data.length()
+         result.crc32 == crc32
+         Files.exists(path)
+         Files.isReadable(path)
+         new String(Files.readAllBytes(path)) == data
+     }*/
 
     def "Create temporary file"() {
         when:
-        def basePath = '/tmp'
+        def basePath = Paths.get('/tmp')
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
         def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
-        def path = Paths.get(basePath, result.filePath)
+        def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
         result.fileExt == fileExt
@@ -146,7 +150,7 @@ class FileStoreUtilSpec extends Specification {
 
     def "Create file in file store from temporary"() {
         when:
-        def basePath = '/tmp'
+        def basePath = Paths.get('/tmp')
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
@@ -157,8 +161,8 @@ class FileStoreUtilSpec extends Specification {
                 return new FileStore()
             }
         }, null)
-        def temporaryPath = Paths.get(basePath, temporary.filePath)
-        def path = Paths.get(basePath, result.filePath)
+        def temporaryPath = Paths.get(basePath.toString(), temporary.filePath)
+        def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
         result.fileExt == fileExt
