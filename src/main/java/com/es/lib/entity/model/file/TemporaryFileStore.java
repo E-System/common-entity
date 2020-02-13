@@ -15,10 +15,12 @@
  */
 package com.es.lib.entity.model.file;
 
+import com.es.lib.entity.iface.file.IStore;
 import com.es.lib.entity.util.FileStoreUtil;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Base64;
 
@@ -30,13 +32,13 @@ import java.util.Base64;
  */
 @Getter
 @ToString
-public class TemporaryFileStore {
+public class TemporaryFileStore implements IStore {
 
     private Path file;
 
-    private String path;
-    private String baseName;
-    private String ext;
+    private String filePath;
+    private String fileName;
+    private String fileExt;
 
     private long size;
     private String mime;
@@ -45,24 +47,24 @@ public class TemporaryFileStore {
 
     private String base64Path;
 
-    public TemporaryFileStore(Path file, String path, String baseName, String ext, long size, String mime, long crc32) {
-        this(file, path, baseName, ext, size, mime, crc32, FileStoreMode.TEMPORARY);
+    public TemporaryFileStore(Path file, String filePath, String fileName, String fileExt, long size, String mime, long crc32) {
+        this(file, filePath, fileName, fileExt, size, mime, crc32, FileStoreMode.TEMPORARY);
     }
 
-    public TemporaryFileStore(Path file, String path, String baseName, String ext, long size, String mime, long crc32, FileStoreMode mode) {
+    public TemporaryFileStore(Path file, String filePath, String fileName, String fileExt, long size, String mime, long crc32, FileStoreMode mode) {
         this.file = file;
-        this.path = path;
-        this.baseName = baseName;
-        this.ext = ext;
+        this.filePath = filePath;
+        this.fileName = fileName;
+        this.fileExt = fileExt;
         this.size = size;
         this.mime = mime;
         this.crc32 = crc32;
         this.mode = mode;
-        this.base64Path = Base64.getUrlEncoder().encodeToString(path.getBytes());
+        this.base64Path = Base64.getUrlEncoder().encodeToString(filePath.getBytes());
     }
 
     public String getModeRelativePath() {
-        String result = getPath();
+        String result = getFilePath();
         if (mode == null || mode.equals(FileStoreMode.PERSISTENT)) {
             return result;
         }
@@ -73,7 +75,7 @@ public class TemporaryFileStore {
     }
 
     public String getFullName() {
-        return getBaseName() + "." + getExt();
+        return getFileName() + "." + getFileExt();
     }
 
     public boolean isImage() {

@@ -16,6 +16,9 @@
 
 package com.es.lib.entity.model.file;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * File store path data
  *
@@ -24,24 +27,24 @@ package com.es.lib.entity.model.file;
  */
 public class FileStorePath {
 
-    private String basePath;
-    private String path;
+    private Path basePath;
+    private Path path;
 
-    public FileStorePath(String basePath, String path) {
+    public FileStorePath(Path basePath, Path path) {
         this.basePath = basePath;
         this.path = path;
     }
 
-    public String getBasePath() {
+    public Path getBasePath() {
         return basePath;
     }
 
-    public String getPath() {
+    public Path getPath() {
         return path;
     }
 
-    public String getFullPath() {
-        return basePath + path;
+    public Path getFullPath() {
+        return Paths.get(basePath.toString(), path.toString());
     }
 
     @Override

@@ -19,13 +19,12 @@ package com.es.lib.entity.iface.file;
 import com.es.lib.entity.IAttributeOwner;
 import com.es.lib.entity.IPrimaryKey;
 import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 01.02.16
  */
-public interface IFileStore extends IAttributeOwner, IPrimaryKey<Long> {
+public interface IFileStore extends IStore, IAttributeOwner, IPrimaryKey<Long> {
 
     String getFilePath();
 
@@ -56,15 +55,6 @@ public interface IFileStore extends IAttributeOwner, IPrimaryKey<Long> {
     boolean isDeleted();
 
     void setDeleted(boolean deleted);
-
-    default String getAbbreviatedFileName(int maxWidth) {
-        int extSize = getFileExt().length();
-        int nameSize = getFileName().length();
-        if ((nameSize + extSize + 1) < maxWidth) {
-            return getFullName();
-        }
-        return StringUtils.abbreviateMiddle(getFileName(), "..", maxWidth - extSize - 1) + "." + getFileExt();
-    }
 
     default boolean isPublicVisible() {
         return getOwner() == null;

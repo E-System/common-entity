@@ -56,6 +56,7 @@ class FileStoreUtilSpec extends Specification {
         then:
         path.startsWith(FileStoreUtil.getPathPart("prefix"))
         path.endsWith("name.ext")
+        Paths.get(path).absolute
     }
 
     def "ExtractFileParts"() {
@@ -131,10 +132,10 @@ class FileStoreUtilSpec extends Specification {
         def data = '1231231'
         def fileExt = 'txt'
         def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
-        def path = Paths.get(basePath, result.path)
+        def path = Paths.get(basePath, result.filePath)
         then:
         result != null
-        result.ext == fileExt
+        result.fileExt == fileExt
         result.mime == 'text/plain'
         result.size == data.length()
         result.crc32 == crc32
@@ -156,7 +157,7 @@ class FileStoreUtilSpec extends Specification {
                 return new FileStore()
             }
         }, null)
-        def temporaryPath = Paths.get(basePath, temporary.path)
+        def temporaryPath = Paths.get(basePath, temporary.filePath)
         def path = Paths.get(basePath, result.filePath)
         then:
         result != null
@@ -168,5 +169,6 @@ class FileStoreUtilSpec extends Specification {
         Files.exists(path)
         Files.isReadable(path)
         new String(Files.readAllBytes(path)) == data
+        !Files.exists(temporaryPath)
     }
 }
