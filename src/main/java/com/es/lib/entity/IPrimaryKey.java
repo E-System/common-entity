@@ -78,10 +78,10 @@ public interface IPrimaryKey<PK extends Serializable> extends Serializable {
      * Get entity ID or null
      *
      * @param entity Entity
-     * @param <PK>   Primary key type
+     * @param <T>    Primary key type
      * @return Entity ID or null
      */
-    static <PK extends Serializable> PK getNullOrId(IPrimaryKey<PK> entity) {
+    static <T extends Serializable> T getNullOrId(IPrimaryKey<T> entity) {
         return entity != null ? entity.getId() : null;
     }
 
@@ -92,7 +92,7 @@ public interface IPrimaryKey<PK extends Serializable> extends Serializable {
      * @param <T>      Entity type
      * @return True if instance != null and id != null
      */
-    static <PK extends Serializable, T extends IPrimaryKey<PK>> boolean isManaged(final T instance) {
+    static <R extends Serializable, T extends IPrimaryKey<R>> boolean isManaged(final T instance) {
         return getNullOrId(instance) != null;
     }
 
@@ -100,10 +100,10 @@ public interface IPrimaryKey<PK extends Serializable> extends Serializable {
      * Get entity ID collection from entity collection
      *
      * @param list Entity collection
-     * @param <PK> Primary key type
+     * @param <T>  Primary key type
      * @return Entity ID collection
      */
-    static <PK extends Serializable> Collection<PK> getIds(Collection<? extends IPrimaryKey<PK>> list) {
+    static <T extends Serializable> Collection<T> getIds(Collection<? extends IPrimaryKey<T>> list) {
         return list.stream().map(IPrimaryKey::getId).collect(Collectors.toList());
     }
 }
