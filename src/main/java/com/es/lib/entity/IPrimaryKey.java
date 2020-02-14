@@ -13,13 +13,10 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -73,38 +70,5 @@ public interface IPrimaryKey<PK extends Serializable> extends Serializable {
 
     default String _toString() {
         return _toString(getClass());
-    }
-
-    /**
-     * Get entity ID or null
-     *
-     * @param instance Entity
-     * @param <T>      Primary key type
-     * @return Entity ID or null
-     */
-    static <R extends Serializable, T extends IPrimaryKey<? extends R>> R getNullOrId(final T instance) {
-        return instance != null ? instance.getId() : null;
-    }
-
-    /**
-     * Check entity ID exist
-     *
-     * @param instance Entity
-     * @param <R>      Entity type
-     * @return True if instance != null and id != null
-     */
-    static <R extends Serializable, T extends IPrimaryKey<? extends R>> boolean isManaged(final T instance) {
-        return getNullOrId(instance) != null;
-    }
-
-    /**
-     * Get entity ID collection from entity collection
-     *
-     * @param list Entity collection
-     * @param <T>  Primary key type
-     * @return Entity ID collection
-     */
-    static <R extends Serializable, T extends IPrimaryKey<? extends R>> Collection<R> getIds(Collection<T> list) {
-        return list.stream().map(IPrimaryKey::getId).collect(Collectors.toList());
     }
 }
