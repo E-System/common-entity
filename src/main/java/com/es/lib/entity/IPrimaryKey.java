@@ -59,7 +59,8 @@ public interface IPrimaryKey<PK extends Serializable> extends Serializable {
             return false;
         }
         IPrimaryKey<PK> other = (IPrimaryKey<PK>) object;
-        return !((getId() == null && other.getId() != null) || (getId() != null && !getId().equals(other.getId())));
+        return Objects.equals(getId(), other.getId());
+
     }
 
     default boolean _equals(Object object) {

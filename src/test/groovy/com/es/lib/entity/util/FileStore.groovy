@@ -3,6 +3,7 @@ package com.es.lib.entity.util
 import com.es.lib.entity.iface.file.IFileStore
 
 class FileStore implements IFileStore {
+
     Long id
     String filePath
     String fileName

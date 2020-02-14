@@ -16,4 +16,11 @@ class IPrimaryKeySpec extends Specification {
         expect:
         IPrimaryKey.getNullOrId(new Pk1(1)) == 1
     }
+
+
+    def "Is managed"() {
+        expect:
+        IPrimaryKey.isManaged(new Pk1(1))
+        !IPrimaryKey.isManaged(new Pk1(null))
+    }
 }

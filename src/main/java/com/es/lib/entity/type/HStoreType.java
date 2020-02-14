@@ -19,6 +19,7 @@ package com.es.lib.entity.type;
 import com.es.lib.entity.type.iface.IHStoreType;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
+import org.postgresql.util.HStoreConverter;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -87,6 +88,13 @@ public class HStoreType implements UserType, IHStoreType {
     @Override
     public int[] sqlTypes() {
         return new int[]{Types.OTHER};
+    }
+
+    public static String toString(Map<?, ?> map) {
+        if (map == null || map.isEmpty()) {
+            return "";
+        }
+        return HStoreConverter.toString(map);
     }
 
 }
