@@ -37,7 +37,7 @@ public final class EntityUtil {
      * @param <T>      Entity type
      * @return Entity ID or null
      */
-    static <R extends Serializable, T extends IPrimaryKey<? extends R>> R id(final T instance) {
+    public static <R extends Serializable, T extends IPrimaryKey<? extends R>> R id(final T instance) {
         return instance != null ? instance.getId() : null;
     }
 
@@ -49,7 +49,7 @@ public final class EntityUtil {
      * @param <T>      Entity type
      * @return True if instance != null and id != null
      */
-    static <R extends Serializable, T extends IPrimaryKey<? extends R>> boolean idExist(final T instance) {
+    public static <R extends Serializable, T extends IPrimaryKey<? extends R>> boolean idExist(final T instance) {
         return id(instance) != null;
     }
 
@@ -61,7 +61,7 @@ public final class EntityUtil {
      * @param <T>  Entity type
      * @return Entity ID collection
      */
-    static <R extends Serializable, T extends IPrimaryKey<? extends R>> Collection<R> id(Collection<T> list) {
+    public static <R extends Serializable, T extends IPrimaryKey<? extends R>> Collection<R> id(Collection<T> list) {
         return list.stream().map(IPrimaryKey::getId).collect(Collectors.toList());
     }
 }
