@@ -6,12 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.text.ParseException;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
+import java.util.function.Function;
 
 public interface IAttributeOwner {
 
@@ -26,6 +25,31 @@ public interface IAttributeOwner {
         }
         return attributes.get(code);
     }
+
+    default Short getShortAttribute(String code) {
+        return getNumberAttribute(code, Short::parseShort);
+    }
+
+    default Integer getIntAttribute(String code) {
+        return getNumberAttribute(code, Integer::parseInt);
+    }
+
+    default Long getLongAttribute(String code) {
+        return getNumberAttribute(code, Long::parseLong);
+    }
+
+    default Double getDoubleAttribute(String code) {
+        return getNumberAttribute(code, Double::parseDouble);
+    }
+
+    default <T> T getNumberAttribute(String code, Function<String, T> converter) {
+        try {
+            return converter.apply(getAttribute(code));
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
 
     default <T extends Enum<T>> T getAttribute(String code, Class<T> enumClass) {
         String value = getAttribute(code);
