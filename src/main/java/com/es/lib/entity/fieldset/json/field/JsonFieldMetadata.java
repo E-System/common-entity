@@ -12,13 +12,13 @@ package com.es.lib.entity.fieldset.json.field;
 import com.es.lib.entity.fieldset.code.FieldTypeCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Field
@@ -26,8 +26,9 @@ import java.util.Objects;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonFieldMetadata implements Serializable {
 
@@ -37,18 +38,7 @@ public class JsonFieldMetadata implements Serializable {
     private String code;
     private String title;
     private String format;
-    private List<JsonFieldValue> values;
-
-    public JsonFieldMetadata() {
-        values = new ArrayList<>();
-    }
-
-    public JsonFieldMetadata(FieldTypeCode type, String code, String title) {
-        this();
-        this.type = type;
-        this.code = code;
-        this.title = title;
-    }
+    private List<JsonFieldValue> values = new ArrayList<>();
 
     public JsonFieldMetadata(FieldTypeCode type, String code, String title, List<JsonFieldValue> values) {
         this.type = type;
@@ -56,7 +46,6 @@ public class JsonFieldMetadata implements Serializable {
         this.title = title;
         this.values = values;
     }
-
 
     public boolean isEmpty() { return values == null || values.isEmpty(); }
 
@@ -77,30 +66,8 @@ public class JsonFieldMetadata implements Serializable {
         this.getValues().set(0, value);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof JsonFieldMetadata)) {
-            return false;
-        }
-        JsonFieldMetadata f = (JsonFieldMetadata) obj;
-        return Objects.equals(type, f.type) &&
-               Objects.equals(code, f.code) &&
-               Objects.equals(title, f.title) &&
-               Objects.equals(values, f.values);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, code, title, format, values);
-    }
-
-    @Override
-    public String toString() {
-        return "JsonFieldMetadata{" +
-               "type=" + type +
-               ", code='" + code + '\'' +
-               ", title='" + title + '\'' +
-               ", values=" + values +
-               '}';
+    @JsonIgnore
+    public String getSingleValueString() {
+        return getSingleValue().getValue();
     }
 }

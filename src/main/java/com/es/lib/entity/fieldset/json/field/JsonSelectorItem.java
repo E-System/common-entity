@@ -9,8 +9,9 @@
 package com.es.lib.entity.fieldset.json.field;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -20,8 +21,9 @@ import java.io.Serializable;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JsonSelectorItem implements Serializable, Comparable<JsonSelectorItem> {
 
@@ -29,15 +31,7 @@ public class JsonSelectorItem implements Serializable, Comparable<JsonSelectorIt
     private String value;
     private String title;
 
-    public JsonSelectorItem() { }
-
     public JsonSelectorItem(String value, String title) {
-        this.value = value;
-        this.title = title;
-    }
-
-    public JsonSelectorItem(int sorting, String value, String title) {
-        this.sorting = sorting;
         this.value = value;
         this.title = title;
     }
@@ -47,14 +41,5 @@ public class JsonSelectorItem implements Serializable, Comparable<JsonSelectorIt
         int v = Integer.compare(sorting, o.sorting);
         if (v != 0) return v;
         return String.CASE_INSENSITIVE_ORDER.compare(title, o.title);
-    }
-
-    @Override
-    public String toString() {
-        return "JsonSelectorItem{" +
-               "sorting=" + sorting +
-               ", value='" + value + '\'' +
-               ", title='" + title + '\'' +
-               '}';
     }
 }
