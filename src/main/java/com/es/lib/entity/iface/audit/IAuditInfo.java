@@ -24,4 +24,9 @@ import java.io.Serializable;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 29.03.2018
  */
-public interface IAuditInfo extends Serializable {}
+public interface IAuditInfo extends Serializable {
+
+    String getTitle();
+
+    String getValue();
+}

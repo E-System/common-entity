@@ -16,6 +16,8 @@
 
 package com.es.lib.entity.iface.audit;
 
+import com.es.lib.common.JsonUtil;
+
 /**
  * Audit info provider
  *
@@ -26,7 +28,15 @@ public interface IAuditInfoProvider {
 
     IAuditInfo getAuditInfo();
 
-    default IAuditInfo stringAuditInfo(String value) {
-        return new StringAuditInfo(value);
+    default IAuditInfo auditInfo(String title) {
+        return new AuditInfo(title, null);
+    }
+
+    default IAuditInfo auditInfo(String title, String value) {
+        return new AuditInfo(title, value);
+    }
+
+    default IAuditInfo jsonAuditInfo(String title, Object value) {
+        return new AuditInfo(title, JsonUtil.toJson(value));
     }
 }

@@ -17,9 +17,14 @@ public class AuditEvent {
 
     private Object initiator;
     private String action;
-    private String comment;
+    private String title;
+    private String value;
 
-    public AuditEvent(String action, String comment) {
-        this(null, action, comment);
+    public AuditEvent(String action, String title) {
+        this(null, action, title, null);
+    }
+
+    public AuditEvent(String action, String title, String value) {
+        this(null, action, title, value);
     }
 }
