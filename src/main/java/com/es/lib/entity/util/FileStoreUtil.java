@@ -15,9 +15,9 @@
  */
 package com.es.lib.entity.util;
 
-import com.es.lib.common.FileUtil;
-import com.es.lib.common.MimeUtil;
+
 import com.es.lib.common.exception.ESRuntimeException;
+import com.es.lib.common.file.FileUtil;
 import com.es.lib.entity.iface.file.IFileStore;
 import com.es.lib.entity.iface.file.IStore;
 import com.es.lib.entity.model.file.*;
@@ -74,10 +74,7 @@ public class FileStoreUtil {
         result.setMime(mime);
         try {
             Files.createDirectories(storePath.getFullPath().getParent());
-            Files.copy(
-                new ByteArrayInputStream(data),
-                storePath.getFullPath()
-            );
+            Files.copy(new ByteArrayInputStream(data), storePath.getFullPath());
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -94,10 +91,7 @@ public class FileStoreUtil {
         FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, fileStore.getFileExt());
         try {
             Files.createDirectories(storePath.getFullPath().getParent());
-            Files.copy(
-                Paths.get(basePath.toString(), fileStore.getFilePath()),
-                storePath.getFullPath()
-            );
+            Files.copy(Paths.get(basePath.toString(), fileStore.getFilePath()), storePath.getFullPath());
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -166,7 +160,7 @@ public class FileStoreUtil {
             fileParts.getFileName(),
             fileParts.getExt(),
             size,
-            MimeUtil.get(fileName),
+            FileUtil.mime(fileName),
             crc32,
             mode
         );
@@ -195,7 +189,7 @@ public class FileStoreUtil {
             fileParts.getFileName(),
             fileParts.getExt(),
             from.length,
-            MimeUtil.getByExt(ext),
+            FileUtil.mime(ext),
             crc32,
             mode
         );
@@ -224,7 +218,7 @@ public class FileStoreUtil {
             fileParts.getFileName(),
             fileParts.getExt(),
             size,
-            MimeUtil.getByExt(ext),
+            FileUtil.mime(ext),
             crc32,
             mode
         );

@@ -55,13 +55,10 @@ public final class ThumbUtil {
         if (thumb == null) {
             return source;
         }
-
         Path target = getTarget(source, thumb);
-
         if (Files.exists(target) && Files.isReadable(target)) {
             return target;
         }
-
         return generate(source, target, thumb, fileStore, generator);
     }
 
