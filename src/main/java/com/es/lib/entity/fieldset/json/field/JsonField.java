@@ -40,6 +40,12 @@ public class JsonField implements Serializable {
     private String format;
     private List<JsonFieldValue> values = new ArrayList<>();
 
+    public JsonField(FieldTypeCode type, String code, String title) {
+        this.type = type;
+        this.code = code;
+        this.title = title;
+    }
+
     public JsonField(FieldTypeCode type, String code, String title, List<JsonFieldValue> values) {
         this.type = type;
         this.code = code;
