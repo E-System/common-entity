@@ -6,7 +6,7 @@ import com.es.lib.entity.fieldset.json.JsonFields;
 import java.io.Serializable;
 
 /**
- * Base interface for field set owner
+ * Base interface for fields owner
  *
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 31.05.16
