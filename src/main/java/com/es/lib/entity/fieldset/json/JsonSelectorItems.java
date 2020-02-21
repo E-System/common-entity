@@ -10,6 +10,7 @@ package com.es.lib.entity.fieldset.json;
 
 
 import com.es.lib.entity.fieldset.json.field.JsonSelectorItem;
+import com.es.lib.entity.type.JsonbType;
 
 import java.util.ArrayList;
 
@@ -19,4 +20,13 @@ import java.util.ArrayList;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
-public class SelectorItemsJson extends ArrayList<JsonSelectorItem> {}
+public class JsonSelectorItems extends ArrayList<JsonSelectorItem> {
+
+    public static class UserType extends JsonbType {
+
+        @Override
+        public Class returnedClass() {
+            return JsonSelectorItems.class;
+        }
+    }
+}

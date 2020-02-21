@@ -16,40 +16,25 @@
 
 package com.es.lib.entity.result;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 07.08.15
  */
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class KeyValue {
 
     private String key;
     private String value;
 
-    public KeyValue() {
-    }
-
-    public KeyValue(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
     public String getPropertyRow() {
-        return getKey() + "=" + getValue();
-    }
-
-    @Override
-    public String toString() {
-        return "KeyValue{" +
-               "key='" + key + '\'' +
-               ", value='" + value + '\'' +
-               '}';
+        return key + "=" + value;
     }
 }

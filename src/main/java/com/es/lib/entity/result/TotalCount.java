@@ -17,6 +17,7 @@
 package com.es.lib.entity.result;
 
 import com.es.lib.entity.IPrimaryKey;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,45 +28,17 @@ import javax.persistence.Id;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.01.16
  */
+@ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class TotalCount implements IPrimaryKey<Number> {
 
-    /**
-     * ID записи для которой делаем выборку
-     */
     @Id
     private Number id;
-    /**
-     * Кол-во дочерних элементов
-     */
     private Number count;
-
-
-    public TotalCount() {
-    }
-
-    public TotalCount(Number id, Number count) {
-        this.id = id;
-        this.count = count;
-    }
-
-    @Override
-    public Number getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Number id) {
-        this.id = id;
-    }
-
-    public Number getCount() {
-        return count;
-    }
-
-    public void setCount(Number count) {
-        this.count = count;
-    }
 
     @Override
     public int hashCode() {
@@ -75,13 +48,5 @@ public class TotalCount implements IPrimaryKey<Number> {
     @Override
     public boolean equals(Object object) {
         return _equals(object, TotalCount.class);
-    }
-
-    @Override
-    public String toString() {
-        return "TotalCount{" +
-               "id=" + id +
-               ", count=" + count +
-               '}';
     }
 }

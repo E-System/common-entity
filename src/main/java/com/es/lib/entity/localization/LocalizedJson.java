@@ -1,5 +1,6 @@
 package com.es.lib.entity.localization;
 
+import com.es.lib.entity.type.JsonbType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -13,6 +14,14 @@ import java.util.function.Supplier;
  * @since 20.10.2017
  */
 public class LocalizedJson extends HashMap<String, HashMap<String, String>> {
+
+    public static class UserType extends JsonbType {
+
+        @Override
+        public Class returnedClass() {
+            return LocalizedJson.class;
+        }
+    }
 
     public LocalizedJson() { }
 

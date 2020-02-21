@@ -6,7 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 
 /**
- * Field value
+ * Field value metadata
  *
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16

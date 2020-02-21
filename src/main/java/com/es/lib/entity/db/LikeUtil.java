@@ -25,8 +25,7 @@ public final class LikeUtil {
     public static final String ANY_STRING = "%";
     public static final String ANY_CHARACTER = "_";
 
-    private LikeUtil() {
-    }
+    private LikeUtil() { }
 
     public static String like(String text, boolean anyMatch) {
         return anyMatch ? any(text) : begin(text);

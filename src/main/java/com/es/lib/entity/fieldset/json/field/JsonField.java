@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Field
+ * Field metadata
  *
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
@@ -30,7 +30,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class JsonFieldMetadata implements Serializable {
+public class JsonField implements Serializable {
 
     public static final String CALENDAR_DATE_PATTERN = "dd.MM.yyyy";
 
@@ -40,7 +40,7 @@ public class JsonFieldMetadata implements Serializable {
     private String format;
     private List<JsonFieldValue> values = new ArrayList<>();
 
-    public JsonFieldMetadata(FieldTypeCode type, String code, String title, List<JsonFieldValue> values) {
+    public JsonField(FieldTypeCode type, String code, String title, List<JsonFieldValue> values) {
         this.type = type;
         this.code = code;
         this.title = title;

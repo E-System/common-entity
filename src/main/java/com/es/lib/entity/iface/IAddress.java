@@ -16,6 +16,7 @@
 
 package com.es.lib.entity.iface;
 
+import com.es.lib.common.collection.CollectionUtil;
 import com.es.lib.entity.IPrimaryKey;
 
 import java.io.Serializable;
@@ -29,6 +30,10 @@ import java.util.Map;
  * @since 25.09.15
  */
 public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
+
+    Map<String, String> getParts();
+
+    void setParts(Map<String, String> parts);
 
     /**
      * Безопасно получить часть адреса по имени
@@ -64,7 +69,7 @@ public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
      * @return true - если address == null || address.parts == null || address.parts is empty
      */
     static <PK extends Serializable> boolean isEmpty(IAddress<PK> address) {
-        return isNull(address) || address.getParts() == null || address.getParts().isEmpty();
+        return isNull(address) || CollectionUtil.isEmpty(address.getParts());
     }
 
     /**
@@ -73,7 +78,7 @@ public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
      * @param address объект адреса
      * @return объект адреса с пустым списком частей
      */
-    static IAddress clear(IAddress address) {
+    static IAddress<?> clear(IAddress<?> address) {
         if (address == null) {
             return null;
         }
@@ -97,8 +102,4 @@ public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
         }
         return new HashMap<>(address.getParts());
     }
-
-    Map<String, String> getParts();
-
-    void setParts(Map<String, String> parts);
 }

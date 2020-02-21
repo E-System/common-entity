@@ -16,6 +16,8 @@
 
 package com.es.lib.entity.condition;
 
+import com.es.lib.entity.db.LikeUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,113 +27,125 @@ import java.util.Map;
  */
 public class Statement {
 
-	private String equation;
-	private Map<String, Object> params;
+    private String equation;
+    private Map<String, Object> params;
 
-	public Statement(String equation, Map<String, Object> params) {
-		this.equation = equation;
-		this.params = params;
-	}
+    public Statement(String equation, Map<String, Object> params) {
+        this.equation = equation;
+        this.params = params;
+    }
 
-	public String getEquation() {
-		return equation;
-	}
+    public String getEquation() {
+        return equation;
+    }
 
-	public Map<String, Object> getParams() {
-		return params;
-	}
+    public Map<String, Object> getParams() {
+        return params;
+    }
 
-	@Override
-	public String toString() {
-		return "Statement [" +
-		       "equation='" + equation + "'" +
-		       ", params=" + params +
-		       ']';
-	}
+    @Override
+    public String toString() {
+        return "Statement [" +
+               "equation='" + equation + "'" +
+               ", params=" + params +
+               ']';
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private Condition.Builder conditionBuilder;
-		private String equation;
-		private ParamsBuilder paramsBuilder;
+        private Condition.Builder conditionBuilder;
+        private String equation;
+        private ParamsBuilder paramsBuilder;
 
-		Builder(final Condition.Builder conditionBuilder, final String equation) {
-			this.conditionBuilder = conditionBuilder;
-			this.equation = equation;
-		}
+        Builder(final Condition.Builder conditionBuilder, final String equation) {
+            this.conditionBuilder = conditionBuilder;
+            this.equation = equation;
+        }
 
-		public ParamsBuilder param(final String key, final Object value) {
-			if (paramsBuilder == null) {
-				paramsBuilder = new ParamsBuilder(conditionBuilder, key, value);
-			}
-			return paramsBuilder;
-		}
+        public ParamsBuilder param(final String key, final Object value) {
+            if (paramsBuilder == null) {
+                paramsBuilder = new ParamsBuilder(conditionBuilder, key, value);
+            }
+            return paramsBuilder;
+        }
 
-		public Condition.Builder add(final boolean firstActive) {
-			return conditionBuilder.conditions.add(firstActive);
-		}
+        public Condition.Builder add(final boolean firstActive) {
+            return conditionBuilder.conditions.add(firstActive);
+        }
 
-		public Condition.Builder add() {
-			return conditionBuilder.conditions.add();
-		}
+        public Condition.Builder add() {
+            return conditionBuilder.conditions.add();
+        }
 
-		public Builder second(final String eq) {
-			return conditionBuilder.statement2(eq);
-		}
+        public Builder second(final String eq) {
+            return conditionBuilder.statement2(eq);
+        }
 
-		Statement internalBuild() {
-			return new Statement(equation, paramsBuilder != null ? paramsBuilder.params : null);
-		}
+        Statement internalBuild() {
+            return new Statement(equation, paramsBuilder != null ? paramsBuilder.params : null);
+        }
 
-		public Condition build() {
-			return conditionBuilder.build();
-		}
+        public Condition build() {
+            return conditionBuilder.build();
+        }
 
-		public Conditions end() {
-			return conditionBuilder.conditions;
-		}
+        public Conditions end() {
+            return conditionBuilder.conditions;
+        }
 
-		public class ParamsBuilder {
+        public static class ParamsBuilder {
 
-			private Condition.Builder conditionBuilder;
-			private Map<String, Object> params;
+            private Condition.Builder conditionBuilder;
+            private Map<String, Object> params;
 
-			ParamsBuilder(final Condition.Builder conditionBuilder, final String key, final Object value) {
-				this.conditionBuilder = conditionBuilder;
-				getParams().put(key, value);
-			}
+            ParamsBuilder(final Condition.Builder conditionBuilder, final String key, final Object value) {
+                this.conditionBuilder = conditionBuilder;
+                getParams().put(key, value);
+            }
 
-			public ParamsBuilder param(final String key, final Object value) {
-				getParams().put(key, value);
-				return this;
-			}
+            public ParamsBuilder param(final String key, final Object value) {
+                getParams().put(key, value);
+                return this;
+            }
 
-			public Builder second(final String eq) {
-				return conditionBuilder.statement2(eq);
-			}
+            public ParamsBuilder likeAny(final String key, final String value) {
+                return param(key, LikeUtil.any(value));
+            }
 
-			private Map<String, Object> getParams() {
-				if (params == null) {
-					params = new HashMap<>();
-				}
-				return params;
-			}
+            public ParamsBuilder likeBegin(final String key, final String value) {
+                return param(key, LikeUtil.begin(value));
+            }
 
-			Condition internalBuild() {
-				return conditionBuilder.build();
-			}
+            public ParamsBuilder like(final String key, final String value, boolean anyMatch) {
+                return param(key, LikeUtil.like(value, anyMatch));
+            }
 
-			public Condition.Builder add(final boolean firstActive) {
-				return conditionBuilder.conditions.add(firstActive);
-			}
+            public Builder second(final String eq) {
+                return conditionBuilder.statement2(eq);
+            }
 
-			public Condition.Builder add() {
-				return conditionBuilder.conditions.add();
-			}
+            private Map<String, Object> getParams() {
+                if (params == null) {
+                    params = new HashMap<>();
+                }
+                return params;
+            }
 
-			public Conditions end() {
-				return conditionBuilder.conditions;
-			}
-		}
-	}
+            Condition internalBuild() {
+                return conditionBuilder.build();
+            }
+
+            public Condition.Builder add(final boolean firstActive) {
+                return conditionBuilder.conditions.add(firstActive);
+            }
+
+            public Condition.Builder add() {
+                return conditionBuilder.conditions.add();
+            }
+
+            public Conditions end() {
+                return conditionBuilder.conditions;
+            }
+        }
+    }
 }

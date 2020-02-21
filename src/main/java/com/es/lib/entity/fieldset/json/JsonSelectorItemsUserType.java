@@ -12,15 +12,15 @@ package com.es.lib.entity.fieldset.json;
 import com.es.lib.entity.type.JsonbType;
 
 /**
- * Fields values (Hibernate type)
+ * Selector items(Hibernate type)
  *
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
-public class FieldSetValuesJsonUserType extends JsonbType {
+public class JsonSelectorItemsUserType extends JsonbType {
 
     @Override
     public Class returnedClass() {
-        return FieldSetValuesJson.class;
+        return JsonSelectorItems.class;
     }
 }

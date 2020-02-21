@@ -1,7 +1,7 @@
 package com.es.lib.entity.fieldset;
 
 import com.es.lib.entity.IPrimaryKey;
-import com.es.lib.entity.fieldset.json.FieldSetValuesJson;
+import com.es.lib.entity.fieldset.json.JsonFieldSet;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ public interface IFieldSetOwner<T extends Serializable> extends IPrimaryKey<T> {
 
     String getFieldSetOwnerType();
 
-    FieldSetValuesJson getFieldSetValues();
+    JsonFieldSet getFieldSet();
 
-    void setFieldSetValues(FieldSetValuesJson fieldSetValues);
+    void setFieldSet(JsonFieldSet fieldSet);
 }

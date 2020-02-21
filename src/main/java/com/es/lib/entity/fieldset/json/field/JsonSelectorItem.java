@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * Selector element
+ * Selector element metadata
  *
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16

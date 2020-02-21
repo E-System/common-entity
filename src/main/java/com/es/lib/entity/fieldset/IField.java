@@ -11,15 +11,14 @@ package com.es.lib.entity.fieldset;
 import com.es.lib.entity.IAttributeOwner;
 import com.es.lib.entity.fieldset.code.FieldTypeCode;
 import com.es.lib.entity.fieldset.code.IFieldAttributes;
-import com.es.lib.entity.fieldset.json.SelectorItemsJson;
+import com.es.lib.entity.fieldset.json.JsonSelectorItems;
 import com.es.lib.entity.fieldset.json.field.JsonFieldValue;
-import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import static com.es.lib.entity.fieldset.json.field.JsonFieldMetadata.CALENDAR_DATE_PATTERN;
+import static com.es.lib.entity.fieldset.json.field.JsonField.CALENDAR_DATE_PATTERN;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -43,7 +42,7 @@ public interface IField extends IAttributeOwner {
 
     Long getOwnerId();
 
-    SelectorItemsJson getSelector();
+    JsonSelectorItems getSelector();
 
     default SimpleDateFormat getDateFormat() {
         if (!getFieldType().equals(FieldTypeCode.DATE)) {

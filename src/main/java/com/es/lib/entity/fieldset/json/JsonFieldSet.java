@@ -9,18 +9,24 @@
 package com.es.lib.entity.fieldset.json;
 
 
+import com.es.lib.entity.fieldset.json.field.JsonField;
 import com.es.lib.entity.type.JsonbType;
 
+import java.util.LinkedHashMap;
+
 /**
- * Selector items(Hibernate type)
+ * Fields values
  *
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.05.16
  */
-public class SelectorItemsJsonUserType extends JsonbType {
+public class JsonFieldSet extends LinkedHashMap<String, JsonField> {
 
-    @Override
-    public Class returnedClass() {
-        return SelectorItemsJson.class;
+    public static class UserType extends JsonbType {
+
+        @Override
+        public Class returnedClass() {
+            return JsonFieldSet.class;
+        }
     }
 }
