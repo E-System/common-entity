@@ -17,6 +17,7 @@
 package com.es.lib.entity.iface.audit;
 
 import com.es.lib.common.JsonUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Audit info provider
@@ -26,6 +27,7 @@ import com.es.lib.common.JsonUtil;
  */
 public interface IAuditInfoProvider {
 
+    @JsonIgnore
     IAuditInfo getAuditInfo();
 
     default IAuditInfo auditInfo(String title) {
