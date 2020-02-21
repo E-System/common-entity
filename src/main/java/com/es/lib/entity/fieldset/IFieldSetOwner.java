@@ -27,21 +27,21 @@ import static com.es.lib.entity.fieldset.json.field.JsonFieldMetadata.CALENDAR_D
  */
 public interface IFieldSetOwner extends IAttributeOwner {
 
+    FieldTypeCode getFieldType();
+
+    void setFieldType(FieldTypeCode fieldTypeCode);
+
     default String getSectionCode() { return null; }
 
     String getCode();
-
-    Long getOwnerId();
-
-    int getSorting();
 
     String getName();
 
     void setName(String name);
 
-    FieldTypeCode getFieldType();
+    int getSorting();
 
-    void setFieldType(FieldTypeCode fieldTypeCode);
+    Long getOwnerId();
 
     SelectorItemsJson getSelector();
 
@@ -49,11 +49,7 @@ public interface IFieldSetOwner extends IAttributeOwner {
         if (!getFieldType().equals(FieldTypeCode.DATE)) {
             return null;
         }
-        String format = getAttributes().get(IFieldAttributes.FORMAT);
-        if (StringUtils.isBlank(format)) {
-            format = CALENDAR_DATE_PATTERN;
-        }
-        return new SimpleDateFormat(format);
+        return new SimpleDateFormat(getAttribute(IFieldAttributes.FORMAT, CALENDAR_DATE_PATTERN));
     }
 
     default Collection<JsonFieldValue> getSelectorValues() {
@@ -67,7 +63,6 @@ public interface IFieldSetOwner extends IAttributeOwner {
     }
 
     default boolean isVisible() {
-        String visible = getAttributes().get(IFieldAttributes.VISIBLE);
-        return visible == null || Boolean.parseBoolean(visible);
+        return getBoolAttribute(IFieldAttributes.VISIBLE, true);
     }
 }

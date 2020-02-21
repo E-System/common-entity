@@ -19,11 +19,27 @@ public interface IAttributeOwner {
     void setAttributes(Map<String, String> attributes);
 
     default String getAttribute(String code) {
+        return getAttribute(code, (String) null);
+    }
+
+    default String getAttribute(String code, String defValue) {
         Map<String, String> attributes = getAttributes();
         if (attributes == null) {
-            return null;
+            return defValue;
         }
-        return attributes.get(code);
+        return attributes.getOrDefault(code, defValue);
+    }
+
+    default boolean getBoolAttribute(String code) {
+        return getBoolAttribute(code, false);
+    }
+
+    default boolean getBoolAttribute(String code, boolean defValue) {
+        String attribute = getAttribute(code);
+        if (attribute == null) {
+            return defValue;
+        }
+        return Boolean.parseBoolean(attribute);
     }
 
     default Short getShortAttribute(String code) {
