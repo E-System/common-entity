@@ -42,7 +42,11 @@ public interface IField extends IAttributeOwner {
 
     Long getOwnerId();
 
-    JsonSelectorItems getSelector();
+    JsonSelectorItems getSelectorItems();
+
+    default String getSelectorRequest() {
+        return null;
+    }
 
     default SimpleDateFormat getDateFormat() {
         if (!getFieldType().equals(FieldTypeCode.DATE)) {
@@ -52,10 +56,10 @@ public interface IField extends IAttributeOwner {
     }
 
     default Collection<JsonFieldValue> getSelectorValues() {
-        if (getSelector() == null) {
+        if (getSelectorItems() == null) {
             return null;
         }
-        return getSelector()
+        return getSelectorItems()
             .stream()
             .map(v -> new JsonFieldValue(v.getValue(), v.getTitle()))
             .collect(Collectors.toList());

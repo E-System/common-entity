@@ -13,16 +13,16 @@ import com.es.lib.entity.fieldset.json.field.JsonField
 import com.es.lib.entity.fieldset.json.field.JsonFieldValue
 import spock.lang.Specification
 
-class JsonFieldSetSpec extends Specification {
+class JsonFieldsSpec extends Specification {
 
     def "Equals"() {
         setup:
-        JsonFieldSet o1 = new JsonFieldSet()
-        JsonFieldSet o2 = new JsonFieldSet()
-        JsonFieldSet o3 = new JsonFieldSet()
-        JsonFieldSet o4 = new JsonFieldSet()
-        JsonFieldSet o5 = new JsonFieldSet()
-        JsonFieldSet o6 = new JsonFieldSet()
+        JsonFields o1 = new JsonFields()
+        JsonFields o2 = new JsonFields()
+        JsonFields o3 = new JsonFields()
+        JsonFields o4 = new JsonFields()
+        JsonFields o5 = new JsonFields()
+        JsonFields o6 = new JsonFields()
         JsonField f = new JsonField(FieldTypeCode.TEXT, "1", "1", Arrays.asList(new JsonFieldValue("1", "1", "1"), new JsonFieldValue("1", "1", "1")))
         o3.put("1", f)
         o4.put("1", f)
