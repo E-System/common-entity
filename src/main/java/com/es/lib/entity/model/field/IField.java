@@ -46,6 +46,8 @@ public interface IField extends IAttrsOwner {
         return null;
     }
 
+    default void setSelectorItems(JsonSelectorItems selectorItems) { }
+
     default JsonSelectorItems getSelectorItems() {
         return new JsonSelectorItems();
     }
