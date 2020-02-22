@@ -98,6 +98,11 @@ public enum FieldType {
         public boolean isManyAvailable() {
             return true;
         }
+
+        @Override
+        public boolean isPositional() {
+            return false;
+        }
     },
 
     /**
@@ -121,6 +126,11 @@ public enum FieldType {
                 IFieldView.Address.Street,
                 IFieldView.Address.Building
             );
+        }
+
+        @Override
+        public boolean isPositional() {
+            return false;
         }
     },
 
@@ -239,5 +249,12 @@ public enum FieldType {
     public boolean isAddress() {
         return false;
     }
+
+    /**
+     * Can be positional on form
+     *
+     * @return true - Is positional
+     */
+    public boolean isPositional() {return true;}
 
 }
