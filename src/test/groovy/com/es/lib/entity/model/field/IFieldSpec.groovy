@@ -6,13 +6,15 @@ import spock.lang.Specification
 
 class IFieldSpec extends Specification {
 
-    def "Check parent of"() {
+    def "Relativity"() {
         when:
         def f1 = new Field(FieldType.SELECTOR_SINGLE, 'CODE1', 'NAME1', [:])
         def f2 = new Field(FieldType.SELECTOR_SINGLE, 'CODE2', 'NAME2', [(IFieldAttrs.PARENT): 'CODE1'])
         then:
         f1.isParentOf(f2)
         !f2.isParentOf(f1)
+        f1.root
+        !f2.root
     }
 
     class Field implements IField {

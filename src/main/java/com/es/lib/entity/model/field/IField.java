@@ -81,4 +81,8 @@ public interface IField extends IAttrsOwner {
     default boolean isParentOf(IField v) {
         return Objects.equals(getOwnerId(), v.getOwnerId()) && getCode().equals(v.getAttribute(IFieldAttrs.PARENT));
     }
+
+    default boolean isRoot() {
+        return getAttribute(IFieldAttrs.PARENT) == null;
+    }
 }
