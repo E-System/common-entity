@@ -140,6 +140,11 @@ public enum FieldType {
     HIDDEN {
         @Override
         public boolean isHidden() { return true; }
+
+        @Override
+        public boolean isPositional() {
+            return false;
+        }
     };
 
     /**
