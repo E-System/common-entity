@@ -9,7 +9,9 @@
 package com.es.lib.entity.model.field.json;
 
 
+import com.es.lib.entity.model.field.IField;
 import com.es.lib.entity.model.field.code.FieldType;
+import com.es.lib.entity.model.field.code.IFieldAttrs;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -39,6 +41,13 @@ public class JsonField implements Serializable {
     private String title;
     private String format;
     private List<JsonFieldValue> values = new ArrayList<>();
+
+    public JsonField(IField field) {
+        this.type = field.getType();
+        this.code = field.getCode();
+        this.title = field.getName();
+        this.format = field.getAttribute(IFieldAttrs.FORMAT);
+    }
 
     public JsonField(FieldType type, String code, String title) {
         this.type = type;

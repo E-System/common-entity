@@ -16,6 +16,7 @@ import com.es.lib.entity.model.field.json.JsonSelectorItems;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.es.lib.entity.model.field.json.JsonField.CALENDAR_DATE_PATTERN;
@@ -75,5 +76,9 @@ public interface IField extends IAttrsOwner {
 
     default boolean isVisible() {
         return getBoolAttribute(IFieldAttrs.VISIBLE, true);
+    }
+
+    default boolean isParentOf(IField v) {
+        return Objects.equals(getOwnerId(), v.getOwnerId()) && getCode().equals(v.getAttribute(IFieldAttrs.PARENT));
     }
 }
