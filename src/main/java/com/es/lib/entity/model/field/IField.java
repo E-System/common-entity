@@ -11,8 +11,8 @@ package com.es.lib.entity.model.field;
 import com.es.lib.entity.iface.IAttrsOwner;
 import com.es.lib.entity.model.field.code.FieldType;
 import com.es.lib.entity.model.field.code.IFieldAttrs;
-import com.es.lib.entity.model.field.json.JsonSelectorItems;
 import com.es.lib.entity.model.field.json.JsonFieldValue;
+import com.es.lib.entity.model.field.json.JsonSelectorItems;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -30,7 +30,7 @@ public interface IField extends IAttrsOwner {
 
     void setFieldType(FieldType fieldTypeCode);
 
-    default String getSectionCode() { return null; }
+    default String getSection() { return null; }
 
     String getCode();
 
