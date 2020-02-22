@@ -15,7 +15,7 @@
  */
 package com.es.lib.entity.util;
 
-import com.es.lib.entity.IPrimaryKey;
+import com.es.lib.entity.iface.IPrimaryKey;
 
 import java.io.Serializable;
 import java.util.Collection;

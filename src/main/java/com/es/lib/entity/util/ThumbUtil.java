@@ -15,8 +15,8 @@
  */
 package com.es.lib.entity.util;
 
-import com.es.lib.entity.iface.file.IFileStore;
-import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
+import com.es.lib.entity.model.file.IFileStore;
+import com.es.lib.entity.model.file.code.IFileStoreAttrs;
 import com.es.lib.entity.model.file.Thumb;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -94,10 +94,10 @@ public final class ThumbUtil {
         int width = 0;
         int height = 0;
         try {
-            width = Integer.parseInt(attributes.get(IFileStoreAttributes.Image.WIDTH));
+            width = Integer.parseInt(attributes.get(IFileStoreAttrs.Image.WIDTH));
         } catch (Exception ignore) {}
         try {
-            height = Integer.parseInt(attributes.get(IFileStoreAttributes.Image.HEIGHT));
+            height = Integer.parseInt(attributes.get(IFileStoreAttrs.Image.HEIGHT));
         } catch (Exception ignore) {}
         if (width != 0 && height != 0) {
             result = new Thumb(width, height);

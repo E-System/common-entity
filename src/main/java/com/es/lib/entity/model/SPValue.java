@@ -17,7 +17,6 @@
 package com.es.lib.entity.model;
 
 
-import com.es.lib.entity.result.KeyValue;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,6 +1,6 @@
 package com.es.lib.entity.util
 
-import com.es.lib.entity.IPrimaryKey
+import com.es.lib.entity.iface.IPrimaryKey
 import spock.lang.Specification
 
 class EntityUtilSpec extends Specification {

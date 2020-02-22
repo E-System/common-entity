@@ -15,7 +15,7 @@
  */
 package com.es.lib.entity.util
 
-import com.es.lib.entity.model.file.FileStoreMode
+import com.es.lib.entity.model.file.StoreMode
 import spock.lang.Specification
 
 import java.nio.file.Files
@@ -43,42 +43,6 @@ class FileStoreUtilSpec extends Specification {
         expect:
         FileStoreUtil.isImage("image/png")
         !FileStoreUtil.isImage("octet/stream")
-    }
-
-    def "GetLocalPath"() {
-        when:
-        def path = FileStoreUtil.getLocalPath("prefix", "name", "ext")
-        then:
-        path.startsWith("/prefix")
-        path.endsWith("name.ext")
-        path.absolute
-    }
-
-    def "GetLocalPath with null prefix"() {
-        when:
-        def path = FileStoreUtil.getLocalPath(null, "name", "ext")
-        then:
-        !path.startsWith("/prefix")
-        path.endsWith("name.ext")
-        path.absolute
-    }
-
-    def "ExtractFileParts"() {
-        when:
-        def result = FileStoreUtil.extractFileParts("asd.ext")
-        then:
-        result != null
-        result.fileName == 'asd'
-        result.ext == 'ext'
-    }
-
-    def "ExtractFileParts without extension"() {
-        when:
-        def result = FileStoreUtil.extractFileParts("asd")
-        then:
-        result != null
-        result.fileName == 'asd'
-        result.ext == ''
     }
 
     def "Create file in file store"() {
@@ -135,7 +99,7 @@ class FileStoreUtilSpec extends Specification {
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
+        def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null)
         def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
@@ -154,7 +118,7 @@ class FileStoreUtilSpec extends Specification {
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def temporary = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, FileStoreMode.TEMPORARY, null)
+        def temporary = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null)
         def result = FileStoreUtil.toStore(basePath, temporary, new Supplier<FileStore>() {
             @Override
             FileStore get() {

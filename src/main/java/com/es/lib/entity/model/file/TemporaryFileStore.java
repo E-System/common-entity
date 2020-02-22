@@ -15,12 +15,9 @@
  */
 package com.es.lib.entity.model.file;
 
-import com.es.lib.entity.iface.file.IStore;
-import com.es.lib.entity.util.FileStoreUtil;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.Base64;
 
@@ -43,15 +40,15 @@ public class TemporaryFileStore implements IStore {
     private long size;
     private String mime;
     private long crc32;
-    private FileStoreMode mode;
+    private StoreMode mode;
 
     private String base64Path;
 
     public TemporaryFileStore(Path file, String filePath, String fileName, String fileExt, long size, String mime, long crc32) {
-        this(file, filePath, fileName, fileExt, size, mime, crc32, FileStoreMode.TEMPORARY);
+        this(file, filePath, fileName, fileExt, size, mime, crc32, StoreMode.TEMPORARY);
     }
 
-    public TemporaryFileStore(Path file, String filePath, String fileName, String fileExt, long size, String mime, long crc32, FileStoreMode mode) {
+    public TemporaryFileStore(Path file, String filePath, String fileName, String fileExt, long size, String mime, long crc32, StoreMode mode) {
         this.file = file;
         this.filePath = filePath;
         this.fileName = fileName;
@@ -65,20 +62,12 @@ public class TemporaryFileStore implements IStore {
 
     public String getModeRelativePath() {
         String result = getFilePath();
-        if (mode == null || mode.equals(FileStoreMode.PERSISTENT)) {
+        if (mode == null || mode.equals(StoreMode.PERSISTENT)) {
             return result;
         }
         if (result.startsWith("/" + mode.getPrefix())) {
             result = result.replaceFirst("/" + mode.getPrefix(), "");
         }
         return result;
-    }
-
-    public String getFullName() {
-        return getFileName() + "." + getFileExt();
-    }
-
-    public boolean isImage() {
-        return FileStoreUtil.isImage(this);
     }
 }

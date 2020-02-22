@@ -17,7 +17,6 @@
 package com.es.lib.entity.iface;
 
 import com.es.lib.common.collection.CollectionUtil;
-import com.es.lib.entity.IPrimaryKey;
 
 import java.io.Serializable;
 import java.util.HashMap;

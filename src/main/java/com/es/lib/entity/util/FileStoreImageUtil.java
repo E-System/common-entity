@@ -1,7 +1,7 @@
 package com.es.lib.entity.util;
 
-import com.es.lib.entity.iface.file.IFileStore;
-import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
+import com.es.lib.entity.model.file.IFileStore;
+import com.es.lib.entity.model.file.code.IFileStoreAttrs;
 
 import java.nio.file.Path;
 
@@ -15,14 +15,14 @@ public final class FileStoreImageUtil {
 
     public static void processAttributes(IFileStore fileStore, Path source) {
         if (FileStoreUtil.isImage(fileStore)) {
-            fileStore.getAttributes().put(IFileStoreAttributes.Image.IMAGE, String.valueOf(true));
+            fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, source);
         }
     }
 
     public static void processAttributes(IFileStore fileStore, byte[] source) {
         if (FileStoreUtil.isImage(fileStore)) {
-            fileStore.getAttributes().put(IFileStoreAttributes.Image.IMAGE, String.valueOf(true));
+            fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, source);
         }
     }

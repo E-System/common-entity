@@ -16,7 +16,7 @@
 
 package com.es.lib.entity.condition;
 
-import com.es.lib.entity.db.LikeUtil;
+import com.es.lib.entity.util.LikeUtil;
 
 import java.util.HashMap;
 import java.util.Map;

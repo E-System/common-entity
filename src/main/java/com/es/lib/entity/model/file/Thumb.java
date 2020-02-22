@@ -15,6 +15,9 @@
  */
 package com.es.lib.entity.model.file;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.Map;
@@ -25,36 +28,26 @@ import java.util.Map;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 17.03.18
  */
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class Thumb {
 
     public static final int DEFAULT_WIDTH = 128;
     public static final int DEFAULT_HEIGHT = 128;
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     public Thumb() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
-
-    public Thumb(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public boolean isDefaultSize() {
         return getWidth() == DEFAULT_WIDTH && getHeight() == DEFAULT_HEIGHT;
     }
 
-    public static Thumb extract(boolean need, String tw, String th) {
+    public static Thumb create(boolean need, String tw, String th) {
         if (!need) {
             return null;
         }
@@ -64,19 +57,11 @@ public class Thumb {
         );
     }
 
-    public static Thumb extract(Map<String, String> params) {
-        return extract(
+    public static Thumb create(Map<String, String> params) {
+        return create(
             params.containsKey("thumb"),
             params.get("tw"),
             params.get("th")
         );
-    }
-
-    @Override
-    public String toString() {
-        return "Thumb{" +
-               "width=" + width +
-               ", height=" + height +
-               '}';
     }
 }

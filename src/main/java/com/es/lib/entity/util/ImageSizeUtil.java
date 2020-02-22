@@ -17,7 +17,7 @@
 package com.es.lib.entity.util;
 
 
-import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
+import com.es.lib.entity.model.file.code.IFileStoreAttrs;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -77,9 +77,9 @@ public final class ImageSizeUtil {
                 reader.setInput(in);
                 final int width = reader.getWidth(0);
                 final int height = reader.getHeight(0);
-                result.put(IFileStoreAttributes.Image.WIDTH, String.valueOf(width));
-                result.put(IFileStoreAttributes.Image.HEIGHT, String.valueOf(height));
-                result.put(IFileStoreAttributes.Image.VERTICAL, String.valueOf(height > width));
+                result.put(IFileStoreAttrs.Image.WIDTH, String.valueOf(width));
+                result.put(IFileStoreAttrs.Image.HEIGHT, String.valueOf(height));
+                result.put(IFileStoreAttrs.Image.VERTICAL, String.valueOf(height > width));
             } finally {
                 reader.dispose();
             }
