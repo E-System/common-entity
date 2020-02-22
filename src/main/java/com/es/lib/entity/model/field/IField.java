@@ -26,9 +26,9 @@ import static com.es.lib.entity.model.field.json.JsonField.CALENDAR_DATE_PATTERN
  */
 public interface IField extends IAttrsOwner {
 
-    FieldType getFieldType();
+    FieldType getType();
 
-    void setFieldType(FieldType fieldTypeCode);
+    void setType(FieldType fieldTypeCode);
 
     default String getSection() { return null; }
 
@@ -38,18 +38,24 @@ public interface IField extends IAttrsOwner {
 
     void setName(String name);
 
-    int getSorting();
+    default int getSorting() {
+        return 0;
+    }
 
-    Long getOwnerId();
+    default Long getOwnerId() {
+        return null;
+    }
 
-    JsonSelectorItems getSelectorItems();
+    default JsonSelectorItems getSelectorItems() {
+        return new JsonSelectorItems();
+    }
 
     default String getSelectorRequest() {
         return null;
     }
 
     default SimpleDateFormat getDateFormat() {
-        if (!getFieldType().equals(FieldType.DATE)) {
+        if (!getType().equals(FieldType.DATE)) {
             return null;
         }
         return new SimpleDateFormat(getAttribute(IFieldAttrs.FORMAT, CALENDAR_DATE_PATTERN));
