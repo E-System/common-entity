@@ -18,4 +18,8 @@ public class StoreRequest {
     private final String id;
     private final boolean generateEmpty;
     private final Thumb thumb;
+
+    public static StoreRequest create(String id, boolean generateEmpty, Thumb thumb) {
+        return new StoreRequest(id, generateEmpty, thumb);
+    }
 }
