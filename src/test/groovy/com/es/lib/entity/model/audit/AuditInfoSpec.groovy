@@ -10,10 +10,11 @@ class AuditInfoSpec extends Specification {
 
     def "Construct with title and value"() {
         when:
-        def res = new AuditInfo('TITLE', 'VALUE')
+        def res = new AuditInfo('TITLE', 'VALUE', 'VALUE_TYPE')
         then:
         res.title == 'TITLE'
         res.value == 'VALUE'
+        res.valueType == 'VALUE_TYPE'
     }
 
     def "Json audit"() {
@@ -22,14 +23,16 @@ class AuditInfoSpec extends Specification {
         then:
         res.title == 'TITLE'
         res.value == '{"id":1,"name":"NAME"}'
+        res.valueType == 'com.es.lib.entity.model.audit.AuditInfoSpec.TestJsonAuditInfoProvider'
     }
 
-    def "String audit"() {
+    def "String audit (title only)"() {
         when:
-        def res = new TestStringAuditInfoProvider(1, 'NAME').getAuditInfo()
+        def res = new TestTitleAuditInfoProvider(1, 'NAME').getAuditInfo()
         then:
         res.title == '{id=1, name=NAME}'
         res.value == null
+        res.valueType == null
     }
 
     class TestJsonAuditInfoProvider implements IAuditInfoProvider {
@@ -47,11 +50,11 @@ class AuditInfoSpec extends Specification {
         }
     }
 
-    class TestStringAuditInfoProvider implements IAuditInfoProvider {
+    class TestTitleAuditInfoProvider implements IAuditInfoProvider {
         Integer id
         String name
 
-        TestStringAuditInfoProvider(Integer id, String name) {
+        TestTitleAuditInfoProvider(Integer id, String name) {
             this.id = id
             this.name = name
         }

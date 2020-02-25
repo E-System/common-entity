@@ -31,14 +31,18 @@ public interface IAuditInfoProvider {
     IAuditInfo getAuditInfo();
 
     default IAuditInfo auditInfo(String title) {
-        return new AuditInfo(title, null);
+        return auditInfo(title, null, null);
     }
 
     default IAuditInfo auditInfo(String title, String value) {
-        return new AuditInfo(title, value);
+        return auditInfo(title, value, String.class.getCanonicalName());
+    }
+
+    default IAuditInfo auditInfo(String title, String value, String valueType) {
+        return new AuditInfo(title, value, valueType);
     }
 
     default IAuditInfo jsonAuditInfo(String title, Object value) {
-        return new AuditInfo(title, JsonUtil.toJson(value));
+        return auditInfo(title, JsonUtil.toJson(value), value.getClass().getCanonicalName());
     }
 }

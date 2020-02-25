@@ -29,4 +29,6 @@ public interface IAuditInfo extends Serializable {
     String getTitle();
 
     String getValue();
+
+    String getValueType();
 }

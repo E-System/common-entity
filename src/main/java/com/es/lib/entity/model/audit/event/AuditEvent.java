@@ -1,30 +1,29 @@
 package com.es.lib.entity.model.audit.event;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 29.03.2018
  */
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @ToString
+@RequiredArgsConstructor
 public class AuditEvent {
 
-    private Object initiator;
-    private String action;
-    private String title;
-    private String value;
+    private final Object initiator;
+    private final String action;
+    private final String title;
+    private final String value;
+    private final String valueType;
 
     public AuditEvent(String action, String title) {
-        this(null, action, title, null);
+        this(action, title, null);
     }
 
     public AuditEvent(String action, String title, String value) {
-        this(null, action, title, value);
+        this(null, action, title, value, null);
     }
 }

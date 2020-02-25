@@ -1,7 +1,7 @@
 package com.es.lib.entity.model.audit;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -12,9 +12,10 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuditInfo implements IAuditInfo {
 
     private final String title;
     private final String value;
+    private final String valueType;
 }
