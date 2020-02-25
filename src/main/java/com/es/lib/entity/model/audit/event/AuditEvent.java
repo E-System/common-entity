@@ -1,5 +1,6 @@
 package com.es.lib.entity.model.audit.event;
 
+import com.es.lib.entity.model.audit.IAuditInfo;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -20,10 +21,22 @@ public class AuditEvent {
     private final String valueType;
 
     public AuditEvent(String action, String title) {
-        this(action, title, null);
+        this(null, action, title, null, null);
     }
 
     public AuditEvent(String action, String title, String value) {
-        this(null, action, title, value, null);
+        this(action, title, value, null);
+    }
+
+    public AuditEvent(String action, String title, String value, String valueType) {
+        this(null, action, title, value, valueType);
+    }
+
+    public AuditEvent(String action, IAuditInfo auditInfo) {
+        this(null, action, auditInfo);
+    }
+
+    public AuditEvent(Object initiator, String action, IAuditInfo auditInfo) {
+        this(initiator, action, auditInfo.getTitle(), auditInfo.getValue(), auditInfo.getValueType());
     }
 }
