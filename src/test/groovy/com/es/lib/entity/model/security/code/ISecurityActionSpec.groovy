@@ -1,6 +1,6 @@
 package com.es.lib.entity.model.security.code
 
-import com.es.lib.entity.model.security.PermissionRow
+import com.es.lib.entity.model.security.PermissionItem
 import spock.lang.Specification
 
 class ISecurityActionSpec extends Specification {
@@ -9,7 +9,7 @@ class ISecurityActionSpec extends Specification {
 
     def "Join from row"() {
         expect:
-        ISecurityAction.join(new PermissionRow(null, TARGET, ACTION)) == TARGET + ISecurityAction._JOIN_STRING + ACTION
+        ISecurityAction.join(new PermissionItem(null, TARGET, ACTION)) == TARGET + ISecurityAction._JOIN_STRING + ACTION
         ISecurityAction.join(null) == null
     }
 
@@ -22,13 +22,13 @@ class ISecurityActionSpec extends Specification {
 
     def "Split without role"() {
         expect:
-        ISecurityAction.split(TARGET + ISecurityAction._JOIN_STRING + ACTION) == new PermissionRow(null, TARGET, ACTION)
+        ISecurityAction.split(TARGET + ISecurityAction._JOIN_STRING + ACTION) == new PermissionItem(null, TARGET, ACTION)
         ISecurityAction.split(null) == null
     }
 
     def "Split with role"() {
         expect:
-        ISecurityAction.split(1, TARGET + ISecurityAction._JOIN_STRING + ACTION) == new PermissionRow(1, TARGET, ACTION)
+        ISecurityAction.split(1, TARGET + ISecurityAction._JOIN_STRING + ACTION) == new PermissionItem(1, TARGET, ACTION)
         ISecurityAction.split(1, null) == null
     }
 }

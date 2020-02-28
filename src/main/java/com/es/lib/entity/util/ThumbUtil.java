@@ -15,7 +15,7 @@
  */
 package com.es.lib.entity.util;
 
-import com.es.lib.entity.model.file.IFileStore;
+import com.es.lib.entity.iface.file.IFileStore;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
 import com.es.lib.entity.model.file.Thumb;
 import lombok.extern.slf4j.Slf4j;

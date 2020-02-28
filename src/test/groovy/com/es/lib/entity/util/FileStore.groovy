@@ -1,6 +1,6 @@
 package com.es.lib.entity.util
 
-import com.es.lib.entity.model.file.IFileStore
+import com.es.lib.entity.iface.file.IFileStore
 
 class FileStore implements IFileStore {
 

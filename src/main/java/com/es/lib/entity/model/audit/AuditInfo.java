@@ -1,5 +1,6 @@
 package com.es.lib.entity.model.audit;
 
+import com.es.lib.entity.iface.audit.IAuditInfo;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

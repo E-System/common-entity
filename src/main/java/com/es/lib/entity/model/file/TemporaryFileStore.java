@@ -15,6 +15,7 @@
  */
 package com.es.lib.entity.model.file;
 
+import com.es.lib.entity.iface.file.IStore;
 import lombok.Getter;
 import lombok.ToString;
 

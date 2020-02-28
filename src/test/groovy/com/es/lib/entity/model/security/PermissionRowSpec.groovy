@@ -13,9 +13,9 @@ class PermissionRowSpec extends Specification {
         pr1 != pr2
         where:
         pr1                              | pr2
-        new PermissionRow(1, "T1", "A1") | new PermissionRow(1, "T2", "A2")
-        new PermissionRow(1, "T1", "A")  | new PermissionRow(1, "T2", "A")
-        new PermissionRow(1, "T", "A")   | new PermissionRow(2, "T", "A")
+        new PermissionItem(1, "T1", "A1") | new PermissionItem(1, "T2", "A2")
+        new PermissionItem(1, "T1", "A")  | new PermissionItem(1, "T2", "A")
+        new PermissionItem(1, "T", "A")   | new PermissionItem(2, "T", "A")
     }
 
     def "Equals same"() {
@@ -23,6 +23,6 @@ class PermissionRowSpec extends Specification {
         pr1 == pr2
         where:
         pr1                            | pr2
-        new PermissionRow(1, "T", "A") | new PermissionRow(1, "T", "A")
+        new PermissionItem(1, "T", "A") | new PermissionItem(1, "T", "A")
     }
 }
