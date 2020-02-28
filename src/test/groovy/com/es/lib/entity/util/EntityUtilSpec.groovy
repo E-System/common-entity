@@ -61,4 +61,14 @@ class EntityUtilSpec extends Specification {
         res['bl'] == true
         res['realEntity'] == 2
     }
+
+    def "toMap with exclude"() {
+        when:
+        def res = EntityUtil.toMap(new RealEntity2(1, '1', true, new RealEntity(2, '2')), ['name', 'bl'])
+        then:
+        res['id'] == 1
+        res['name'] == null
+        res['bl'] == null
+        res['realEntity'] == 2
+    }
 }

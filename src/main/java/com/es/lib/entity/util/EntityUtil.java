@@ -68,7 +68,11 @@ public final class EntityUtil {
     }
 
     public static <R extends Serializable, T extends IPrimaryKey<? extends R>> Map<String, Object> toMap(final T instance) {
-        return ReflectionUtil.toMap(instance, value -> {
+        return toMap(instance, null);
+    }
+
+    public static <R extends Serializable, T extends IPrimaryKey<? extends R>> Map<String, Object> toMap(final T instance, Collection<String> exclude) {
+        return ReflectionUtil.toMap(instance, exclude, value -> {
             if (value instanceof IPrimaryKey) {
                 return id((IPrimaryKey<? extends Serializable>) value);
             }

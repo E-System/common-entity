@@ -21,6 +21,8 @@ import com.es.lib.entity.iface.IPrimaryKey;
 import com.es.lib.entity.util.EntityUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Collection;
+
 /**
  * Audit info provider
  *
@@ -45,8 +47,12 @@ public interface IAuditInfoProvider {
     }
 
     default IAuditInfo jsonAuditInfo(String title, Object value) {
+        return jsonAuditInfo(title, value, null);
+    }
+
+    default IAuditInfo jsonAuditInfo(String title, Object value, Collection<String> exclude) {
         if (value instanceof IPrimaryKey) {
-            return auditInfo(title, JsonUtil.toJson(EntityUtil.toMap((IPrimaryKey<?>) value)), value.getClass().getCanonicalName());
+            return auditInfo(title, JsonUtil.toJson(EntityUtil.toMap((IPrimaryKey<?>) value, exclude)), value.getClass().getCanonicalName());
         }
         return auditInfo(title, JsonUtil.toJson(value), value.getClass().getCanonicalName());
     }
