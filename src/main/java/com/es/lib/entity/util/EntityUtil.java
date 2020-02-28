@@ -15,10 +15,12 @@
  */
 package com.es.lib.entity.util;
 
+import com.es.lib.common.reflection.ReflectionUtil;
 import com.es.lib.entity.iface.IPrimaryKey;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -63,5 +65,14 @@ public final class EntityUtil {
      */
     public static <R extends Serializable, T extends IPrimaryKey<? extends R>> Collection<R> id(Collection<T> list) {
         return list.stream().map(IPrimaryKey::getId).collect(Collectors.toList());
+    }
+
+    public static <R extends Serializable, T extends IPrimaryKey<? extends R>> Map<String, Object> toMap(final T instance) {
+        return ReflectionUtil.toMap(instance, value -> {
+            if (value instanceof IPrimaryKey) {
+                return id((IPrimaryKey<? extends Serializable>) value);
+            }
+            return value;
+        });
     }
 }
