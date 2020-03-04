@@ -18,6 +18,7 @@ package com.es.lib.entity.iface.field;
 import com.es.lib.entity.iface.IAttrsOwner;
 import com.es.lib.entity.model.field.code.FieldType;
 import com.es.lib.entity.model.field.code.IFieldAttrs;
+import com.es.lib.entity.model.field.json.JsonFieldValidators;
 import com.es.lib.entity.model.field.json.JsonFieldValue;
 import com.es.lib.entity.model.field.json.JsonSelectorItems;
 
@@ -64,6 +65,12 @@ public interface IField extends IAttrsOwner {
         return null;
     }
 
+    default void setValidators(JsonFieldValidators validators) { }
+
+    default JsonFieldValidators getValidators() {
+        return new JsonFieldValidators();
+    }
+
     default SimpleDateFormat getDateFormat() {
         if (!getType().equals(FieldType.DATE)) {
             return null;
@@ -83,6 +90,30 @@ public interface IField extends IAttrsOwner {
 
     default boolean isVisible() {
         return getBoolAttribute(IFieldAttrs.VISIBLE, true);
+    }
+
+    default boolean isRequired() {
+        return getBoolAttribute(IFieldAttrs.REQUIRED, false);
+    }
+
+    default String getPosition() {
+        return getAttribute(IFieldAttrs.POSITION);
+    }
+
+    default boolean isPositionLeft() {
+        return isPosition(IFieldAttrs.Position.LEFT);
+    }
+
+    default boolean isPositionRight() {
+        return isPosition(IFieldAttrs.Position.RIGHT);
+    }
+
+    default boolean isPositionFill() {
+        return isPosition(IFieldAttrs.Position.FILL);
+    }
+
+    default boolean isPosition(String code) {
+        return code.equals(getPosition());
     }
 
     default boolean isParentOf(IField v) {

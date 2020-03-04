@@ -46,14 +46,17 @@ public interface IFieldAttrs {
     /**
      * Validator
      */
+    @Deprecated
     String VALIDATOR = "VALIDATOR";
     /**
      * Validator parameter
      */
+    @Deprecated
     String VALIDATOR_PARAM = "VALIDATOR_PARAM_";
     /**
      * Validator message
      */
+    @Deprecated
     String VALIDATOR_MSG = "VALIDATOR_MSG";
     /**
      * Position
@@ -67,6 +70,10 @@ public interface IFieldAttrs {
      * Visible flag
      */
     String VISIBLE = "VISIBLE";
+    /**
+     * Required flag (need to fill)
+     */
+    String REQUIRED = "REQUIRED";
 
 
     interface Position {

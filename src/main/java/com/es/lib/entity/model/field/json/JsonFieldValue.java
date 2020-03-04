@@ -1,7 +1,9 @@
 package com.es.lib.entity.model.field.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -22,12 +24,10 @@ public class JsonFieldValue implements Serializable {
     private String format;
 
     public JsonFieldValue(String value) {
-        this.value = value;
-        this.title = value;
+        this(value, value, null);
     }
 
     public JsonFieldValue(String value, String title) {
-        this.value = value;
-        this.title = title;
+        this(value, title, null);
     }
 }
