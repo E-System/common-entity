@@ -1,7 +1,8 @@
 package com.es.lib.entity.iface;
 
+import com.es.lib.common.Constant;
 import com.es.lib.common.collection.CollectionUtil;
-import com.es.lib.common.date.DateUtil;
+import com.es.lib.common.date.Dates;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -80,12 +81,12 @@ public interface IAttrsOwner {
     }
 
     default Date getDateAttribute(String code) {
-        return getDateAttribute(code, DateUtil.CALENDAR_DATE_PATTERN);
+        return getDateAttribute(code, Constant.DEFAULT_DATE_PATTERN);
     }
 
     default Date getDateAttribute(String code, String format) {
         try {
-            return DateUtil.parse(getAttribute(code), format);
+            return Dates.parser().parse(getAttribute(code), format);
         } catch (ParseException e) {
             return null;
         }
