@@ -47,9 +47,19 @@ class FileStoreUtilSpec extends Specification {
 
     def "GetLocalPath"() {
         when:
-        def path = FileStoreUtil.getLocalPath("prefix", "name", "ext")
+        def path = FileStoreUtil.getLocalPath("prefix", null, "name", "ext")
         then:
         path.startsWith(FileStoreUtil.getPathPart("prefix"))
+        !path.contains("/null/")
+        path.endsWith("name.ext")
+    }
+
+    def "GetLocalPath with scope"() {
+        when:
+        def path = FileStoreUtil.getLocalPath("prefix", "null", "name", "ext")
+        then:
+        path.startsWith(FileStoreUtil.getPathPart("prefix"))
+        path.contains("/null/")
         path.endsWith("name.ext")
     }
 
