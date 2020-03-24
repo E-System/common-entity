@@ -46,10 +46,10 @@ import java.util.function.Supplier;
  */
 public class FileStoreUtil {
 
-    public static <T extends IFileStore> T toStore(Path basePath, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+    public static <T extends IFileStore> T toStore(Path basePath, String scope, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         StorePath storePath;
         try {
-            storePath = moveTo(temporaryFile, basePath, StoreMode.PERSISTENT, true);
+            storePath = moveTo(temporaryFile, basePath, StoreMode.PERSISTENT, scope, true);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -63,8 +63,8 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static <T extends IFileStore> T toStore(Path basePath, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
-        StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, ext);
+    public static <T extends IFileStore> T toStore(Path basePath, String scope, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+        StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, ext);
         T result = fileStoreCreator.get();
         result.setFilePath(storePath.getRelative().toString());
         result.setFileName(fileName);
@@ -87,8 +87,8 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static <T extends IFileStore> T copyInStore(Path basePath, T fileStore, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
-        StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, fileStore.getFileExt());
+    public static <T extends IFileStore> T copyInStore(Path basePath, String scope, T fileStore, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+        StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, fileStore.getFileExt());
         try {
             Files.createDirectories(storePath.toAbsolutePath().getParent());
             Files.copy(Paths.get(basePath.toString(), fileStore.getFilePath()), storePath.toAbsolutePath());
@@ -122,8 +122,8 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static StorePath moveTo(TemporaryFileStore temporaryFile, Path basePath, StoreMode mode, boolean deleteOriginal) throws IOException {
-        StorePath result = StorePath.create(basePath, mode, temporaryFile.getFileExt());
+    public static StorePath moveTo(TemporaryFileStore temporaryFile, Path basePath, StoreMode mode, String scope, boolean deleteOriginal) throws IOException {
+        StorePath result = StorePath.create(basePath, mode, scope, temporaryFile.getFileExt());
         Path source = Paths.get(basePath.toString(), temporaryFile.getFilePath());
         Files.createDirectories(result.toAbsolutePath().getParent());
         Files.copy(source, result.toAbsolutePath());
@@ -134,12 +134,12 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static TemporaryFileStore createTemporary(Path basePath, Path from, StoreMode mode, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(Path basePath, Path from, StoreMode mode, String scope, Consumer<IOException> exceptionConsumer) {
         if (from == null || !Files.exists(from) || !Files.isReadable(from)) {
             return null;
         }
         FileName fileName = FileName.create(from);
-        StorePath path = StorePath.create(basePath, mode, fileName.getExt());
+        StorePath path = StorePath.create(basePath, mode, scope, fileName.getExt());
         long crc32;
         long size;
         try (InputStream is = Files.newInputStream(from)) {
@@ -165,11 +165,11 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(Path basePath, byte[] from, String ext, StoreMode mode, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(Path basePath, byte[] from, String ext, StoreMode mode, String scope, Consumer<IOException> exceptionConsumer) {
         if (from == null) {
             return null;
         }
-        StorePath path = StorePath.create(basePath, mode, ext);
+        StorePath path = StorePath.create(basePath, mode, scope, ext);
         FileName fileName = FileName.create(path.getRelative());
         long crc32;
         try (InputStream is = new ByteArrayInputStream(from)) {
@@ -194,11 +194,11 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(Path basePath, InputStream from, String ext, long size, StoreMode mode, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(Path basePath, InputStream from, String ext, long size, StoreMode mode, String scope, Consumer<IOException> exceptionConsumer) {
         if (from == null) {
             return null;
         }
-        StorePath path = StorePath.create(basePath, mode, ext);
+        StorePath path = StorePath.create(basePath, mode, scope, ext);
         FileName fileName = FileName.create(path.getRelative());
         long crc32;
         try {
@@ -223,8 +223,8 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(Path basePath, InputStream from, FileName fileName, long size, String mime, ThumbUtil.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
-        StorePath path = StorePath.create(basePath, StoreMode.TEMPORARY, fileName.getExt());
+    public static TemporaryFileStore createTemporary(Path basePath, String scope, InputStream from, FileName fileName, long size, String mime, ThumbUtil.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
+        StorePath path = StorePath.create(basePath, StoreMode.TEMPORARY, scope, fileName.getExt());
         long crc32;
         try {
             crc32 = FileUtil.copyWithCrc32(from, path.toAbsolutePath());
