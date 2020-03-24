@@ -53,7 +53,7 @@ class FileStoreUtilSpec extends Specification {
         def fileName = 'fileName'
         def fileExt = 'txt'
         def mime = 'text/plain'
-        def result = FileStoreUtil.toStore(basePath, crc32, data.length(), fileName, fileExt, mime, data.bytes, new Supplier<FileStore>() {
+        def result = FileStoreUtil.toStore(basePath, null, crc32, data.length(), fileName, fileExt, mime, data.bytes, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
@@ -99,7 +99,7 @@ class FileStoreUtilSpec extends Specification {
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null)
+        def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
         def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
@@ -118,8 +118,8 @@ class FileStoreUtilSpec extends Specification {
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def temporary = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null)
-        def result = FileStoreUtil.toStore(basePath, temporary, new Supplier<FileStore>() {
+        def temporary = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
+        def result = FileStoreUtil.toStore(basePath, null, temporary, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()

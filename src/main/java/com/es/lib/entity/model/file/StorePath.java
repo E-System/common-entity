@@ -16,7 +16,6 @@
 
 package com.es.lib.entity.model.file;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -41,27 +40,28 @@ public class StorePath {
     private final Path root;
     private final Path relative;
 
-    public static StorePath create(Path basePath, StoreMode mode, String ext) {
-        return create(basePath, mode, UUID.randomUUID().toString(), ext);
+    public static StorePath create(Path basePath, StoreMode mode, String scope, String ext) {
+        return create(basePath, mode, scope, UUID.randomUUID().toString(), ext);
     }
 
-    public static StorePath create(Path basePath, StoreMode mode, String name, String ext) {
+    public static StorePath create(Path basePath, StoreMode mode, String scope, String name, String ext) {
         return new StorePath(
             basePath,
-            relative(mode.getPrefix(), name, ext)
+            relative(mode.getPrefix(), scope, name, ext)
         );
     }
 
-    public static Path relative(String prefix, String name, String ext) {
+    public static Path relative(String prefix, String scope, String name, String ext) {
         LocalDateTime dateTime = LocalDateTime.now();
         return Paths.get(
             (prefix == null ? Paths.get("/") : Paths.get("/", prefix)).toString(),
+            (scope == null ? Paths.get("/") : Paths.get("/", scope)).toString(),
             String.valueOf(dateTime.getYear()),
             String.valueOf(dateTime.getMonthValue()),
             String.valueOf(dateTime.getDayOfMonth()),
             dateTime.format(DateTimeFormatter.ofPattern("N")),
             name + "." + ext
-        );
+        ).normalize();
     }
 
     public Path toAbsolutePath() {
