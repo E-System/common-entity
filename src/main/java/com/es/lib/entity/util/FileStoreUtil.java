@@ -45,10 +45,10 @@ import java.util.stream.Stream;
  */
 public class FileStoreUtil {
 
-    public static <T extends IFileStore> T toStore(String basePath, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+    public static <T extends IFileStore> T toStore(String basePath, String scope, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         FileStorePath storePath;
         try {
-            storePath = moveTo(temporaryFile, basePath, FileStoreMode.PERSISTENT, true);
+            storePath = moveTo(temporaryFile, basePath, FileStoreMode.PERSISTENT, scope, true);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -68,8 +68,8 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static <T extends IFileStore> T toStore(String basePath, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
-        FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, ext);
+    public static <T extends IFileStore> T toStore(String basePath, String scope, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+        FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, scope, ext);
         T result = fileStoreCreator.get();
         result.setFilePath(storePath.getPath());
         result.setFileName(fileName);
@@ -94,8 +94,8 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static <T extends IFileStore> T copyInStore(String basePath, T fileStore, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
-        FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, fileStore.getFileExt());
+    public static <T extends IFileStore> T copyInStore(String basePath, String scope, T fileStore, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+        FileStorePath storePath = getUniquePath(basePath, FileStoreMode.PERSISTENT, scope, fileStore.getFileExt());
         try {
             FileUtils.copyFile(
                 new File(basePath, fileStore.getFilePath()),
@@ -127,8 +127,8 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static FileStorePath moveTo(TemporaryFileStore temporaryFile, String basePath, FileStoreMode mode, boolean deleteOriginal) throws IOException {
-        FileStorePath result = getUniquePath(basePath, mode, temporaryFile.getExt());
+    public static FileStorePath moveTo(TemporaryFileStore temporaryFile, String basePath, FileStoreMode mode, String scope, boolean deleteOriginal) throws IOException {
+        FileStorePath result = getUniquePath(basePath, mode, scope, temporaryFile.getExt());
         File source = new File(basePath, temporaryFile.getPath());
         FileUtils.copyFile(source, new File(result.getFullPath()));
         if (deleteOriginal) {
@@ -138,13 +138,13 @@ public class FileStoreUtil {
         return result;
     }
 
-    public static TemporaryFileStore createTemporary(String basePath, Path from, FileStoreMode mode, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(String basePath, Path from, FileStoreMode mode, String scope, Consumer<IOException> exceptionConsumer) {
         if (from == null || from.toFile().isDirectory() || !from.toFile().exists()) {
             return null;
         }
         String fileName = from.getFileName().toString();
         FileParts fileParts = FileStoreUtil.extractFileParts(fileName);
-        FileStorePath path = getUniquePath(basePath, mode, fileParts.getExt());
+        FileStorePath path = getUniquePath(basePath, mode, scope, fileParts.getExt());
         File resultFile = new File(path.getFullPath());
         long crc32;
         try (InputStream is = Files.newInputStream(from)) {
@@ -169,11 +169,11 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(String basePath, byte[] from, String ext, FileStoreMode mode, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(String basePath, byte[] from, String ext, FileStoreMode mode, String scope, Consumer<IOException> exceptionConsumer) {
         if (from == null) {
             return null;
         }
-        FileStorePath path = getUniquePath(basePath, mode, ext);
+        FileStorePath path = getUniquePath(basePath, mode, scope, ext);
         FileParts fileParts = FileStoreUtil.extractFileParts(path.getPath());
         File resultFile = new File(path.getFullPath());
         long crc32;
@@ -199,11 +199,11 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(String basePath, InputStream from, String ext, long size, FileStoreMode mode, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(String basePath, InputStream from, String ext, long size, FileStoreMode mode, String scope, Consumer<IOException> exceptionConsumer) {
         if (from == null) {
             return null;
         }
-        FileStorePath path = getUniquePath(basePath, mode, ext);
+        FileStorePath path = getUniquePath(basePath, mode, scope, ext);
         FileParts fileParts = FileStoreUtil.extractFileParts(path.getPath());
         File resultFile = new File(path.getFullPath());
         long crc32;
@@ -229,8 +229,8 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(String basePath, InputStream from, FileParts fileParts, long size, String mime, ThumbUtil.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
-        FileStorePath path = getUniquePath(basePath, FileStoreMode.TEMPORARY, fileParts.getExt());
+    public static TemporaryFileStore createTemporary(String basePath, String scope, InputStream from, FileParts fileParts, long size, String mime, ThumbUtil.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
+        FileStorePath path = getUniquePath(basePath, FileStoreMode.TEMPORARY, scope, fileParts.getExt());
         File resultFile = new File(path.getFullPath());
         long crc32;
         try {
@@ -257,12 +257,12 @@ public class FileStoreUtil {
         );
     }
 
-    public static FileStorePath getPath(String basePath, FileStoreMode mode, String name, String ext) {
-        return new FileStorePath(basePath, FileStoreUtil.getLocalPath(mode.getPrefix(), name, ext));
+    public static FileStorePath getPath(String basePath, FileStoreMode mode, String scope, String name, String ext) {
+        return new FileStorePath(basePath, FileStoreUtil.getLocalPath(mode.getPrefix(), scope, name, ext));
     }
 
-    public static FileStorePath getUniquePath(String basePath, FileStoreMode mode, String ext) {
-        return getPath(basePath, mode, UUID.randomUUID().toString(), ext);
+    public static FileStorePath getUniquePath(String basePath, FileStoreMode mode, String scope, String ext) {
+        return getPath(basePath, mode, scope, UUID.randomUUID().toString(), ext);
     }
 
     public static boolean isMime(String mime, String part) {
@@ -291,10 +291,11 @@ public class FileStoreUtil {
         }
     }
 
-    public static String getLocalPath(String prefix, String name, String ext) {
+    public static String getLocalPath(String prefix, String scope, String name, String ext) {
         LocalDateTime dateTime = LocalDateTime.now();
         return Stream.of(
             prefix,
+            scope,
             String.valueOf(dateTime.getYear()),
             String.valueOf(dateTime.getMonthValue()),
             String.valueOf(dateTime.getDayOfMonth()),
