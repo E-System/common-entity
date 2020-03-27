@@ -21,14 +21,15 @@ import com.es.lib.entity.iface.IPrimaryKey;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * Интерфейс периодического атрибута сущности
+ * Periodic entity attribute interface
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public interface IPropEntity<PK extends Serializable, O extends IPrimaryKey<? extends Serializable>, VS extends IPrimaryKey<? extends Serializable>> extends IPrimaryKey<PK> {
+public interface IPropEntity<PK extends Serializable, O extends IPrimaryKey<? extends Serializable>, VS extends IPropVar> extends IPrimaryKey<PK> {
 
     Date getDbegin();
 
@@ -42,9 +43,9 @@ public interface IPropEntity<PK extends Serializable, O extends IPrimaryKey<? ex
 
     void setOwner(O owner);
 
-    VS getVarSet();
+    List<VS> getVars();
 
-    void setVarSet(VS varSet);
+    void setVars(List<VS> varSet);
 
-    VS createVarSet();
+    VS createVar();
 }
