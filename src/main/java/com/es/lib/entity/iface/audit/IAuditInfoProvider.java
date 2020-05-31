@@ -16,7 +16,7 @@
 
 package com.es.lib.entity.iface.audit;
 
-import com.es.lib.common.JsonUtil;
+import com.es.lib.common.Jsons;
 import com.es.lib.entity.iface.IPrimaryKey;
 import com.es.lib.entity.model.audit.AuditInfo;
 import com.es.lib.entity.util.EntityUtil;
@@ -53,8 +53,8 @@ public interface IAuditInfoProvider {
 
     default IAuditInfo jsonAuditInfo(String title, Object value, Collection<String> exclude) {
         if (value instanceof IPrimaryKey) {
-            return auditInfo(title, JsonUtil.toJson(EntityUtil.toMap((IPrimaryKey<?>) value, exclude)), value.getClass().getCanonicalName());
+            return auditInfo(title, Jsons.toJson(EntityUtil.toMap((IPrimaryKey<?>) value, exclude)), value.getClass().getCanonicalName());
         }
-        return auditInfo(title, JsonUtil.toJson(value), value.getClass().getCanonicalName());
+        return auditInfo(title, Jsons.toJson(value), value.getClass().getCanonicalName());
     }
 }

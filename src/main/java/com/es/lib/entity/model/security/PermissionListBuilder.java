@@ -1,6 +1,6 @@
 package com.es.lib.entity.model.security;
 
-import com.es.lib.common.collection.CollectionUtil;
+import com.es.lib.common.collection.Cols;
 import lombok.ToString;
 
 import java.util.*;
@@ -56,12 +56,12 @@ public class PermissionListBuilder {
     public PermissionGroups build() {
         return items.entrySet().stream()
                     .map(groupEntry -> new PermissionGroup(groupEntry.getKey(), buildTargets(groupEntry.getValue())))
-                    .filter(v -> CollectionUtil.isNotEmpty(v.getTargets())).collect(Collectors.toCollection(PermissionGroups::new));
+                    .filter(v -> Cols.isNotEmpty(v.getTargets())).collect(Collectors.toCollection(PermissionGroups::new));
     }
 
     private Collection<PermissionTarget> buildTargets(Map<String, Set<String>> targets) {
         return targets.entrySet().stream()
-                      .filter(v -> CollectionUtil.isNotEmpty(v.getValue()))
+                      .filter(v -> Cols.isNotEmpty(v.getValue()))
                       .map(v -> new PermissionTarget(v.getKey(), v.getValue()))
                       .collect(Collectors.toList());
     }

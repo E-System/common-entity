@@ -16,7 +16,7 @@
 
 package com.es.lib.entity.iface;
 
-import com.es.lib.common.collection.CollectionUtil;
+import com.es.lib.common.collection.Cols;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -68,7 +68,7 @@ public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
      * @return true - если address == null || address.parts == null || address.parts is empty
      */
     static <PK extends Serializable> boolean isEmpty(IAddress<PK> address) {
-        return isNull(address) || CollectionUtil.isEmpty(address.getParts());
+        return isNull(address) || Cols.isEmpty(address.getParts());
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.es.lib.entity.iface;
 
 import com.es.lib.common.Constant;
-import com.es.lib.common.collection.CollectionUtil;
+import com.es.lib.common.collection.Cols;
 import com.es.lib.common.date.Dates;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -93,7 +93,7 @@ public interface IAttrsOwner {
     }
 
     default void setAttributes(Collection<? extends Map.Entry<String, String>> items) {
-        CollectionUtil.updateValues(this::getAttributes, this::setAttributes, items);
+        Cols.updateValues(this::getAttributes, this::setAttributes, items);
     }
 
     default void setAttribute(String code, String value) {
@@ -105,10 +105,10 @@ public interface IAttrsOwner {
     }
 
     default void removeEmptyAttributes() {
-        setAttributes(CollectionUtil.removeEmptyValues(getAttributes()));
+        setAttributes(Cols.removeEmptyValues(getAttributes()));
     }
 
     default void removeNullAttributes() {
-        setAttributes(CollectionUtil.removeNullValues(getAttributes()));
+        setAttributes(Cols.removeNullValues(getAttributes()));
     }
 }

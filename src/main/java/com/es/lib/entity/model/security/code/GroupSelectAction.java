@@ -15,7 +15,7 @@
  */
 package com.es.lib.entity.model.security.code;
 
-import com.es.lib.common.collection.CollectionUtil;
+import com.es.lib.common.collection.Cols;
 import com.es.lib.common.exception.ESRuntimeException;
 
 import java.util.*;
@@ -65,7 +65,7 @@ public enum GroupSelectAction {
     CLEAR_ALL;
 
     public static void selectGroup(GroupSelectAction action, Collection<String> targets, Map<String, Collection<String>> actions, Map<String, String[]> selection) {
-        if (CollectionUtil.isEmpty(targets)) {
+        if (Cols.isEmpty(targets)) {
             return;
         }
         for (String target : targets) {

@@ -33,7 +33,7 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '6.3'
+    gradleVersion = '6.4.1'
 }
 
 apply from: "build-${profile}.gradle"
@@ -142,9 +142,9 @@ publishing {
 dependencies {
     compile "com.es.lib:common-lib:1.5.0${project.ext.snapshot ? '-SNAPSHOT' : ''}"
 
-    compile "com.fasterxml.jackson.core:jackson-annotations:2.10.3"
-    compile "org.hibernate:hibernate-entitymanager:5.4.14.Final"
-    compile "org.hibernate:hibernate-core:5.4.14.Final"
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.11.0"
+    compile "org.hibernate:hibernate-entitymanager:5.4.17.Final"
+    compile "org.hibernate:hibernate-core:5.4.17.Final"
 
     compileOnly "org.postgresql:postgresql:42.2.12"
 
@@ -155,8 +155,8 @@ dependencies {
     testCompile "cglib:cglib:3.2.12"
     testCompile "org.objenesis:objenesis:3.0.1"
 
-    testCompile "org.testcontainers:spock:1.13.0"
-    testCompile "org.testcontainers:postgresql:1.13.0"
+    testCompile "org.testcontainers:spock:1.14.3"
+    testCompile "org.testcontainers:postgresql:1.14.3"
     testCompile "org.postgresql:postgresql:42.2.12"
 }
 

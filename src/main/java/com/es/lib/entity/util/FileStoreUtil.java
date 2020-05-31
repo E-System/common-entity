@@ -18,7 +18,7 @@ package com.es.lib.entity.util;
 
 import com.es.lib.common.exception.ESRuntimeException;
 import com.es.lib.common.file.FileName;
-import com.es.lib.common.file.FileUtil;
+import com.es.lib.common.file.IO;
 import com.es.lib.entity.iface.file.IFileStore;
 import com.es.lib.entity.iface.file.IStore;
 import com.es.lib.entity.model.file.StoreMode;
@@ -143,7 +143,7 @@ public class FileStoreUtil {
         long crc32;
         long size;
         try (InputStream is = Files.newInputStream(from)) {
-            crc32 = FileUtil.copyWithCrc32(is, path.toAbsolutePath());
+            crc32 = IO.copyWithCrc32(is, path.toAbsolutePath());
             size = Files.size(from);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
@@ -159,7 +159,7 @@ public class FileStoreUtil {
             fileName.getName(),
             fileName.getExt(),
             size,
-            FileUtil.mime(from),
+            IO.mime(from),
             crc32,
             mode
         );
@@ -173,7 +173,7 @@ public class FileStoreUtil {
         FileName fileName = FileName.create(path.getRelative());
         long crc32;
         try (InputStream is = new ByteArrayInputStream(from)) {
-            crc32 = FileUtil.copyWithCrc32(is, path.toAbsolutePath());
+            crc32 = IO.copyWithCrc32(is, path.toAbsolutePath());
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -188,7 +188,7 @@ public class FileStoreUtil {
             fileName.getName(),
             fileName.getExt(),
             from.length,
-            FileUtil.mime(ext),
+            IO.mime(ext),
             crc32,
             mode
         );
@@ -202,7 +202,7 @@ public class FileStoreUtil {
         FileName fileName = FileName.create(path.getRelative());
         long crc32;
         try {
-            crc32 = FileUtil.copyWithCrc32(from, path.toAbsolutePath());
+            crc32 = IO.copyWithCrc32(from, path.toAbsolutePath());
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -217,7 +217,7 @@ public class FileStoreUtil {
             fileName.getName(),
             fileName.getExt(),
             size,
-            FileUtil.mime(ext),
+            IO.mime(ext),
             crc32,
             mode
         );
@@ -227,7 +227,7 @@ public class FileStoreUtil {
         StorePath path = StorePath.create(basePath, StoreMode.TEMPORARY, scope, fileName.getExt());
         long crc32;
         try {
-            crc32 = FileUtil.copyWithCrc32(from, path.toAbsolutePath());
+            crc32 = IO.copyWithCrc32(from, path.toAbsolutePath());
             if (FileStoreUtil.isImage(mime)) {
                 ThumbUtil.generate(path.toAbsolutePath(), new Thumb(), null, thumbGenerator);
             }

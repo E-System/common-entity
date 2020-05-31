@@ -15,7 +15,7 @@
  */
 package com.es.lib.entity.util;
 
-import com.es.lib.common.reflection.ReflectionUtil;
+import com.es.lib.common.reflection.Reflects;
 import com.es.lib.entity.iface.IPrimaryKey;
 
 import java.io.Serializable;
@@ -72,7 +72,7 @@ public final class EntityUtil {
     }
 
     public static <R extends Serializable, T extends IPrimaryKey<? extends R>> Map<String, Object> toMap(final T instance, Collection<String> exclude) {
-        return ReflectionUtil.toMap(instance, exclude, value -> {
+        return Reflects.toMap(instance, exclude, value -> {
             if (value instanceof IPrimaryKey) {
                 return id((IPrimaryKey<? extends Serializable>) value);
             }
