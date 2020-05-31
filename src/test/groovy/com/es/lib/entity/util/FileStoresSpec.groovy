@@ -26,11 +26,11 @@ import java.util.function.Supplier
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 17.03.2018
  */
-class FileStoreUtilSpec extends Specification {
+class FileStoresSpec extends Specification {
 
     def "IsMime"() {
         expect:
-        FileStoreUtil.isMime(mime, part) == result
+        FileStores.isMime(mime, part) == result
         where:
         mime                | part    || result
         null                | null     | false
@@ -41,8 +41,8 @@ class FileStoreUtilSpec extends Specification {
 
     def "IsImage"() {
         expect:
-        FileStoreUtil.isImage("image/png")
-        !FileStoreUtil.isImage("octet/stream")
+        FileStores.isImage("image/png")
+        !FileStores.isImage("octet/stream")
     }
 
     def "Create file in file store"() {
@@ -53,7 +53,7 @@ class FileStoreUtilSpec extends Specification {
         def fileName = 'fileName'
         def fileExt = 'txt'
         def mime = 'text/plain'
-        def result = FileStoreUtil.toStore(basePath, null, crc32, data.length(), fileName, fileExt, mime, data.bytes, new Supplier<FileStore>() {
+        def result = FileStores.toStore(basePath, null, crc32, data.length(), fileName, fileExt, mime, data.bytes, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
@@ -99,7 +99,7 @@ class FileStoreUtilSpec extends Specification {
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def result = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
+        def result = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
         def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
@@ -118,8 +118,8 @@ class FileStoreUtilSpec extends Specification {
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def temporary = FileStoreUtil.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
-        def result = FileStoreUtil.toStore(basePath, null, temporary, new Supplier<FileStore>() {
+        def temporary = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
+        def result = FileStores.toStore(basePath, null, temporary, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()

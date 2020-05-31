@@ -22,11 +22,11 @@ import spock.lang.Specification
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 12.10.15
  */
-class LikeUtilSpec extends Specification {
+class LikesSpec extends Specification {
 
     def "Any"() {
         expect:
-        LikeUtil.any(text) == result
+        Likes.any(text) == result
         where:
         text                         || result
         null                         || "%%"
@@ -48,7 +48,7 @@ class LikeUtilSpec extends Specification {
 
     def "Begin"() {
         expect:
-        LikeUtil.begin(text) == result
+        Likes.begin(text) == result
         where:
         text                         || result
         null                         || "%"
@@ -70,7 +70,7 @@ class LikeUtilSpec extends Specification {
 
     def "Like"() {
         expect:
-        LikeUtil.like(text, any) == result
+        Likes.like(text, any) == result
         where:
         text   | any   || result
         "find" | true  || "%find%"

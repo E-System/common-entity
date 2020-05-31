@@ -25,6 +25,7 @@ import com.es.lib.entity.model.file.StoreMode;
 import com.es.lib.entity.model.file.StorePath;
 import com.es.lib.entity.model.file.TemporaryFileStore;
 import com.es.lib.entity.model.file.Thumb;
+import com.es.lib.entity.model.file.code.IFileStoreAttrs;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -44,7 +45,7 @@ import java.util.function.Supplier;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 17.03.18
  */
-public class FileStoreUtil {
+public class FileStores {
 
     public static <T extends IFileStore> T toStore(Path basePath, String scope, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         StorePath storePath;
@@ -59,7 +60,7 @@ public class FileStoreUtil {
             }
         }
         T result = fill(temporaryFile, storePath, fileStoreCreator.get());
-        FileStoreImageUtil.processAttributes(result, temporaryFile.getFile());
+        processAttributes(result, temporaryFile.getFile());
         return result;
     }
 
@@ -83,7 +84,7 @@ public class FileStoreUtil {
                 throw new ESRuntimeException(e);
             }
         }
-        FileStoreImageUtil.processAttributes(result, data);
+        processAttributes(result, data);
         return result;
     }
 
@@ -223,13 +224,13 @@ public class FileStoreUtil {
         );
     }
 
-    public static TemporaryFileStore createTemporary(Path basePath, String scope, InputStream from, FileName fileName, long size, String mime, ThumbUtil.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
+    public static TemporaryFileStore createTemporary(Path basePath, String scope, InputStream from, FileName fileName, long size, String mime, Thumbs.Generator thumbGenerator, Consumer<IOException> exceptionConsumer) {
         StorePath path = StorePath.create(basePath, StoreMode.TEMPORARY, scope, fileName.getExt());
         long crc32;
         try {
             crc32 = IO.copyWithCrc32(from, path.toAbsolutePath());
-            if (FileStoreUtil.isImage(mime)) {
-                ThumbUtil.generate(path.toAbsolutePath(), new Thumb(), null, thumbGenerator);
+            if (FileStores.isImage(mime)) {
+                Thumbs.generate(path.toAbsolutePath(), new Thumb(), null, thumbGenerator);
             }
         } catch (IOException e) {
             if (exceptionConsumer != null) {
@@ -270,5 +271,27 @@ public class FileStoreUtil {
         if (Files.exists(path) && Files.isReadable(path)) {
             Files.copy(path, outputStream);
         }
+    }
+
+    public static void processAttributes(IFileStore fileStore, Path source) {
+        if (FileStores.isImage(fileStore)) {
+            fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
+            fillImageInfo(fileStore, source);
+        }
+    }
+
+    public static void processAttributes(IFileStore fileStore, byte[] source) {
+        if (FileStores.isImage(fileStore)) {
+            fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
+            fillImageInfo(fileStore, source);
+        }
+    }
+
+    public static void fillImageInfo(IFileStore fileStore, Path source) {
+        fileStore.getAttributes().putAll(ImageSizes.get(source));
+    }
+
+    public static void fillImageInfo(IFileStore fileStore, byte[] source) {
+        fileStore.getAttributes().putAll(ImageSizes.get(source));
     }
 }

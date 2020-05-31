@@ -16,7 +16,7 @@
 
 package com.es.lib.entity.iface.file;
 
-import com.es.lib.entity.util.FileStoreUtil;
+import com.es.lib.entity.util.FileStores;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -53,7 +53,7 @@ public interface IStore extends Serializable {
 
     //TODO: Check jsf for default interface getter
     default boolean isImage() {
-        return FileStoreUtil.isImage(this);
+        return FileStores.isImage(this);
     }
 
 }

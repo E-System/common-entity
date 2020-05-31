@@ -33,14 +33,14 @@ import java.util.Map;
  * @since 17.03.2018
  */
 @Slf4j
-public final class ThumbUtil {
+public final class Thumbs {
 
     public interface Generator {
 
         void process(Path source, String extension, Path target, Thumb thumb) throws IOException;
     }
 
-    private ThumbUtil() {}
+    private Thumbs() {}
 
     /**
      * Generate thumbnail file and return path to generated file
@@ -84,7 +84,7 @@ public final class ThumbUtil {
             result = create(fileStore.getAttributes());
         }
         if (result == null) {
-            result = create(ImageSizeUtil.get(source));
+            result = create(ImageSizes.get(source));
         }
         return result;
     }

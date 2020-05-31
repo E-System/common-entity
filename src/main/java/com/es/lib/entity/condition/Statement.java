@@ -16,7 +16,7 @@
 
 package com.es.lib.entity.condition;
 
-import com.es.lib.entity.util.LikeUtil;
+import com.es.lib.entity.util.Likes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -109,15 +109,15 @@ public class Statement {
             }
 
             public ParamsBuilder likeAny(final String key, final String value) {
-                return param(key, LikeUtil.any(value));
+                return param(key, Likes.any(value));
             }
 
             public ParamsBuilder likeBegin(final String key, final String value) {
-                return param(key, LikeUtil.begin(value));
+                return param(key, Likes.begin(value));
             }
 
             public ParamsBuilder like(final String key, final String value, boolean anyMatch) {
-                return param(key, LikeUtil.like(value, anyMatch));
+                return param(key, Likes.like(value, anyMatch));
             }
 
             public Builder second(final String eq) {

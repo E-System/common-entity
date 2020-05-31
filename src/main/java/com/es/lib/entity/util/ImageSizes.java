@@ -40,9 +40,9 @@ import java.util.Map;
  * @since 17.03.18
  */
 @Slf4j
-public final class ImageSizeUtil {
+public final class ImageSizes {
 
-    private ImageSizeUtil() {}
+    private ImageSizes() {}
 
     public static Map<String, String> get(Path source) {
         try (InputStream stream = Files.newInputStream(source)) {

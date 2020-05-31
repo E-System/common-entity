@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 14.02.2020
  */
-public final class EntityUtil {
+public final class PKeys {
 
-    private EntityUtil() { }
+    private PKeys() { }
 
     /**
      * Get entity ID or null

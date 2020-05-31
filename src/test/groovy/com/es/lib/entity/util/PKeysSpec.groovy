@@ -3,7 +3,7 @@ package com.es.lib.entity.util
 import com.es.lib.entity.iface.IPrimaryKey
 import spock.lang.Specification
 
-class EntityUtilSpec extends Specification {
+class PKeysSpec extends Specification {
 
     static class Pk1 implements IPrimaryKey<Long> {
         Long id
@@ -37,24 +37,24 @@ class EntityUtilSpec extends Specification {
 
     def "Get id"() {
         expect:
-        EntityUtil.id(new Pk1(1)) == 1
+        PKeys.id(new Pk1(1)) == 1
     }
 
 
     def "Id exist"() {
         expect:
-        EntityUtil.idExist(new Pk1(1))
-        !EntityUtil.idExist(new Pk1(null))
+        PKeys.idExist(new Pk1(1))
+        !PKeys.idExist(new Pk1(null))
     }
 
     def "Get ids"() {
         expect:
-        EntityUtil.id([new Pk1(1), new Pk1(2)]).containsAll([1L, 2L])
+        PKeys.id([new Pk1(1), new Pk1(2)]).containsAll([1L, 2L])
     }
 
     def "toMap"() {
         when:
-        def res = EntityUtil.toMap(new RealEntity2(1, '1', true, new RealEntity(2, '2')))
+        def res = PKeys.toMap(new RealEntity2(1, '1', true, new RealEntity(2, '2')))
         then:
         res['id'] == 1
         res['name'] == '1'
@@ -64,7 +64,7 @@ class EntityUtilSpec extends Specification {
 
     def "toMap with exclude"() {
         when:
-        def res = EntityUtil.toMap(new RealEntity2(1, '1', true, new RealEntity(2, '2')), ['name', 'bl'])
+        def res = PKeys.toMap(new RealEntity2(1, '1', true, new RealEntity(2, '2')), ['name', 'bl'])
         then:
         res['id'] == 1
         res['name'] == null
