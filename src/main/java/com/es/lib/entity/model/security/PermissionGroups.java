@@ -1,6 +1,6 @@
 package com.es.lib.entity.model.security;
 
-import com.es.lib.common.collection.Cols;
+import com.es.lib.common.collection.Items;
 import com.es.lib.entity.model.security.code.ISecurityAction;
 
 import java.util.ArrayList;
@@ -34,12 +34,12 @@ public class PermissionGroups extends ArrayList<PermissionGroup> {
     }
 
     public boolean isAnyTargetAvailable() {
-        if (Cols.isEmpty(this)) {
+        if (Items.isEmpty(this)) {
             return false;
         }
         boolean result = false;
         for (PermissionGroup group : this) {
-            result = Cols.isNotEmpty(group.getTargets());
+            result = Items.isNotEmpty(group.getTargets());
             if (result) {
                 break;
             }
@@ -79,7 +79,7 @@ public class PermissionGroups extends ArrayList<PermissionGroup> {
     }
 
     public PermissionGroups filter(Collection<String> availableKeys) {
-        if (Cols.isEmpty(availableKeys)) {
+        if (Items.isEmpty(availableKeys)) {
             return new PermissionGroups();
         }
         Map<String, Map<String, Collection<String>>> filtered = new LinkedHashMap<>();
@@ -103,11 +103,11 @@ public class PermissionGroups extends ArrayList<PermissionGroup> {
         for (Map.Entry<String, Map<String, Collection<String>>> gentry : filtered.entrySet()) {
             Collection<PermissionTarget> targets = new ArrayList<>();
             for (Map.Entry<String, Collection<String>> entry : gentry.getValue().entrySet()) {
-                if (Cols.isNotEmpty(entry.getValue())) {
+                if (Items.isNotEmpty(entry.getValue())) {
                     targets.add(new PermissionTarget(entry.getKey(), entry.getValue()));
                 }
             }
-            if (Cols.isNotEmpty(targets)) {
+            if (Items.isNotEmpty(targets)) {
                 result.add(new PermissionGroup(gentry.getKey(), targets));
             }
         }
