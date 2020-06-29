@@ -16,57 +16,36 @@
 
 package com.es.lib.entity.condition.v2;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
 import java.util.function.Supplier;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class QCondition {
 
     private static final Supplier<Boolean> ALWAYS_TRUE = () -> true;
-    private Supplier<Boolean> decisionFunction;
-    private IQStatement first;
-    private IQStatement second;
+
+    private final Supplier<Boolean> decisionFunction;
+    private final IQStatement first;
+    private final IQStatement second;
 
     public QCondition(IQStatement first) {
-        this.decisionFunction = ALWAYS_TRUE;
-        this.first = first;
+        this(ALWAYS_TRUE, first, null);
     }
 
     public QCondition(Supplier<Boolean> decisionFunction, IQStatement first) {
-        this.decisionFunction = decisionFunction;
-        this.first = first;
-    }
-
-    public QCondition(Supplier<Boolean> decisionFunction, IQStatement first, IQStatement second) {
-        this.decisionFunction = decisionFunction;
-        this.first = first;
-        this.second = second;
-    }
-
-    public Supplier<Boolean> getDecisionFunction() {
-        return decisionFunction;
-    }
-
-    public IQStatement getFirst() {
-        return first;
-    }
-
-    public IQStatement getSecond() {
-        return second;
+        this(decisionFunction, first, null);
     }
 
     public IQStatement getStatement() {
         return decisionFunction.get() ? first : second;
-    }
-
-    @Override
-    public String toString() {
-        return "QCondition [" +
-               "decisionFunction=" + decisionFunction +
-               ", first=" + first +
-               ", second=" + second +
-               ']';
     }
 }

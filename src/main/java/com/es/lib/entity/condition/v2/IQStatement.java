@@ -16,19 +16,18 @@
 
 package com.es.lib.entity.condition.v2;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class IQStatement {
 
-	private boolean empty;
-
-	public IQStatement(boolean empty) {
-		this.empty = empty;
-	}
-
-	public boolean isEmpty() {
-		return empty;
-	}
+    private final boolean empty;
 }

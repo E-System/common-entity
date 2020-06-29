@@ -144,8 +144,8 @@ dependencies {
     api "com.es.lib:common-lib:1.5.0${project.ext.snapshot ? '-SNAPSHOT' : ''}"
 
     api "com.fasterxml.jackson.core:jackson-annotations:2.11.0"
-    api "org.hibernate:hibernate-entitymanager:5.4.17.Final"
-    api "org.hibernate:hibernate-core:5.4.17.Final"
+    api "org.hibernate:hibernate-entitymanager:5.4.18.Final"
+    api "org.hibernate:hibernate-core:5.4.18.Final"
 
     compileOnly "org.postgresql:postgresql:42.2.14"
 
@@ -161,6 +161,10 @@ dependencies {
     testImplementation "org.postgresql:postgresql:42.2.14"
 }
 
+test {
+    finalizedBy jacocoTestReport
+}
+
 def sonarAvailable = properties['sonar_url'] != null && properties['sonar_user'] != null && properties['sonar_password'] != null
 if (sonarAvailable) {
     apply plugin: 'org.sonarqube'
@@ -171,7 +175,4 @@ if (sonarAvailable) {
             property "sonar.password", "${sonar_password}"
         }
     }
-}
-test {
-    finalizedBy jacocoTestReport
 }

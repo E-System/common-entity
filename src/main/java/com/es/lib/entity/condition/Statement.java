@@ -17,6 +17,9 @@
 package com.es.lib.entity.condition;
 
 import com.es.lib.entity.util.Likes;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,31 +28,13 @@ import java.util.Map;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class Statement {
 
-    private String equation;
-    private Map<String, Object> params;
-
-    public Statement(String equation, Map<String, Object> params) {
-        this.equation = equation;
-        this.params = params;
-    }
-
-    public String getEquation() {
-        return equation;
-    }
-
-    public Map<String, Object> getParams() {
-        return params;
-    }
-
-    @Override
-    public String toString() {
-        return "Statement [" +
-               "equation='" + equation + "'" +
-               ", params=" + params +
-               ']';
-    }
+    private final String equation;
+    private final Map<String, Object> params;
 
     public static class Builder {
 

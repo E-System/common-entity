@@ -16,6 +16,9 @@
 
 package com.es.lib.entity.condition.v2;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -25,69 +28,55 @@ import static com.es.lib.entity.condition.v2.QC.*;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
+@ToString
 public class QStatement extends IQStatement {
 
-	private String expression;
-	private Collection<QParam> params;
+    private final String expression;
+    private Collection<QParam> params;
 
-	public QStatement(String expression) {
-		super(false);
-		this.expression = expression;
-	}
+    public QStatement(String expression) {
+        super(false);
+        this.expression = expression;
+    }
 
-	public QStatement(String expression, QParam... params) {
-		super(false);
-		this.expression = expression;
-		this.params = Arrays.asList(params);
-	}
+    public QStatement(String expression, QParam... params) {
+        super(false);
+        this.expression = expression;
+        this.params = Arrays.asList(params);
+    }
 
-	public String getExpression() {
-		return expression;
-	}
+    public boolean isEmptyParams() {
+        return params == null || params.isEmpty();
+    }
 
-	public Collection<QParam> getParams() {
-		return params;
-	}
+    public static QConditions generate(QConditions conditions) {
+        return conditions.add(
+            always(
+                stmt("and a = :id", param("id", () -> 1))
+            ),
+            ifTrue(
+                () -> false,
+                stmt("and b = :id", param("id", () -> 3)),
+                stmt()
+            )
+        );
+    }
 
-	public boolean isEmptyParams(){
-		return params == null || params.isEmpty();
-	}
-
-	@Override
-	public String toString() {
-		return "QStatement [" +
-		       "expression='" + expression + "'" +
-		       ", params=" + params +
-		       ']';
-	}
-
-	public static QConditions generate(QConditions conditions) {
-		return conditions.add(
-				always(
-						stmt("and a = :id", param("id", () -> 1))
-				),
-				ifTrue(
-						() -> false,
-						stmt("and b = :id", param("id", () -> 3)),
-						stmt()
-				)
-		);
-	}
-
-	public static QConditions generate() {
-		return new QConditions(
-				new QCondition(
-						new QStatement(
-								"and a = :id", new QParam("id", () -> 1)
-						)
-				),
-				new QCondition(
-						() -> false,
-						new QStatement(
-								"and b = :id", new QParam("id", () -> 3)
-						),
-						new QStatementEmpty()
-				)
-		);
-	}
+    public static QConditions generate() {
+        return new QConditions(
+            new QCondition(
+                new QStatement(
+                    "and a = :id", new QParam("id", () -> 1)
+                )
+            ),
+            new QCondition(
+                () -> false,
+                new QStatement(
+                    "and b = :id", new QParam("id", () -> 3)
+                ),
+                new QStatementEmpty()
+            )
+        );
+    }
 }

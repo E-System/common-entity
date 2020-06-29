@@ -16,76 +16,65 @@
 
 package com.es.lib.entity.condition;
 
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@ToString
+@RequiredArgsConstructor
 public class Condition {
 
-	private final boolean firstActive;
-	private Statement statement1;
-	private Statement statement2;
+    private final boolean firstActive;
+    private final Statement statement1;
+    private final Statement statement2;
 
-	public Condition(Statement statement1) {
-		this.firstActive = true;
-		this.statement1 = statement1;
-	}
+    public Condition(Statement statement1) {
+        this(true, statement1, null);
+    }
 
-	public Condition(boolean firstActive, Statement statement1, Statement statement2) {
-		this.firstActive = firstActive;
-		this.statement1 = statement1;
-		this.statement2 = statement2;
-	}
+    public Statement getStatement() {
+        return firstActive ? statement1 : statement2;
+    }
 
-	public Statement getStatement() {
-		return firstActive ? statement1 : statement2;
-	}
+    public static class Builder {
 
-	@Override
-	public String toString() {
-		return "Condition [" +
-		       "firstActive=" + firstActive +
-		       ", statement1=" + statement1 +
-		       ", statement2=" + statement2 +
-		       ']';
-	}
+        Conditions conditions;
+        private boolean firstActive;
+        private Statement.Builder statement1;
+        private Statement.Builder statement2;
 
-	public static class Builder {
+        public Builder(Conditions conditions) {
+            this.conditions = conditions;
+        }
 
-		Conditions conditions;
-		private boolean firstActive;
-		private Statement.Builder statement1;
-		private Statement.Builder statement2;
+        Builder firstActive(final boolean value) {
+            this.firstActive = value;
+            return this;
+        }
 
-		public Builder(Conditions conditions) {
-			this.conditions = conditions;
-		}
+        public Statement.Builder first(final String eq) {
+            if (statement1 == null) {
+                statement1 = new Statement.Builder(this, eq);
+            }
+            return statement1;
+        }
 
-		Builder firstActive(final boolean value) {
-			this.firstActive = value;
-			return this;
-		}
+        public Conditions end() {
+            return conditions;
+        }
 
-		public Statement.Builder first(final String eq) {
-			if (statement1 == null) {
-				statement1 = new Statement.Builder(this, eq);
-			}
-			return statement1;
-		}
+        Statement.Builder statement2(final String eq) {
+            if (statement2 == null) {
+                statement2 = new Statement.Builder(this, eq);
+            }
+            return statement2;
+        }
 
-		public Conditions end() {
-			return conditions;
-		}
-
-		Statement.Builder statement2(final String eq) {
-			if (statement2 == null) {
-				statement2 = new Statement.Builder(this, eq);
-			}
-			return statement2;
-		}
-
-		Condition build() {
-			return new Condition(firstActive, statement1 != null ? statement1.internalBuild() : null, statement2 != null ? statement2.internalBuild() : null);
-		}
-	}
+        Condition build() {
+            return new Condition(firstActive, statement1 != null ? statement1.internalBuild() : null, statement2 != null ? statement2.internalBuild() : null);
+        }
+    }
 }

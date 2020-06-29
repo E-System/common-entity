@@ -16,35 +16,21 @@
 
 package com.es.lib.entity.condition.v2;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
 import java.util.function.Supplier;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class QParam {
 
-	private String name;
-	private Supplier<Object> value;
-
-	public QParam(String name, Supplier<Object> value) {
-		this.name = name;
-		this.value = value;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Supplier<Object> getValue() {
-		return value;
-	}
-
-	@Override
-	public String toString() {
-		return "QParam [" +
-		       "name='" + name + "'" +
-		       ", value=" + value +
-		       ']';
-	}
+    private final String name;
+    private final Supplier<Object> value;
 }
