@@ -14,13 +14,14 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.condition.v2;
+package com.es.lib.entity.query;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -28,9 +29,23 @@ import java.util.function.Supplier;
  */
 @Getter
 @ToString
-@RequiredArgsConstructor
-public class QParam {
+public class Statement extends IStatement {
 
-    private final String name;
-    private final Supplier<Object> value;
+    private final String expression;
+    private final Collection<Param> params = new ArrayList<>(1);
+
+    public Statement(String expression) {
+        super(false);
+        this.expression = expression;
+    }
+
+    public Statement(String expression, Param... params) {
+        super(false);
+        this.expression = expression;
+        this.params.addAll(Arrays.asList(params));
+    }
+
+    public boolean isEmptyParams() {
+        return params.isEmpty();
+    }
 }

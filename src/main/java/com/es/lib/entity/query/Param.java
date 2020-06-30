@@ -14,27 +14,23 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.condition
+package com.es.lib.entity.query;
 
-import spock.lang.Specification
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
+import java.util.function.Supplier;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
- * @since 31.05.14
+ * @since 10.04.15
  */
-class ConditionBuilderSpec extends Specification {
+@Getter
+@ToString
+@RequiredArgsConstructor
+public class Param {
 
-    def "Expect exp1 after construction"() {
-        expect:
-        " exp1" == cb
-        where:
-        cb = new Conditions().add().first("exp1").end().statement
-    }
-
-    def "Expect (and exp1 and exp2)"() {
-        expect:
-        " and exp1 and exp2" == cb
-        where:
-        cb = new Conditions().add().first("and exp1").add().first("and exp2").end().statement
-    }
+    private final String name;
+    private final Supplier<Object> value;
 }

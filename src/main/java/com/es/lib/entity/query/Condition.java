@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.condition.v2;
+package com.es.lib.entity.query;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -29,23 +29,21 @@ import java.util.function.Supplier;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class QCondition {
+public class Condition {
 
-    private static final Supplier<Boolean> ALWAYS_TRUE = () -> true;
+    private final Supplier<Boolean> predicate;
+    private final IStatement first;
+    private final IStatement second;
 
-    private final Supplier<Boolean> decisionFunction;
-    private final IQStatement first;
-    private final IQStatement second;
-
-    public QCondition(IQStatement first) {
-        this(ALWAYS_TRUE, first, null);
+    public Condition(IStatement first) {
+        this(null, first, null);
     }
 
-    public QCondition(Supplier<Boolean> decisionFunction, IQStatement first) {
-        this(decisionFunction, first, null);
+    public Condition(Supplier<Boolean> predicate, IStatement first) {
+        this(predicate, first, null);
     }
 
-    public IQStatement getStatement() {
-        return decisionFunction.get() ? first : second;
+    public IStatement getStatement() {
+        return predicate == null || predicate.get() ? first : second;
     }
 }

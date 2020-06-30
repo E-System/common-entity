@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.condition.v2;
+package com.es.lib.entity.query;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,9 @@ import lombok.ToString;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class IQStatement {
+public class IStatement {
 
-    private final boolean empty;
+    public static final IStatement SKIP = new IStatement(true);
+
+    private final boolean skip;
 }

@@ -14,16 +14,14 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.condition.v2;
+package com.es.lib.entity.query;
 
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -31,33 +29,30 @@ import java.util.stream.Collectors;
  */
 @Getter
 @ToString
-public class QConditions {
+public class Conditions {
 
-    private Collection<QCondition> conditions;
+    private final Collection<Condition> items = new ArrayList<>();
 
-    public QConditions() {
+    public Conditions(Condition... conditions) {
+        this.items.addAll(Arrays.asList(conditions));
     }
 
-    public QConditions(QCondition... conditions) {
-        this.conditions = Arrays.asList(conditions);
-    }
-
-    public QConditions add(QCondition... conditions) {
-        this.conditions.addAll(Arrays.asList(conditions));
+    public Conditions add(Condition... conditions) {
+        this.items.addAll(Arrays.asList(conditions));
         return this;
     }
 
     public boolean isEmpty() {
-        return conditions == null || conditions.isEmpty();
+        return items.isEmpty();
     }
 
-    public boolean isBreakSelect() {
+    public boolean isSkipSelect() {
         if (isEmpty()) {
             return false;
         }
-        for (QCondition condition : conditions) {
-            IQStatement statement = condition.getStatement();
-            if (statement != null && statement.isEmpty()) {
+        for (Condition condition : items) {
+            IStatement statement = condition.getStatement();
+            if (statement != null && statement.isSkip()) {
                 return true;
             }
         }
@@ -68,31 +63,25 @@ public class QConditions {
         if (isEmpty()) {
             return "";
         }
-        StringBuilder result = new StringBuilder();
-        for (QCondition condition : getConditions()) {
-            IQStatement statement = condition.getStatement();
-            result.append(" ");
-            if (statement != null && !statement.isEmpty()) {
-                QStatement qStatement = (QStatement) statement;
-                result.append(qStatement.getExpression());
-            }
-        }
-        return result.toString();
+        return items.stream().flatMap(v -> Stream.of(v.getStatement()))
+                    .filter(v -> v != null && !v.isSkip())
+                    .map(v -> ((Statement) v).getExpression())
+                    .collect(Collectors.joining(" "));
     }
 
     public Map<String, Object> getParameters() {
         Map<String, Object> result = new HashMap<>();
-        for (QCondition condition : getConditions()) {
-            IQStatement statement = condition.getStatement();
-            if (statement != null && !statement.isEmpty()) {
-                QStatement qStatement = (QStatement) statement;
+        for (Condition condition : getItems()) {
+            IStatement statement = condition.getStatement();
+            if (statement != null && !statement.isSkip()) {
+                Statement qStatement = (Statement) statement;
                 if (!qStatement.isEmptyParams()) {
                     result.putAll(
                         qStatement.getParams()
                                   .stream()
                                   .collect(
                                       Collectors.toMap(
-                                          QParam::getName,
+                                          Param::getName,
                                           v -> v.getValue().get()
                                       )
                                   )
