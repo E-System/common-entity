@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@ToString
 public final class Orders {
 
     private final Collection<Order> items = new ArrayList<>(4);

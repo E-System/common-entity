@@ -32,6 +32,7 @@ import java.util.stream.Stream;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@ToString
 public final class Joins {
 
     private final Collection<Join> items = new ArrayList<>(4);
