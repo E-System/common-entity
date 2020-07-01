@@ -15,7 +15,9 @@ import lombok.ToString;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -33,6 +35,34 @@ public class QueryContext {
 
     public static QueryContext of(String query, Map<String, Object> params) {
         return new QueryContext(query, params);
+    }
+
+    public static <T> T single(EntityManager entityManager, Class<T> entityClass, String hql, Map<String, Object> params) {
+        return QueryContext.fill(
+            entityManager.createQuery(hql, entityClass),
+            params
+        ).getSingleResult();
+    }
+
+    public static <T> T single(EntityManager entityManager, QueryContext queryContext) {
+        return (T) QueryContext.fill(
+            entityManager.createQuery(queryContext.getQuery()),
+            queryContext.getParams()
+        ).getSingleResult();
+    }
+
+    public static <T> List<T> list(EntityManager entityManager, Class<T> entityClass, QueryContext queryContext, Integer first, Integer pageSize) {
+        TypedQuery<T> query = QueryContext.fill(
+            entityManager.createQuery(queryContext.getQuery(), entityClass),
+            queryContext.getParams()
+        );
+        if (first != null) {
+            query.setFirstResult(first);
+        }
+        if (pageSize != null) {
+            query.setMaxResults(pageSize);
+        }
+        return query.getResultList();
     }
 
     public static <T extends Query> T fill(T query, Map<String, Object> params) {
