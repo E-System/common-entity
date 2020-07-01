@@ -9,6 +9,7 @@
 package com.es.lib.entity.query;
 
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -21,7 +22,7 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SelectAttributes {
 
     private final QueryContext selectQuery;
@@ -29,4 +30,8 @@ public class SelectAttributes {
     private final Joins joins;
     private final Conditions conditions;
     private final Orders orders;
+
+    public static SelectAttributes of(QueryContext selectQuery, QueryContext countQuery, Joins joins, Conditions conditions, Orders orders) {
+        return new SelectAttributes(selectQuery, countQuery, joins, conditions, orders);
+    }
 }

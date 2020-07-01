@@ -4,34 +4,41 @@ import spock.lang.Specification
 
 import java.util.function.Supplier
 
-import static QueryEsl.*
+import static com.es.lib.entity.query.QueryEsl.*
 
 class ConditionsSpec extends Specification {
+
+    def "Empty conditions"() {
+        expect:
+        "" == cb
+        where:
+        cb = conditions().format()
+    }
 
     def "Expect exp1 after construction"() {
         expect:
         "exp1" == cb
         where:
-        cb = new Conditions(
+        cb = conditions(
             where("exp1")
-        ).statement
+        ).format()
     }
 
     def "Expect (and exp1 and exp2)"() {
         expect:
         "and exp1 and exp2" == cb
         where:
-        cb = new Conditions(
+        cb = conditions(
             where("and exp1"),
             where("and exp2")
-        ).statement
+        ).format()
     }
 
     def "Expect (and exp1 and exp2 1)"() {
         expect:
         "and exp1 and exp2" == cb
         where:
-        cb = new Conditions(
+        cb = conditions(
             where("and exp1"),
             where("and exp2", param("hello", new Supplier<Object>() {
                 @Override
@@ -39,12 +46,12 @@ class ConditionsSpec extends Specification {
                     return 1
                 }
             }))
-        ).statement
+        ).format()
     }
 
     def "Empty statement 1"() {
         when:
-        def cb = new Conditions(
+        def cb = conditions(
             where(
                 stmt("and a = :id", param("id", new Supplier<Object>() {
                     @Override
@@ -70,14 +77,14 @@ class ConditionsSpec extends Specification {
             )
         )
         then:
-        cb.statement == 'and a = :id'
-        cb.parameters == ['id': 2]
+        cb.format() == 'and a = :id'
+        cb.parameters() == ['id': 2]
         cb.skipSelect
     }
 
     def "Empty statement 2"() {
         when:
-        def cb = new Conditions(
+        def cb = conditions(
             where(
                 stmt("and a = :id", param("id", new Supplier<Object>() {
                     @Override
@@ -103,8 +110,8 @@ class ConditionsSpec extends Specification {
             )
         )
         then:
-        cb.statement == 'and a = :id and b = :id2'
-        cb.parameters == ['id': 2, 'id2': 3]
+        cb.format() == 'and a = :id and b = :id2'
+        cb.parameters() == ['id': 2, 'id2': 3]
         !cb.skipSelect
     }
 }

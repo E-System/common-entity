@@ -18,7 +18,7 @@ package com.es.lib.entity.query
 
 import spock.lang.Specification
 
-import static QueryEsl.*
+import static com.es.lib.entity.query.QueryEsl.*
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -28,12 +28,12 @@ class JoinsSpec extends Specification {
 
     def "Joins is empty after construction"() {
         expect:
-        new Joins().empty
+        joins().empty
     }
 
     def "One full join condition without fetch"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             inner("a.a", "a")
         )
         then:
@@ -42,7 +42,7 @@ class JoinsSpec extends Specification {
 
     def "One full join condition with fetch"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             inner("a.a", "a", true)
         )
         then:
@@ -51,7 +51,7 @@ class JoinsSpec extends Specification {
 
     def "One full join condition without fetch by flag"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             inner("a.a", "a", true)
         )
         then:
@@ -60,7 +60,7 @@ class JoinsSpec extends Specification {
 
     def "One right join condition without fetch"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             right("a.a", "a")
         )
         then:
@@ -69,7 +69,7 @@ class JoinsSpec extends Specification {
 
     def "One right join condition with fetch"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             right("a.a", "a", true)
         )
         then:
@@ -78,7 +78,7 @@ class JoinsSpec extends Specification {
 
     def "One right join condition without fetch by flag"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             right("a.a", "a")
         )
         then:
@@ -87,7 +87,7 @@ class JoinsSpec extends Specification {
 
     def "One left join condition without fetch"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             left("a.a", "a")
         )
         then:
@@ -96,7 +96,7 @@ class JoinsSpec extends Specification {
 
     def "One left join condition with fetch"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             left("a.a", "a", true)
         )
         then:
@@ -105,7 +105,7 @@ class JoinsSpec extends Specification {
 
     def "One left join condition without fetch by flag"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             left("a.a", "a")
         )
         then:
@@ -114,35 +114,35 @@ class JoinsSpec extends Specification {
 
     def "Alias not exist"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             left("a.a", "a", true)
         )
         then:
-        joins.findAlias("a.b") == "a.b"
+        joins.aliasFor("a.b") == "a.b"
     }
 
     def "Alias exist"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             left("a.a", "a", true)
         )
         then:
-        joins.findAlias("a.a") == "a"
+        joins.aliasFor("a.a") == "a"
     }
 
     def "Recursive alias"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             inner("a.b", "c"),
             inner("c.a", "d")
         )
         then:
-        joins.findAlias("a.b.a") == "d"
+        joins.aliasFor("a.b.a") == "d"
     }
 
     def "All conditions in add order with declared fetches"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             inner("a1.a1", "b1"),
             inner("a2.a2", "b2", true),
             right("a3.a3", "b3"),
@@ -156,7 +156,7 @@ class JoinsSpec extends Specification {
 
     def "All conditions in add order without fetches"() {
         when:
-        def joins = new Joins(
+        def joins = joins(
             inner("a1.a1", "b1"),
             inner("a2.a2", "b2", true),
             right("a3.a3", "b3"),

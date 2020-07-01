@@ -8,6 +8,7 @@
 
 package com.es.lib.entity.query;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -24,11 +25,15 @@ import java.util.function.Function;
  */
 @Getter
 @ToString
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class QueryContext {
 
     private final String query;
     private final Map<String, Object> params;
+
+    public static QueryContext of(String query, Map<String, Object> params) {
+        return new QueryContext(query, params);
+    }
 
     public static <T extends Query> T fill(T query, Map<String, Object> params) {
         for (Map.Entry<String, Object> entry : params.entrySet()) {

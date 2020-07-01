@@ -16,7 +16,7 @@ public final class Orders {
 
     private final Collection<Order> items = new ArrayList<>(4);
 
-    public Orders(Order... orders) {
+    Orders(Order... orders) {
         this.items.addAll(Arrays.asList(orders));
     }
 

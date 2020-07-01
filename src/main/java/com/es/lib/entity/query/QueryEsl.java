@@ -28,6 +28,18 @@ public final class QueryEsl {
 
     private QueryEsl() { }
 
+    public static Joins joins(Joins.Join... joins) {
+        return new Joins(joins);
+    }
+
+    public static Conditions conditions(Condition... conditions) {
+        return new Conditions(conditions);
+    }
+
+    public static Orders orders(Orders.Order... orders) {
+        return new Orders(orders);
+    }
+
     // Joins
     public static Joins.Join inner(String path, String alias) {
         return inner(path, alias, false);

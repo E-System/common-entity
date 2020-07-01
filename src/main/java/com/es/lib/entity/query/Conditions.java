@@ -33,7 +33,7 @@ public class Conditions {
 
     private final Collection<Condition> items = new ArrayList<>();
 
-    public Conditions(Condition... conditions) {
+    Conditions(Condition... conditions) {
         this.items.addAll(Arrays.asList(conditions));
     }
 
@@ -59,7 +59,7 @@ public class Conditions {
         return false;
     }
 
-    public String getStatement() {
+    public String format() {
         if (isEmpty()) {
             return "";
         }
@@ -69,7 +69,7 @@ public class Conditions {
                     .collect(Collectors.joining(" "));
     }
 
-    public Map<String, Object> getParameters() {
+    public Map<String, Object> parameters() {
         Map<String, Object> result = new HashMap<>();
         for (Condition condition : getItems()) {
             IStatement statement = condition.getStatement();

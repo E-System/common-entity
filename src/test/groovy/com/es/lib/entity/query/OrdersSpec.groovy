@@ -2,18 +2,18 @@ package com.es.lib.entity.query
 
 import spock.lang.Specification
 
-import static QueryEsl.*
+import static com.es.lib.entity.query.QueryEsl.*
 
 class OrdersSpec extends Specification {
 
     def "Orders is empty after construction"() {
         expect:
-        new Orders().empty
+        orders().empty
     }
 
     def "Asc and desc with nulls first"() {
         when:
-        def orders = new Orders(
+        def orders = orders(
             asc("a"),
             desc("b", false)
         )
@@ -23,7 +23,7 @@ class OrdersSpec extends Specification {
 
     def "Asc and desc"() {
         when:
-        def orders = new Orders(
+        def orders = orders(
             asc("a"),
             desc("b")
         )
@@ -33,7 +33,7 @@ class OrdersSpec extends Specification {
 
     def "Asc and desc with all nulls last"() {
         when:
-        def orders = new Orders(
+        def orders = orders(
             asc("a", true),
             desc("b", true)
         )

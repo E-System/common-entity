@@ -37,7 +37,7 @@ public final class Joins {
 
     private final Collection<Join> items = new ArrayList<>(4);
 
-    public Joins(Join... joins) {
+    Joins(Join... joins) {
         this.items.addAll(Arrays.asList(joins));
     }
 
@@ -57,7 +57,7 @@ public final class Joins {
         return items.stream().map(v -> v.format(useFetch)).collect(Collectors.joining(" "));
     }
 
-    public String findAlias(String path) {
+    public String aliasFor(String path) {
         if (path == null || isEmpty()) {
             return path;
         }
