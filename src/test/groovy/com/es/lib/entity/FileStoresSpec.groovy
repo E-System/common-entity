@@ -13,7 +13,8 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.es.lib.entity.util
+package com.es.lib.entity
+
 
 import com.es.lib.entity.model.file.StoreMode
 import spock.lang.Specification
@@ -23,7 +24,7 @@ import java.nio.file.Paths
 import java.util.function.Supplier
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 17.03.2018
  */
 class FileStoresSpec extends Specification {

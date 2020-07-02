@@ -15,7 +15,6 @@
  */
 package com.es.lib.entity.model.field.json;
 
-
 import com.es.lib.entity.type.JsonbType;
 
 import java.util.LinkedHashMap;

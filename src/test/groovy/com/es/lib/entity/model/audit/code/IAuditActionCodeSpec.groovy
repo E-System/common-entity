@@ -3,7 +3,7 @@ package com.es.lib.entity.model.audit.code
 import spock.lang.Specification
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 29.03.2018
  */
 class IAuditActionCodeSpec extends Specification {

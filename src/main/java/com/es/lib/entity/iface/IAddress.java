@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.iface;
 
 import com.es.lib.common.collection.Items;
@@ -25,7 +24,7 @@ import java.util.Map;
 /**
  * Интерфейс адресного объекта
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 25.09.15
  */
 public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {

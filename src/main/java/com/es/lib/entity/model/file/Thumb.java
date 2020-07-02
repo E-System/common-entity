@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Thumb generate info
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 17.03.18
  */
 @Getter

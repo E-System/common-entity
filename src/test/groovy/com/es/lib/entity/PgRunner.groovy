@@ -11,7 +11,7 @@ import spock.lang.Specification
 import java.sql.DriverManager
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 03.02.2018
  */
 @Testcontainers

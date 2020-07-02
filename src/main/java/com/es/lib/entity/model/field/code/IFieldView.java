@@ -18,7 +18,7 @@ package com.es.lib.entity.model.field.code;
 /**
  * Input element view type
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 26.05.15
  */
 public interface IFieldView {

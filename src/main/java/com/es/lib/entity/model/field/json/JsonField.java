@@ -15,7 +15,6 @@
  */
 package com.es.lib.entity.model.field.json;
 
-
 import com.es.lib.entity.iface.field.IField;
 import com.es.lib.entity.model.field.code.FieldType;
 import com.es.lib.entity.model.field.code.IFieldAttrs;

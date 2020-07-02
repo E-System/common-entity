@@ -1,4 +1,4 @@
-package com.es.lib.entity.util
+package com.es.lib.entity
 
 import com.es.lib.entity.iface.file.IFileStore
 

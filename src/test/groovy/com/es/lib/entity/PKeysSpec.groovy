@@ -1,5 +1,6 @@
-package com.es.lib.entity.util
+package com.es.lib.entity
 
+import com.es.lib.entity.PKeys
 import com.es.lib.entity.iface.IPrimaryKey
 import spock.lang.Specification
 

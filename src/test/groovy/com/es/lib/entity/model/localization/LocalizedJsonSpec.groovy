@@ -5,7 +5,7 @@ import spock.lang.Specification
 import java.util.function.Supplier
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 23.10.2017
  */
 class LocalizedJsonSpec extends Specification {

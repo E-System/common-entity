@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 public interface IPrimaryKey<PK extends Serializable> extends Serializable {

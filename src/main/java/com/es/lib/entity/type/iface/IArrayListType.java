@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.type.iface;
 
 import java.sql.*;
@@ -22,7 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 02.05.15
  */
 public interface IArrayListType extends IType {

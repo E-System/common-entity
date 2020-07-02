@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.type.iface;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,7 +28,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 12.10.15
  */
 public interface IJsonType extends IType {

@@ -14,12 +14,12 @@
  *    limitations under the License.
  */
 
-package com.es.lib.entity.util
+package com.es.lib.entity.query
 
 import spock.lang.Specification
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 12.10.15
  */
 class LikesSpec extends Specification {

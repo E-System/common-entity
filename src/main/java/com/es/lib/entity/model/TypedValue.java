@@ -13,50 +13,25 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.model;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 
 /**
  * Typed value
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 05.03.18
  */
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class TypedValue implements Serializable {
 
     private final ValueTypeCode type;
     private final String value;
-
-    public TypedValue(ValueTypeCode type, String value) {
-        this.type = type;
-        this.value = value;
-    }
-
-    /**
-     * Value type
-     *
-     * @return value type
-     */
-    public ValueTypeCode getType() {
-        return type;
-    }
-
-    /**
-     * Value
-     *
-     * @return value
-     */
-    public String getValue() {
-        return value;
-    }
-
-    @Override
-    public String toString() {
-        return "TypedValue[" +
-               "type='" + type + "'" +
-               ", value='" + value + "'" +
-               ']';
-    }
 }

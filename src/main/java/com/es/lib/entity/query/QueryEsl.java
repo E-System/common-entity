@@ -13,15 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.query;
-
-import com.es.lib.entity.util.Likes;
 
 import java.util.function.Supplier;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 public final class QueryEsl {

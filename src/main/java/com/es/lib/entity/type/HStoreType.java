@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.type;
 
 import com.es.lib.entity.type.iface.IHStoreType;
@@ -30,7 +29,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 public class HStoreType implements UserType, IHStoreType {

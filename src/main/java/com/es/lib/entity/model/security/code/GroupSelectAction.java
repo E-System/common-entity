@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Action with permission group items
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 30.05.15
  */
 public enum GroupSelectAction {

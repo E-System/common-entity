@@ -13,13 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.model.file.code;
 
 /**
  * File store element attributes
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 27.05.15
  */
 public interface IFileStoreAttrs {

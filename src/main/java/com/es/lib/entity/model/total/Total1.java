@@ -13,8 +13,9 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.model.total;
+
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,46 +23,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 16.04.15
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Total1 implements Serializable {
 
     @Id
     private long sum1;
-
-    public Total1() {}
-
-    public Total1(long sum1) {
-        this.sum1 = sum1;
-    }
-
-    public long getSum1() {
-        return sum1;
-    }
-
-    public void setSum1(long sum1) {
-        this.sum1 = sum1;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Total1 total1 = (Total1) o;
-        return sum1 == total1.sum1;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(sum1);
-    }
-
-    @Override
-    public String toString() {
-        return "Total1 [" +
-               "sum1=" + sum1 +
-               ']';
-    }
 }

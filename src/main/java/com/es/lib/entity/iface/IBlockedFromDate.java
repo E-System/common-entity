@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.iface;
 
 import java.util.Date;
@@ -21,7 +20,7 @@ import java.util.Date;
 /**
  * Интерфейс сущности блокируемой с определенной даты
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 public interface IBlockedFromDate {

@@ -13,11 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
-package com.es.lib.entity.model;
+package com.es.lib.entity.model.total;
 
 import com.es.lib.entity.iface.IPrimaryKey;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,9 +29,7 @@ import javax.persistence.Id;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 30.01.16
  */
-@ToString
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

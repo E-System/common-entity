@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.es.lib.entity.util;
+package com.es.lib.entity;
 
 import com.es.lib.common.reflection.Reflects;
 import com.es.lib.entity.iface.IPrimaryKey;

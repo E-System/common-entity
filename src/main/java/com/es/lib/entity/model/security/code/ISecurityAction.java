@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 /**
  * Action code for targets
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 public interface ISecurityAction {

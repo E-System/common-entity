@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.iface.file;
 
 import com.es.lib.entity.iface.IAttrsOwner;
@@ -21,7 +20,7 @@ import com.es.lib.entity.iface.IPrimaryKey;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 01.02.16
  */
 public interface IFileStore extends IStore, IAttrsOwner, IPrimaryKey<Long> {

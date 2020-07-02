@@ -13,24 +13,36 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.es.lib.entity.type.array.set;
+package com.es.lib.entity.model.total;
 
-import com.es.lib.entity.type.CommonSetType;
-import com.es.lib.entity.type.iface.DbTypes;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
- * @since 10.04.15
+ * @since 16.04.15
  */
-public class IntegerSetType extends CommonSetType {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Total4 implements Serializable {
 
-    @Override
-    public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.INT;
-    }
+    @Id
+    private long sum1;
+    @Id
+    private long sum2;
+    @Id
+    private long sum3;
+    @Id
+    private long sum4;
 
-    @Override
-    public Class<?> getItemClass() {
-        return Integer.class;
+    public long getSum() {
+        return sum1 + sum2 + sum3 + sum4;
     }
 }

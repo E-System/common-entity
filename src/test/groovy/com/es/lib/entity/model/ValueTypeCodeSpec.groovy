@@ -3,7 +3,7 @@ package com.es.lib.entity.model
 import spock.lang.Specification
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 05.03.2018
  */
 class ValueTypeCodeSpec extends Specification {

@@ -5,7 +5,6 @@
  *
  * Written by E-System team (https://ext-system.com), 2015
  */
-
 package com.es.lib.entity.query;
 
 import lombok.AccessLevel;

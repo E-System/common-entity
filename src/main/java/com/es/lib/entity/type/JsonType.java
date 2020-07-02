@@ -13,13 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.type;
 
 import com.es.lib.entity.type.iface.DbTypes;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 11.11.15
  */
 public class JsonType extends CommonJsonType {

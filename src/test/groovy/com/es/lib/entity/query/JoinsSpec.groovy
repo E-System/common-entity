@@ -21,7 +21,7 @@ import spock.lang.Specification
 import static com.es.lib.entity.query.QueryEsl.*
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 01.06.15
  */
 class JoinsSpec extends Specification {

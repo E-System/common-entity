@@ -15,6 +15,8 @@
  */
 package com.es.lib.entity.type.geo;
 
+import lombok.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +25,15 @@ import java.util.List;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 10.12.17
  */
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class GeoPoint implements Serializable, Cloneable {
 
     private double x;
     private double y;
-
-    public GeoPoint() { }
-
-    public GeoPoint(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
 
     public GeoPoint(String value) {
         this.setValue(value);
@@ -92,14 +92,6 @@ public class GeoPoint implements Serializable, Cloneable {
     }
 
     public void setLocation(GeoPoint p) { this.move(p.x, p.y); }
-
-    public double getX() { return x; }
-
-    public void setX(double x) { this.x = x; }
-
-    public double getY() { return y; }
-
-    public void setY(double y) { this.y = y; }
 
     public Object clone() throws CloneNotSupportedException { return super.clone(); }
 
@@ -195,13 +187,5 @@ public class GeoPoint implements Serializable, Cloneable {
         long v1 = Double.doubleToLongBits(this.x);
         long v2 = Double.doubleToLongBits(this.y);
         return (int) (v1 ^ v2 ^ v1 >>> 32 ^ v2 >>> 32);
-    }
-
-    @Override
-    public String toString() {
-        return "GeoPoint{" +
-               "x=" + x +
-               ", y=" + y +
-               '}';
     }
 }

@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.model;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 07.08.15
  */
 @Getter

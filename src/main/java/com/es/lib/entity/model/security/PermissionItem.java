@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.model.security;
 
 import com.es.lib.entity.iface.security.IPermissionItem;
@@ -26,7 +25,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 05.09.16
  */
 @Data

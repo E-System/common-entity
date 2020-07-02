@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 import static com.es.lib.entity.model.field.json.JsonField.CALENDAR_DATE_PATTERN;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 08.04.19
  */
 public interface IField extends IAttrsOwner {

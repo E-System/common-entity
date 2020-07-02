@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.type.array.list;
 
 import com.es.lib.entity.type.CommonArrayListType;
@@ -24,7 +23,7 @@ import java.util.*;
 import java.util.Date;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 public class DateArrayListType extends CommonArrayListType {

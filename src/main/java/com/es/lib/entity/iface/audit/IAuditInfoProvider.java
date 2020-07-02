@@ -13,13 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.iface.audit;
 
 import com.es.lib.common.Jsons;
 import com.es.lib.entity.iface.IPrimaryKey;
 import com.es.lib.entity.model.audit.AuditInfo;
-import com.es.lib.entity.util.PKeys;
+import com.es.lib.entity.PKeys;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Collection;
@@ -27,7 +26,7 @@ import java.util.Collection;
 /**
  * Audit info provider
  *
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 29.03.2018
  */
 public interface IAuditInfoProvider {

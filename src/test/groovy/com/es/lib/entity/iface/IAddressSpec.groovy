@@ -21,7 +21,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 25.09.15
  */
 class IAddressSpec extends Specification {

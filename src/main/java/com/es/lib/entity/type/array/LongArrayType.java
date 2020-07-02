@@ -13,14 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.type.array;
 
 import com.es.lib.entity.type.CommonArrayType;
 import com.es.lib.entity.type.iface.DbTypes;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
 public class LongArrayType extends CommonArrayType {

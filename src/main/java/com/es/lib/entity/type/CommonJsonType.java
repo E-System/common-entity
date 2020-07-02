@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.type;
 
 import com.es.lib.entity.type.iface.IJsonType;
@@ -28,7 +27,7 @@ import java.sql.Types;
 import java.util.Objects;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 06.05.15
  */
 public abstract class CommonJsonType implements UserType, IJsonType {

@@ -13,10 +13,9 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.es.lib.entity.iface.file;
 
-import com.es.lib.entity.util.FileStores;
+import com.es.lib.entity.FileStores;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;

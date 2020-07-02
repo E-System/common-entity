@@ -21,14 +21,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 /**
- * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
+ * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class IdConstructor {
+public class EntityConstructors {
 
     private static final Map<Class<?>, Constructor<?>> CONSTRUCTOR_HASH_MAP = new ConcurrentHashMap<>();
 
-    private IdConstructor() {}
+    private EntityConstructors() {}
 
     public static Constructor<?> get(Class<?> objectClass, Supplier<RuntimeException> exceptionSupplier) {
         return CONSTRUCTOR_HASH_MAP.computeIfAbsent(
