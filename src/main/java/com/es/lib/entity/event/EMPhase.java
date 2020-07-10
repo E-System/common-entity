@@ -16,7 +16,7 @@
 package com.es.lib.entity.event;
 
 /**
- * Phase of entity
+ * Phase of entity action
  *
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 28.02.2020
@@ -24,15 +24,15 @@ package com.es.lib.entity.event;
 public enum EMPhase {
 
     /**
-     * Подготовка, перед соверщением действия
+     * Before merge or remove
      */
     PREPARE,
     /**
-     * После совершения действия
+     * After merge or remove and before flush
      */
     APPLY,
     /**
-     * После flush
+     * After flush
      */
     FINISH
 }

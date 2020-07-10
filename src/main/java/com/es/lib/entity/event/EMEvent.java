@@ -16,8 +16,8 @@
 package com.es.lib.entity.event;
 
 import com.es.lib.entity.iface.IPrimaryKey;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -30,10 +30,10 @@ import java.io.Serializable;
  */
 @Getter
 @ToString
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EMEvent implements IEntityEvent {
 
-    private EMPhase phase;
-    private EMOperation operation;
-    private IPrimaryKey<? extends Serializable> instance;
+    private final EMPhase phase;
+    private final EMOperation operation;
+    private final IPrimaryKey<? extends Serializable> instance;
 }
