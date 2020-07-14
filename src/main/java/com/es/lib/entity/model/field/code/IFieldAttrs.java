@@ -44,21 +44,6 @@ public interface IFieldAttrs {
      */
     String PARENT_REGEXP = "PARENT_REGEXP";
     /**
-     * Validator
-     */
-    @Deprecated
-    String VALIDATOR = "VALIDATOR";
-    /**
-     * Validator parameter
-     */
-    @Deprecated
-    String VALIDATOR_PARAM = "VALIDATOR_PARAM_";
-    /**
-     * Validator message
-     */
-    @Deprecated
-    String VALIDATOR_MSG = "VALIDATOR_MSG";
-    /**
      * Position
      */
     String POSITION = "POSITION";
