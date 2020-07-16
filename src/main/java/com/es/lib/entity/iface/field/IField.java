@@ -65,6 +65,8 @@ public interface IField extends IAttrsOwner {
         return null;
     }
 
+    default String getUpdateScript() {return null;}
+
     default void setValidators(JsonFieldValidators validators) { }
 
     default JsonFieldValidators getValidators() {

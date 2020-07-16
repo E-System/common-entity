@@ -52,6 +52,10 @@ public interface IFieldView {
          * Menu
          */
         String Menu = "menu";
+        /**
+         * Autocomplete
+         */
+        String Autocomplete = "autocomplete";
     }
 
     /**

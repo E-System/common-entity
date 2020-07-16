@@ -74,7 +74,8 @@ public enum FieldType {
         public Collection<String> getAvailableView() {
             return Arrays.asList(
                 IFieldView.Selector.Holistic,
-                IFieldView.Selector.Separate
+                IFieldView.Selector.Separate,
+                IFieldView.Selector.Autocomplete
             );
         }
 
@@ -92,7 +93,8 @@ public enum FieldType {
             return Arrays.asList(
                 IFieldView.Selector.Holistic,
                 IFieldView.Selector.Separate,
-                IFieldView.Selector.Menu
+                IFieldView.Selector.Menu,
+                IFieldView.Selector.Autocomplete
             );
         }
 
