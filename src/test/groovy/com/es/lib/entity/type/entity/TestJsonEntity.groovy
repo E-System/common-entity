@@ -11,7 +11,7 @@ import javax.persistence.Id
 
 @Entity
 @TypeDefs([
-        @TypeDef(name = "TestJsonType", typeClass = TestJsonType.class)
+    @TypeDef(name = "TestJsonType", typeClass = TestJson.UserType.class)
 ])
 class TestJsonEntity {
 

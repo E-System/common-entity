@@ -11,28 +11,22 @@ import org.hibernate.annotations.TypeDefs
 import javax.persistence.*
 
 @Entity
-@TypeDefs([
-        @TypeDef(name = "StringArrayType", typeClass = StringArrayType.class),
-        @TypeDef(name = "IntegerPrimitiveArrayType", typeClass = IntegerPrimitiveArrayType.class),
-        @TypeDef(name = "LongPrimitiveArrayType", typeClass = LongPrimitiveArrayType.class),
-        @TypeDef(name = "DateArrayType", typeClass = DateArrayType.class)
-])
 @Table(name = "ArrayEntity")
 class ArraySimple2Entity {
 
     @Id
     @GeneratedValue
     private Integer id
-    @Type(type = "StringArrayType")
+    @Type(type = "StringArray")
     @Column(columnDefinition = "VARCHAR[]")
     private String[] strings
-    @Type(type = "IntegerPrimitiveArrayType")
+    @Type(type = "IntegerPrimitiveArray")
     @Column(columnDefinition = "INT[]")
     private int[] integers
-    @Type(type = "LongPrimitiveArrayType")
+    @Type(type = "LongPrimitiveArray")
     @Column(columnDefinition = "BIGINT[]")
     private long[] longs
-    @Type(type = "DateArrayType")
+    @Type(type = "DateArray")
     @Column(columnDefinition = "TIMESTAMPTZ[]")
     private Date[] dates
 

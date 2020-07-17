@@ -1,38 +1,27 @@
 package com.es.lib.entity.type.entity
 
-import com.es.lib.entity.type.array.DateArrayType
-import com.es.lib.entity.type.array.IntegerArrayType
-import com.es.lib.entity.type.array.LongArrayType
-import com.es.lib.entity.type.array.StringArrayType
+
 import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
-import org.hibernate.annotations.TypeDefs
 
 import javax.persistence.*
 
 @Entity
-@TypeDefs([
-        @TypeDef(name = "StringArrayType", typeClass = StringArrayType.class),
-        @TypeDef(name = "IntegerArrayType", typeClass = IntegerArrayType.class),
-        @TypeDef(name = "LongArrayType", typeClass = LongArrayType.class),
-        @TypeDef(name = "DateArrayType", typeClass = DateArrayType.class)
-])
 @Table(name = "ArrayEntity")
 class ArraySimpleEntity {
 
     @Id
     @GeneratedValue
     private Integer id
-    @Type(type = "StringArrayType")
+    @Type(type = "StringArray")
     @Column(columnDefinition = "VARCHAR[]")
     private String[] strings
-    @Type(type = "IntegerArrayType")
+    @Type(type = "IntegerArray")
     @Column(columnDefinition = "INT[]")
     private Integer[] integers
-    @Type(type = "LongArrayType")
+    @Type(type = "LongArray")
     @Column(columnDefinition = "BIGINT[]")
     private Long[] longs
-    @Type(type = "DateArrayType")
+    @Type(type = "DateArray")
     @Column(columnDefinition = "TIMESTAMPTZ[]")
     private Date[] dates
 

@@ -1,6 +1,16 @@
 package com.es.lib.entity.type.entity
 
+import com.es.lib.entity.type.JsonbType
+
 class TestJson {
+
+    static class UserType extends JsonbType {
+
+        @Override
+        Class returnedClass() {
+            return TestJson.class
+        }
+    }
 
     private String code
     private Map<String, Integer> attrs

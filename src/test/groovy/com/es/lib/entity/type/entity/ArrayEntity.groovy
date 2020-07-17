@@ -1,12 +1,7 @@
 package com.es.lib.entity.type.entity
 
-import com.es.lib.entity.type.array.list.DateArrayListType
-import com.es.lib.entity.type.array.list.IntegerArrayListType
-import com.es.lib.entity.type.array.list.LongArrayListType
-import com.es.lib.entity.type.array.list.StringArrayListType
+
 import org.hibernate.annotations.Type
-import org.hibernate.annotations.TypeDef
-import org.hibernate.annotations.TypeDefs
 
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -14,27 +9,21 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
-@TypeDefs([
-        @TypeDef(name = "StringArrayListType", typeClass = StringArrayListType.class),
-        @TypeDef(name = "IntegerArrayListType", typeClass = IntegerArrayListType.class),
-        @TypeDef(name = "LongArrayListType", typeClass = LongArrayListType.class),
-        @TypeDef(name = "DateArrayListType", typeClass = DateArrayListType.class)
-])
 class ArrayEntity {
 
     @Id
     @GeneratedValue
     private Integer id
-    @Type(type = "StringArrayListType")
+    @Type(type = "StringList")
     @Column(columnDefinition = "VARCHAR[]")
     private List<String> strings
-    @Type(type = "IntegerArrayListType")
+    @Type(type = "IntegerList")
     @Column(columnDefinition = "INT[]")
     private List<Integer> integers
-    @Type(type = "LongArrayListType")
+    @Type(type = "LongList")
     @Column(columnDefinition = "BIGINT[]")
     private List<Long> longs
-    @Type(type = "DateArrayListType")
+    @Type(type = "DateList")
     @Column(columnDefinition = "TIMESTAMPTZ[]")
     private List<Date> dates
 
