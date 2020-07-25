@@ -15,8 +15,8 @@
  */
 package com.es.lib.entity;
 
+import com.es.lib.common.file.Images;
 import com.es.lib.entity.iface.file.IFileStore;
-import com.es.lib.entity.model.file.code.IFileStoreAttrs;
 import com.es.lib.entity.model.file.Thumb;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 
 /**
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
@@ -81,28 +80,19 @@ public final class Thumbs {
     private static Thumb create(Path source, IFileStore fileStore) {
         Thumb result = null;
         if (fileStore != null) {
-            result = create(fileStore.getAttributes());
+            result = create(fileStore.getImageInfo());
         }
         if (result == null) {
-            result = create(ImageSizes.get(source));
+            result = create(Images.info(source));
         }
         return result;
     }
 
-    private static Thumb create(Map<String, String> attributes) {
-        Thumb result = null;
-        int width = 0;
-        int height = 0;
-        try {
-            width = Integer.parseInt(attributes.get(IFileStoreAttrs.Image.WIDTH));
-        } catch (Exception ignore) {}
-        try {
-            height = Integer.parseInt(attributes.get(IFileStoreAttrs.Image.HEIGHT));
-        } catch (Exception ignore) {}
-        if (width != 0 && height != 0) {
-            result = new Thumb(width, height);
+    private static Thumb create(Images.Info info) {
+        if (info == null) {
+            return null;
         }
-        return result;
+        return new Thumb(info.getWidth(), info.getWidth());
     }
 
     private static String getExtension(Path source) {

@@ -18,6 +18,7 @@ package com.es.lib.entity;
 import com.es.lib.common.exception.ESRuntimeException;
 import com.es.lib.common.file.FileName;
 import com.es.lib.common.file.IO;
+import com.es.lib.common.file.Images;
 import com.es.lib.entity.iface.file.IFileStore;
 import com.es.lib.entity.iface.file.IStore;
 import com.es.lib.entity.model.file.StoreMode;
@@ -25,6 +26,7 @@ import com.es.lib.entity.model.file.StorePath;
 import com.es.lib.entity.model.file.TemporaryFileStore;
 import com.es.lib.entity.model.file.Thumb;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -33,6 +35,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -274,22 +277,25 @@ public class FileStores {
     public static void processAttributes(IFileStore fileStore, Path source) {
         if (FileStores.isImage(fileStore)) {
             fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
-            fillImageInfo(fileStore, source);
+            fillImageInfo(fileStore, Images.info(source));
         }
     }
 
     public static void processAttributes(IFileStore fileStore, byte[] source) {
         if (FileStores.isImage(fileStore)) {
             fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
-            fillImageInfo(fileStore, source);
+            fillImageInfo(fileStore, Images.info(source));
         }
     }
 
-    public static void fillImageInfo(IFileStore fileStore, Path source) {
-        fileStore.getAttributes().putAll(ImageSizes.get(source));
-    }
-
-    public static void fillImageInfo(IFileStore fileStore, byte[] source) {
-        fileStore.getAttributes().putAll(ImageSizes.get(source));
+    public static void fillImageInfo(IFileStore fileStore, Images.Info source) {
+        if (source == null) {
+            return;
+        }
+        fileStore.setAttributes(Arrays.asList(
+            Pair.of(IFileStoreAttrs.Image.WIDTH, String.valueOf(source.getWidth())),
+            Pair.of(IFileStoreAttrs.Image.HEIGHT, String.valueOf(source.getHeight())),
+            Pair.of(IFileStoreAttrs.Image.VERTICAL, String.valueOf(source.isVertical()))
+        ));
     }
 }

@@ -15,6 +15,7 @@
  */
 package com.es.lib.entity.iface.file;
 
+import com.es.lib.common.file.Images;
 import com.es.lib.entity.iface.IAttrsOwner;
 import com.es.lib.entity.iface.IPrimaryKey;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
@@ -67,5 +68,14 @@ public interface IFileStore extends IStore, IAttrsOwner, IPrimaryKey<Long> {
 
     default String getOwner() {
         return getAttribute(IFileStoreAttrs.Security.OWNER);
+    }
+
+    default Images.Info getImageInfo() {
+        Integer width = getIntAttribute(IFileStoreAttrs.Image.WIDTH);
+        Integer height = getIntAttribute(IFileStoreAttrs.Image.HEIGHT);
+        if (width != null && height != null) {
+            return Images.Info.of(width, height);
+        }
+        return null;
     }
 }
