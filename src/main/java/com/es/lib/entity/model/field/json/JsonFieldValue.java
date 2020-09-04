@@ -15,10 +15,19 @@
  */
 package com.es.lib.entity.model.field.json;
 
+import com.es.lib.common.number.Numbers;
+import com.es.lib.entity.model.field.json.value.AttrsFieldValue;
+import com.es.lib.entity.model.field.json.value.BooleanFieldValue;
+import com.es.lib.entity.model.field.json.value.NumberFieldValue;
+import com.es.lib.entity.model.field.json.value.StringFieldValue;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -32,17 +41,33 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class JsonFieldValue implements Serializable {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, visible = true,  property = "type", defaultImpl = StringFieldValue.class)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = StringFieldValue.class, name = StringFieldValue.CODE),
+    @JsonSubTypes.Type(value = NumberFieldValue.class, name = NumberFieldValue.CODE),
+    @JsonSubTypes.Type(value = BooleanFieldValue.class, name = BooleanFieldValue.CODE),
+    @JsonSubTypes.Type(value = AttrsFieldValue.class, name = AttrsFieldValue.CODE),
+})
+public abstract class JsonFieldValue<T> implements Serializable {
 
-    private String value;
+    private String type;
+    private T value;
     private String title;
     private String format;
 
-    public JsonFieldValue(String value) {
-        this(value, value, null);
+    public JsonFieldValue(String type) {
+        this(type, null, null, null);
     }
 
-    public JsonFieldValue(String value, String title) {
-        this(value, title, null);
+    public JsonFieldValue(String type, T value) {
+        this(type, value, String.valueOf(value), null);
     }
+
+    public JsonFieldValue(String type, T value, String title) {
+        this(type, value, title, null);
+    }
+
+    @JsonIgnore
+    public String stringValue() { return value == null ? null : String.valueOf(value); }
+
 }

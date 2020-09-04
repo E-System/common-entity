@@ -18,6 +18,8 @@ package com.es.lib.entity.model.field.json;
 import com.es.lib.entity.iface.field.IField;
 import com.es.lib.entity.model.field.code.FieldType;
 import com.es.lib.entity.model.field.code.IFieldAttrs;
+import com.es.lib.entity.model.field.json.value.NumberFieldValue;
+import com.es.lib.entity.model.field.json.value.StringFieldValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -73,7 +75,10 @@ public class JsonField implements Serializable {
     @JsonIgnore
     public JsonFieldValue getSingleValue() {
         if (getValues().isEmpty()) {
-            return new JsonFieldValue();
+            if(type == FieldType.NUMBER || type == FieldType.SUM) {
+                return new NumberFieldValue();
+            }
+            return new StringFieldValue();
         }
         return getValues().get(0);
     }
@@ -88,7 +93,5 @@ public class JsonField implements Serializable {
     }
 
     @JsonIgnore
-    public String getSingleValueString() {
-        return getSingleValue().getValue();
-    }
+    public String getSingleValueString() { return getSingleValue().stringValue(); }
 }

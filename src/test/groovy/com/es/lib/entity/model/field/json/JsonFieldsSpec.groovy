@@ -16,6 +16,7 @@
 package com.es.lib.entity.model.field.json
 
 import com.es.lib.entity.model.field.code.FieldType
+import com.es.lib.entity.model.field.json.value.StringFieldValue
 import spock.lang.Specification
 
 class JsonFieldsSpec extends Specification {
@@ -28,11 +29,11 @@ class JsonFieldsSpec extends Specification {
         JsonFields o4 = new JsonFields()
         JsonFields o5 = new JsonFields()
         JsonFields o6 = new JsonFields()
-        JsonField f = new JsonField(FieldType.TEXT, "1", "1", Arrays.asList(new JsonFieldValue("1", "1", "1"), new JsonFieldValue("1", "1", "1")))
+        JsonField f = new JsonField(FieldType.TEXT, "1", "1", Arrays.asList(new StringFieldValue("1", "1", "1"), new StringFieldValue("1", "1", "1")))
         o3.put("1", f)
         o4.put("1", f)
-        JsonField f1 = new JsonField(FieldType.TEXT, "2", "2", Arrays.asList(new JsonFieldValue("1", "1", "1"), new JsonFieldValue("1", "1", "1")))
-        JsonField f2 = new JsonField(FieldType.TEXT, "2", "2", Arrays.asList(new JsonFieldValue("1", "1", "1"), new JsonFieldValue("1", "1", "1")))
+        JsonField f1 = new JsonField(FieldType.TEXT, "2", "2", Arrays.asList(new StringFieldValue("1", "1", "1"), new StringFieldValue("1", "1", "1")))
+        JsonField f2 = new JsonField(FieldType.TEXT, "2", "2", Arrays.asList(new StringFieldValue("1", "1", "1"), new StringFieldValue("1", "1", "1")))
         o5.put("2", f1)
         o6.put("2", f2)
         expect:

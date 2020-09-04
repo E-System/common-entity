@@ -21,6 +21,7 @@ import com.es.lib.entity.model.field.code.IFieldAttrs;
 import com.es.lib.entity.model.field.json.JsonFieldValidators;
 import com.es.lib.entity.model.field.json.JsonFieldValue;
 import com.es.lib.entity.model.field.json.JsonSelectorItems;
+import com.es.lib.entity.model.field.json.value.StringFieldValue;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -80,13 +81,13 @@ public interface IField extends IAttrsOwner {
         return new SimpleDateFormat(getAttribute(IFieldAttrs.FORMAT, CALENDAR_DATE_PATTERN));
     }
 
-    default Collection<JsonFieldValue> getSelectorValues() {
+    default Collection<StringFieldValue> getSelectorValues() {
         if (getSelectorItems() == null) {
             return null;
         }
         return getSelectorItems()
             .stream()
-            .map(v -> new JsonFieldValue(v.getValue(), v.getTitle()))
+            .map(v -> new StringFieldValue(v.getValue(), v.getTitle()))
             .collect(Collectors.toList());
     }
 
