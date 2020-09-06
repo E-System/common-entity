@@ -31,5 +31,4 @@ public class StringFieldValue extends JsonFieldValue<String> {
     public StringFieldValue(String value, String title, String format) {
         super(CODE, value, title, format);
     }
-
 }

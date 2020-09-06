@@ -34,5 +34,4 @@ public class AttrsFieldValue extends JsonFieldValue<Map<String, String>> {
     public AttrsFieldValue(Map<String, String> value, String title, String format) {
         super(CODE, value, title, format);
     }
-
 }

@@ -15,7 +15,6 @@
  */
 package com.es.lib.entity.model.field.json;
 
-import com.es.lib.common.number.Numbers;
 import com.es.lib.entity.model.field.json.value.AttrsFieldValue;
 import com.es.lib.entity.model.field.json.value.BooleanFieldValue;
 import com.es.lib.entity.model.field.json.value.NumberFieldValue;
@@ -27,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -41,7 +39,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, visible = true,  property = "type", defaultImpl = StringFieldValue.class)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, visible = true, property = "type", defaultImpl = StringFieldValue.class)
 @JsonSubTypes({
     @JsonSubTypes.Type(value = StringFieldValue.class, name = StringFieldValue.CODE),
     @JsonSubTypes.Type(value = NumberFieldValue.class, name = NumberFieldValue.CODE),

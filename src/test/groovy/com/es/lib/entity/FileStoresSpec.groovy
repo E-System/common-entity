@@ -15,7 +15,6 @@
  */
 package com.es.lib.entity
 
-
 import com.es.lib.entity.model.file.StoreMode
 import spock.lang.Specification
 

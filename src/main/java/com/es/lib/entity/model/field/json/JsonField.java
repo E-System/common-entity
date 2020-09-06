@@ -48,7 +48,7 @@ public class JsonField implements Serializable {
     private String code;
     private String title;
     private String format;
-    private List<JsonFieldValue> values = new ArrayList<>();
+    private List<JsonFieldValue<?>> values = new ArrayList<>();
 
     public JsonField(IField field) {
         this.type = field.getType();
@@ -63,19 +63,20 @@ public class JsonField implements Serializable {
         this.title = title;
     }
 
-    public JsonField(FieldType type, String code, String title, List<JsonFieldValue> values) {
+    public JsonField(FieldType type, String code, String title, List<JsonFieldValue<?>> values) {
         this.type = type;
         this.code = code;
         this.title = title;
         this.values = values;
     }
 
+    @JsonIgnore
     public boolean isEmpty() { return values == null || values.isEmpty(); }
 
     @JsonIgnore
-    public JsonFieldValue getSingleValue() {
+    public JsonFieldValue<?> getSingleValue() {
         if (getValues().isEmpty()) {
-            if(type == FieldType.NUMBER || type == FieldType.SUM) {
+            if (type == FieldType.NUMBER || type == FieldType.SUM) {
                 return new NumberFieldValue();
             }
             return new StringFieldValue();
@@ -84,7 +85,7 @@ public class JsonField implements Serializable {
     }
 
     @JsonIgnore
-    public void setSingleValue(JsonFieldValue value) {
+    public void setSingleValue(JsonFieldValue<?> value) {
         if (getValues().isEmpty()) {
             getValues().add(value);
             return;

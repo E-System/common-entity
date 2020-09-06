@@ -1,6 +1,5 @@
 package com.es.lib.entity.model
 
-import com.es.lib.entity.model.KeyValue
 import spock.lang.Specification
 
 /**

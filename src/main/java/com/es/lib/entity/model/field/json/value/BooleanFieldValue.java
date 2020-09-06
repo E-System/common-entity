@@ -30,5 +30,4 @@ public class BooleanFieldValue extends JsonFieldValue<Boolean> {
     public BooleanFieldValue(Boolean value, String title, String format) {
         super(CODE, value, title, format);
     }
-
 }
