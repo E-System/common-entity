@@ -16,6 +16,7 @@
 package com.es.lib.entity;
 
 import com.es.lib.common.file.Images;
+import com.es.lib.common.number.Numbers;
 import com.es.lib.entity.iface.file.IFileStore;
 import com.es.lib.entity.model.file.Thumb;
 import lombok.extern.slf4j.Slf4j;
@@ -103,7 +104,10 @@ public final class Thumbs {
     private static Path getTarget(Path source, Thumb thumb) {
         String postfix = ".thumb";
         if (!thumb.isDefaultSize()) {
-            postfix = ".thumb_" + thumb.getWidth() + "_" + thumb.getHeight();
+            postfix += ("_" + thumb.getWidth() + "_" + thumb.getHeight());
+        }
+        if (!Float.isNaN(thumb.getQuality())) {
+            postfix += ("_" + Numbers.formatter("_").format(thumb.getQuality()));
         }
         return Paths.get(FilenameUtils.removeExtension(source.toAbsolutePath().toString()) + postfix + "." + getExtension(source));
     }

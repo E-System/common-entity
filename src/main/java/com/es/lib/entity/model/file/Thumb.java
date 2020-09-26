@@ -38,22 +38,28 @@ public class Thumb {
 
     private final int width;
     private final int height;
+    private final float quality;
 
     public Thumb() {
-        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT, Float.NaN);
+    }
+
+    public Thumb(int width, int height) {
+        this(width, height, Float.NaN);
     }
 
     public boolean isDefaultSize() {
         return getWidth() == DEFAULT_WIDTH && getHeight() == DEFAULT_HEIGHT;
     }
 
-    public static Thumb create(boolean need, String tw, String th) {
+    public static Thumb create(boolean need, String tw, String th, String q) {
         if (!need) {
             return null;
         }
         return new Thumb(
             NumberUtils.toInt(tw, Thumb.DEFAULT_WIDTH),
-            NumberUtils.toInt(th, Thumb.DEFAULT_HEIGHT)
+            NumberUtils.toInt(th, Thumb.DEFAULT_HEIGHT),
+            NumberUtils.toFloat(q, Float.NaN)
         );
     }
 
@@ -61,7 +67,8 @@ public class Thumb {
         return create(
             params.containsKey("thumb"),
             params.get("tw"),
-            params.get("th")
+            params.get("th"),
+            params.get("tq")
         );
     }
 }
