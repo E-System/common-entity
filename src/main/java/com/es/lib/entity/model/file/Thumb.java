@@ -56,10 +56,14 @@ public class Thumb {
         if (!need) {
             return null;
         }
+        float quality = NumberUtils.toFloat(q, Float.NaN);
+        if (!Float.isNaN(quality)) {
+            quality = Math.max(Math.min(quality, 1.0f), 0.0f);
+        }
         return new Thumb(
             NumberUtils.toInt(tw, Thumb.DEFAULT_WIDTH),
             NumberUtils.toInt(th, Thumb.DEFAULT_HEIGHT),
-            NumberUtils.toFloat(q, Float.NaN)
+            quality
         );
     }
 
