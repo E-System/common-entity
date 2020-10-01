@@ -1,7 +1,12 @@
 package com.es.lib.entity.type.entity
 
-
+import com.es.lib.entity.type.array.list.DateArrayListType
+import com.es.lib.entity.type.array.list.IntegerArrayListType
+import com.es.lib.entity.type.array.list.LongArrayListType
+import com.es.lib.entity.type.array.list.StringArrayListType
 import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
+import org.hibernate.annotations.TypeDefs
 
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -9,6 +14,12 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
+@TypeDefs([
+    @TypeDef(name = "StringList", typeClass = StringArrayListType.class),
+    @TypeDef(name = "IntegerList", typeClass = IntegerArrayListType.class),
+    @TypeDef(name = "LongList", typeClass = LongArrayListType.class),
+    @TypeDef(name = "DateList", typeClass = DateArrayListType.class)
+])
 class ArrayEntity {
 
     @Id

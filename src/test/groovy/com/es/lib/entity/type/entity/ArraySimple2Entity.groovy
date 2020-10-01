@@ -11,6 +11,12 @@ import org.hibernate.annotations.TypeDefs
 import javax.persistence.*
 
 @Entity
+@TypeDefs([
+    @TypeDef(name = "StringArray", typeClass = StringArrayType.class),
+    @TypeDef(name = "IntegerPrimitiveArray", typeClass = IntegerPrimitiveArrayType.class),
+    @TypeDef(name = "LongPrimitiveArray", typeClass = LongPrimitiveArrayType.class),
+    @TypeDef(name = "DateArray", typeClass = DateArrayType.class)
+])
 @Table(name = "ArrayEntity")
 class ArraySimple2Entity {
 

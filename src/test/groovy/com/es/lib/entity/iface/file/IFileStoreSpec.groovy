@@ -68,13 +68,23 @@ class IFileStoreSpec extends Specification {
         }
 
         @Override
+        String getAbbreviatedFileName(int maxWidth) {
+            return abbreviatedFileName(this, maxWidth)
+        }
+
+        @Override
+        boolean isImage() {
+            return isImage(this)
+        }
+
+        @Override
         void setMime(String mime) {
 
         }
 
         @Override
         String getFullName() {
-            return getFileName() + "." + getFileExt()
+            return fullName(this)
         }
 
         @Override

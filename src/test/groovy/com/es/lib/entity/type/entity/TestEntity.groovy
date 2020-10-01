@@ -1,7 +1,9 @@
 package com.es.lib.entity.type.entity
 
-
+import com.es.lib.entity.type.HStoreType
 import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
+import org.hibernate.annotations.TypeDefs
 
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -9,6 +11,9 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
+@TypeDefs([
+    @TypeDef(name = "HStore", typeClass = HStoreType.class)
+])
 class TestEntity {
 
     @Id

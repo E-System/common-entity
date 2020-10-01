@@ -1,11 +1,22 @@
 package com.es.lib.entity.type.entity
 
-
+import com.es.lib.entity.type.array.DateArrayType
+import com.es.lib.entity.type.array.IntegerArrayType
+import com.es.lib.entity.type.array.LongArrayType
+import com.es.lib.entity.type.array.StringArrayType
 import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
+import org.hibernate.annotations.TypeDefs
 
 import javax.persistence.*
 
 @Entity
+@TypeDefs([
+    @TypeDef(name = "StringArray", typeClass = StringArrayType.class),
+    @TypeDef(name = "IntegerArray", typeClass = IntegerArrayType.class),
+    @TypeDef(name = "LongArray", typeClass = LongArrayType.class),
+    @TypeDef(name = "DateArray", typeClass = DateArrayType.class)
+])
 @Table(name = "ArrayEntity")
 class ArraySimpleEntity {
 

@@ -16,6 +16,16 @@ class FileStore implements IFileStore {
 
     @Override
     String getFullName() {
-        return getFileName() + "." + getFileExt()
+        return fullName(this)
+    }
+
+    @Override
+    String getAbbreviatedFileName(int maxWidth) {
+        return abbreviatedFileName(this, maxWidth)
+    }
+
+    @Override
+    boolean isImage() {
+        return isImage(this)
     }
 }

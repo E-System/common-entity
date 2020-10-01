@@ -71,4 +71,19 @@ public class TemporaryFileStore implements IStore {
         }
         return result;
     }
+
+    @Override
+    public String getFullName() {
+        return IStore.fullName(this);
+    }
+
+    @Override
+    public String getAbbreviatedFileName(int maxWidth) {
+        return IStore.abbreviatedFileName(this, maxWidth);
+    }
+
+    @Override
+    public boolean isImage() {
+        return IStore.isImage(this);
+    }
 }

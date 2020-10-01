@@ -28,23 +28,6 @@ import java.util.function.Supplier
  */
 class FileStoresSpec extends Specification {
 
-    def "IsMime"() {
-        expect:
-        FileStores.isMime(mime, part) == result
-        where:
-        mime                | part    || result
-        null                | null     | false
-        ""                  | ""       | true
-        "application/image" | "image"  | true
-        "application/image" | "image2" | false
-    }
-
-    def "IsImage"() {
-        expect:
-        FileStores.isImage("image/png")
-        !FileStores.isImage("octet/stream")
-    }
-
     def "Create file in file store"() {
         when:
         def basePath = Paths.get('/tmp')

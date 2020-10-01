@@ -230,7 +230,7 @@ public class FileStores {
         long crc32;
         try {
             crc32 = IO.copyWithCrc32(from, path.toAbsolutePath());
-            if (FileStores.isImage(mime)) {
+            if (IStore.isImage(mime)) {
                 Thumbs.generate(path.toAbsolutePath(), new Thumb(), null, thumbGenerator);
             }
         } catch (IOException e) {
@@ -252,22 +252,6 @@ public class FileStores {
         );
     }
 
-    public static boolean isMime(String mime, String part) {
-        return mime != null && mime.contains(part);
-    }
-
-    public static boolean isImage(String mime) {
-        return isMime(mime, "image");
-    }
-
-    public static boolean isImage(IStore store) {
-        return store != null && isImage(store.getMime());
-    }
-
-    public static boolean isImage(IFileStore file) {
-        return file != null && isImage(file.getMime());
-    }
-
     public static void copyContent(Path path, OutputStream outputStream) throws IOException {
         if (Files.exists(path) && Files.isReadable(path)) {
             Files.copy(path, outputStream);
@@ -275,14 +259,14 @@ public class FileStores {
     }
 
     public static void processAttributes(IFileStore fileStore, Path source) {
-        if (FileStores.isImage(fileStore)) {
+        if (IStore.isImage(fileStore)) {
             fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));
         }
     }
 
     public static void processAttributes(IFileStore fileStore, byte[] source) {
-        if (FileStores.isImage(fileStore)) {
+        if (IStore.isImage(fileStore)) {
             fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));
         }

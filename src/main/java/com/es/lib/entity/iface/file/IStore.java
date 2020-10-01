@@ -15,7 +15,6 @@
  */
 package com.es.lib.entity.iface.file;
 
-import com.es.lib.entity.FileStores;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -30,29 +29,40 @@ public interface IStore extends Serializable {
 
     String getFileExt();
 
+    String getFullName();
+
     long getCrc32();
 
     long getSize();
 
     String getMime();
 
-    //TODO: Check jsf for default interface getter
-    default String getFullName() {
-        return getFileName() + "." + getFileExt();
+    String getAbbreviatedFileName(int maxWidth);
+
+    boolean isImage();
+
+    static String fullName(IStore item) {
+        return item.getFileName() + "." + item.getFileExt();
     }
 
-    default String getAbbreviatedFileName(int maxWidth) {
-        int extSize = getFileExt().length();
-        int nameSize = getFileName().length();
+    static String abbreviatedFileName(IStore item, int maxWidth) {
+        int extSize = item.getFileExt().length();
+        int nameSize = item.getFileName().length();
         if ((nameSize + extSize + 1) < maxWidth) {
-            return getFullName();
+            return item.getFullName();
         }
-        return StringUtils.abbreviateMiddle(getFileName(), "..", maxWidth - extSize - 1) + "." + getFileExt();
+        return StringUtils.abbreviateMiddle(item.getFileName(), "..", maxWidth - extSize - 1) + "." + item.getFileExt();
     }
 
-    //TODO: Check jsf for default interface getter
-    default boolean isImage() {
-        return FileStores.isImage(this);
+    static boolean isImage(IStore store) {
+        return store != null && isImage(store.getMime());
     }
 
+    static boolean isMime(String mime, String part) {
+        return mime != null && mime.contains(part);
+    }
+
+    static boolean isImage(String mime) {
+        return isMime(mime, "image");
+    }
 }

@@ -1,11 +1,22 @@
 package com.es.lib.entity.type.entity
 
-
+import com.es.lib.entity.type.array.set.DateSetType
+import com.es.lib.entity.type.array.set.IntegerSetType
+import com.es.lib.entity.type.array.set.LongSetType
+import com.es.lib.entity.type.array.set.StringSetType
 import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
+import org.hibernate.annotations.TypeDefs
 
 import javax.persistence.*
 
 @Entity
+@TypeDefs([
+    @TypeDef(name = "StringSet", typeClass = StringSetType.class),
+    @TypeDef(name = "IntegerSet", typeClass = IntegerSetType.class),
+    @TypeDef(name = "LongSet", typeClass = LongSetType.class),
+    @TypeDef(name = "DateSet", typeClass = DateSetType.class)
+])
 @Table(name = "ArrayEntity")
 class ArraySetEntity {
 
