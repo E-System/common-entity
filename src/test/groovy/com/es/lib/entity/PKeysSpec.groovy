@@ -2,7 +2,6 @@ package com.es.lib.entity
 
 import com.es.lib.common.exception.ESRuntimeException
 import com.es.lib.entity.iface.IPrimaryKey
-import com.es.lib.entity.model.AbstractEntity
 import spock.lang.Specification
 
 class PKeysSpec extends Specification {
@@ -37,7 +36,8 @@ class PKeysSpec extends Specification {
         }
     }
 
-    static class RealEntity3 extends AbstractEntity<Long> {
+    static class RealEntity3 implements IPrimaryKey<Long> {
+        Long id
         String name
     }
 
@@ -80,7 +80,7 @@ class PKeysSpec extends Specification {
 
     def "Get id constructor"() {
         when:
-        def res = EntityConstructors.get(RealEntity3.class, {return new ESRuntimeException()})
+        def res = EntityConstructors.get(RealEntity3.class, { return new ESRuntimeException() })
         then:
         res != null
         res.newInstance("11") == 11L
