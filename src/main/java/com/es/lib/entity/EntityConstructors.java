@@ -41,7 +41,12 @@ public class EntityConstructors {
                     try {
                         Class<?> retType = (Class<?>) ((ParameterizedType) objectClass.getGenericSuperclass()).getActualTypeArguments()[0];
                         return retType.getConstructor(String.class);
-                    } catch (Exception ignore) { }
+                    } catch (Exception ignore) {
+                        try {
+                            Class<?> retType = (Class<?>) ((ParameterizedType) ((Class<?>) objectClass.getGenericSuperclass()).getGenericSuperclass()).getActualTypeArguments()[0];
+                            return retType.getConstructor(String.class);
+                        } catch (Exception ignore2) {}
+                    }
                     throw exceptionSupplier.get();
                 }
             }
