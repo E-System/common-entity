@@ -16,6 +16,7 @@
 package com.es.lib.entity;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
@@ -37,6 +38,10 @@ public class EntityConstructors {
                 try {
                     return objectClass.getMethod("getId").getReturnType().getConstructor(String.class);
                 } catch (NoSuchMethodException e) {
+                    try {
+                        Class<?> retType = (Class<?>) ((ParameterizedType) objectClass.getGenericSuperclass()).getActualTypeArguments()[0];
+                        return retType.getConstructor(String.class);
+                    } catch (Exception ignore) { }
                     throw exceptionSupplier.get();
                 }
             }
