@@ -61,7 +61,7 @@ public class FileStores {
             }
         }
         T result = fill(temporaryFile, storePath, fileStoreCreator.get());
-        processAttributes(result, temporaryFile.getFile());
+        processAttributes(result, storePath.toAbsolutePath());
         return result;
     }
 
