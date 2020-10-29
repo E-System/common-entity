@@ -118,74 +118,15 @@ class IFileStoreSpec extends Specification {
         }
     }
 
-    def "IsPublicVisible"() {
+    def "Get checkers"() {
         expect:
-        f.isPublicVisible() == result
+        f.getCheckers() == result
         where:
-        f                                                     || result
-        new FileStore(null)                                   || true
-        new FileStore([:])                                    || true
-        new FileStore([(IFileStoreAttrs.Security.OWNER): ""]) || (false)
-    }
-
-    def "IsLoggedVisible"() {
-        expect:
-        f.isLoggedVisible() == result
-        where:
-        f                                                                                               || result
-        new FileStore(null)                                                                             || (false)
-        new FileStore([:])                                                                              || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): ""])                                           || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): (IFileStoreAttrs.Security.OWNER_LOGGED_CODE)]) || (true)
-    }
-
-    def "IsOwnedVisible"() {
-        expect:
-        f.isOwnedVisible() == result
-        where:
-        f                                                                                               || result
-        new FileStore(null)                                                                             || (false)
-        new FileStore([:])                                                                              || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): ""])                                           || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): (IFileStoreAttrs.Security.OWNER_LOGGED_CODE)]) || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): "ASD"])                                        || (true)
-    }
-
-    def "IsVisible"() {
-        expect:
-        f.isVisible(code, id) == result
-        where:
-        f                                                                                                   | code  | id   || result
-        new FileStore(null)                                                                                 | "ASD" | "22" || (false)
-        new FileStore([:])                                                                                  | "ASD" | "22" || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): ""])                                               | "ASD" | "22" || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): (IFileStoreAttrs.Security.OWNER_LOGGED_CODE)])     | "ASD" | "22" || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): "ASD"])                                            | "ASD" | "22" || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): "ASD", (IFileStoreAttrs.Security.OWNER_ID): "21"]) | "ASD" | "22" || (false)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): "ASD", (IFileStoreAttrs.Security.OWNER_ID): "22"]) | "ASD" | "22" || (true)
-    }
-
-    def "GetOwnerId"() {
-        expect:
-        f.getOwnerId() == result
-        where:
-        f                                                          || result
-        new FileStore(null)                                        || null
-        new FileStore([:])                                         || null
-        new FileStore([(IFileStoreAttrs.Security.OWNER_ID): "22"]) || "22"
-        new FileStore([(IFileStoreAttrs.Security.OWNER_ID): "0"])  || "0"
-    }
-
-    def "GetOwner"() {
-        expect:
-        f.getOwner() == result
-        where:
-        f                                                                                               || result
-        new FileStore(null)                                                                             || null
-        new FileStore([:])                                                                              || null
-        new FileStore([(IFileStoreAttrs.Security.OWNER): ""])                                           || ""
-        new FileStore([(IFileStoreAttrs.Security.OWNER): (IFileStoreAttrs.Security.OWNER_LOGGED_CODE)]) || (IFileStoreAttrs.Security.OWNER_LOGGED_CODE)
-        new FileStore([(IFileStoreAttrs.Security.OWNER): "ASD"])                                        || "ASD"
+        f                                                                                                    || result
+        new FileStore(null)                                                                                  || new HashSet<String>()
+        new FileStore([:])                                                                                   || new HashSet<String>()
+        new FileStore([(IFileStoreAttrs.Security.CHECKERS): ""])                                             || new HashSet<String>()
+        new FileStore([(IFileStoreAttrs.Security.CHECKERS): (IFileStoreAttrs.Security.CHECKER_LOGGED_CODE)]) || new HashSet<String>([IFileStoreAttrs.Security.CHECKER_LOGGED_CODE])
     }
 
     def "Abbreviated name"() {

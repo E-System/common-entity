@@ -50,8 +50,8 @@ public interface IFileStoreAttrs {
      * Security attributes
      */
     interface Security {
-        String OWNER_LOGGED_CODE = "LOGGED";
-        String OWNER = "S_OWNER";
-        String OWNER_ID = "S_OWNER_ID";
+
+        String CHECKER_LOGGED_CODE = "LOGGED";
+        String CHECKERS = "S_CHECKERS";
     }
 }

@@ -19,6 +19,11 @@ import com.es.lib.common.file.Images;
 import com.es.lib.entity.iface.IAttrsOwner;
 import com.es.lib.entity.iface.IPrimaryKey;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
@@ -44,30 +49,12 @@ public interface IFileStore extends IStore, IAttrsOwner, IPrimaryKey<Long> {
 
     void setDeleted(boolean deleted);
 
-    default boolean isPublicVisible() {
-        return getOwner() == null;
-    }
-
-    default boolean isLoggedVisible() {
-        String owner = getOwner();
-        return IFileStoreAttrs.Security.OWNER_LOGGED_CODE.equals(owner);
-    }
-
-    default boolean isOwnedVisible() {
-        String owner = getOwner();
-        return owner != null && !owner.isEmpty() && !IFileStoreAttrs.Security.OWNER_LOGGED_CODE.equals(owner);
-    }
-
-    default boolean isVisible(String code, String id) {
-        return code.equals(getOwner()) && id.equals(getOwnerId());
-    }
-
-    default String getOwnerId() {
-        return getAttribute(IFileStoreAttrs.Security.OWNER_ID);
-    }
-
-    default String getOwner() {
-        return getAttribute(IFileStoreAttrs.Security.OWNER);
+    default Set<String> getCheckers() {
+        String checkersValue = getAttribute(IFileStoreAttrs.Security.CHECKERS);
+        if (StringUtils.isBlank(checkersValue)) {
+            return new HashSet<>();
+        }
+        return new HashSet<>(Arrays.asList(checkersValue.split(";").clone()));
     }
 
     default Images.Info getImageInfo() {
