@@ -15,6 +15,7 @@
  */
 package com.es.lib.entity.iface.file;
 
+import com.es.lib.common.collection.Items;
 import com.es.lib.common.file.Images;
 import com.es.lib.entity.iface.IAttrsOwner;
 import com.es.lib.entity.iface.IPrimaryKey;
@@ -48,6 +49,10 @@ public interface IFileStore extends IStore, IAttrsOwner, IPrimaryKey<Long> {
     boolean isDeleted();
 
     void setDeleted(boolean deleted);
+
+    default void setCheckers(Set<String> checkers) {
+        setAttribute(IFileStoreAttrs.Security.CHECKERS, Items.isEmpty(checkers) ? null : String.join(";", checkers));
+    }
 
     default Set<String> getCheckers() {
         String checkersValue = getAttribute(IFileStoreAttrs.Security.CHECKERS);

@@ -37,6 +37,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -48,7 +49,7 @@ import java.util.function.Supplier;
  */
 public class FileStores {
 
-    public static <T extends IFileStore> T toStore(Path basePath, String scope, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+    public static <T extends IFileStore> T toStore(Path basePath, String scope, TemporaryFileStore temporaryFile, Set<String> checkers, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         StorePath storePath;
         try {
             storePath = moveTo(temporaryFile, basePath, StoreMode.PERSISTENT, scope, true);
@@ -61,11 +62,11 @@ public class FileStores {
             }
         }
         T result = fill(temporaryFile, storePath, fileStoreCreator.get());
-        processAttributes(result, storePath.toAbsolutePath());
+        processAttributes(result, storePath.toAbsolutePath(), checkers);
         return result;
     }
 
-    public static <T extends IFileStore> T toStore(Path basePath, String scope, long crc32, long size, String fileName, String ext, String mime, byte[] data, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+    public static <T extends IFileStore> T toStore(Path basePath, String scope, long crc32, long size, String fileName, String ext, String mime, byte[] data, Set<String> checkers, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, ext);
         T result = fileStoreCreator.get();
         result.setFilePath(storePath.getRelative().toString());
@@ -85,7 +86,7 @@ public class FileStores {
                 throw new ESRuntimeException(e);
             }
         }
-        processAttributes(result, data);
+        processAttributes(result, data, checkers);
         return result;
     }
 
@@ -258,14 +259,16 @@ public class FileStores {
         }
     }
 
-    public static void processAttributes(IFileStore fileStore, Path source) {
+    public static void processAttributes(IFileStore fileStore, Path source, Set<String> checkers) {
+        fileStore.setCheckers(checkers);
         if (IStore.isImage(fileStore)) {
             fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));
         }
     }
 
-    public static void processAttributes(IFileStore fileStore, byte[] source) {
+    public static void processAttributes(IFileStore fileStore, byte[] source, Set<String> checkers) {
+        fileStore.setCheckers(checkers);
         if (IStore.isImage(fileStore)) {
             fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));
