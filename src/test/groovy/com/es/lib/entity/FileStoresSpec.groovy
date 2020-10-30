@@ -16,6 +16,7 @@
 package com.es.lib.entity
 
 import com.es.lib.entity.model.file.StoreMode
+import com.es.lib.entity.model.file.code.IFileStoreAttrs
 import spock.lang.Specification
 
 import java.nio.file.Files
@@ -36,7 +37,7 @@ class FileStoresSpec extends Specification {
         def fileName = 'fileName'
         def fileExt = 'txt'
         def mime = 'text/plain'
-        def result = FileStores.toStore(basePath, null, crc32, data.length(), fileName, fileExt, mime, data.bytes, new Supplier<FileStore>() {
+        def result = FileStores.toStore(basePath, null, crc32, data.length(), fileName, fileExt, mime, data.bytes, null, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
@@ -51,6 +52,7 @@ class FileStoresSpec extends Specification {
         result.size == data.length()
         result.crc32 == crc32
         result.filePath.endsWith(fileExt)
+        result.checkers.isEmpty()
         Files.exists(path)
         Files.isReadable(path)
         new String(Files.readAllBytes(path)) == data
@@ -102,7 +104,7 @@ class FileStoresSpec extends Specification {
         def data = '1231231'
         def fileExt = 'txt'
         def temporary = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
-        def result = FileStores.toStore(basePath, null, temporary, new Supplier<FileStore>() {
+        def result = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
@@ -117,6 +119,8 @@ class FileStoresSpec extends Specification {
         result.size == data.length()
         result.crc32 == crc32
         result.filePath.endsWith(fileExt)
+        !result.checkers.isEmpty()
+        result.checkers == [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet
         Files.exists(path)
         Files.isReadable(path)
         new String(Files.readAllBytes(path)) == data
