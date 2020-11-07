@@ -1,5 +1,6 @@
 package com.es.lib.entity.query
 
+import com.es.lib.entity.iface.IPrimaryKey
 import spock.lang.Specification
 
 import java.util.function.Supplier
@@ -112,6 +113,59 @@ class ConditionsSpec extends Specification {
         then:
         cb.format() == 'and a = :id and b = :id2'
         cb.parameters() == ['id': 2, 'id2': 3]
+        !cb.skipSelect
+    }
+
+    static class WhereEntity implements IPrimaryKey<Integer> {
+        Integer id
+
+        WhereEntity(Integer id) {
+            this.id = id
+        }
+    }
+
+    def "where with entity"() {
+        when:
+        def cb = conditions(
+            where("e.id", "idValue", { return new WhereEntity(12) })
+        )
+        then:
+        cb.format() == 'and e.id = :idValue'
+        cb.parameters() == ['idValue': 12]
+        !cb.skipSelect
+    }
+
+    def "where with number"() {
+        when:
+        def cb = conditions(
+            where("e.id", "idValue", { return 12 })
+        )
+        then:
+        cb.format() == 'and e.id = :idValue'
+        cb.parameters() == ['idValue': 12]
+        !cb.skipSelect
+    }
+
+    def "where with date"() {
+        when:
+        def date = new Date()
+        def cb = conditions(
+            where("e.id", "<=", "idValue", { return date })
+        )
+        then:
+        cb.format() == 'and e.id <= :idValue'
+        cb.parameters() == ['idValue': date]
+        !cb.skipSelect
+    }
+
+    def "where with null"() {
+        when:
+        def cb = conditions(
+            where("e.id", "idValue", { return null })
+        )
+        then:
+        cb.format() == ''
+        cb.parameters() == [:]
         !cb.skipSelect
     }
 }

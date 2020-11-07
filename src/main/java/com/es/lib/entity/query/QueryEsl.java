@@ -15,6 +15,10 @@
  */
 package com.es.lib.entity.query;
 
+import com.es.lib.entity.PKeys;
+import com.es.lib.entity.iface.IPrimaryKey;
+
+import java.io.Serializable;
 import java.util.function.Supplier;
 
 /**
@@ -77,6 +81,22 @@ public final class QueryEsl {
 
     public static Condition where(Supplier<Boolean> predicate, IStatement first) {
         return new Condition(predicate, first);
+    }
+
+    public static Condition where(String fieldName, String paramName, Supplier<Object> value) {
+        return where(fieldName, "=", paramName, value);
+    }
+
+    public static Condition where(String fieldName, String equation, String paramName, Supplier<Object> value) {
+        return where(() -> value.get() != null, stmt("and " + fieldName + " " + equation + " :" + paramName, param(paramName, () -> {
+            Object val = value.get();
+            if (val == null) {
+                return null;
+            } else if (val instanceof IPrimaryKey<?>) {
+                return PKeys.id((IPrimaryKey<? extends Serializable>) val);
+            }
+            return val;
+        })));
     }
 
     public static Condition where(Supplier<Boolean> predicate, IStatement first, IStatement second) {
