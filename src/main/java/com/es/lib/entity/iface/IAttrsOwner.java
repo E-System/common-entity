@@ -22,11 +22,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.text.ParseException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public interface IAttrsOwner {
 
@@ -125,5 +124,21 @@ public interface IAttrsOwner {
 
     default void removeNullAttributes() {
         setAttributes(Items.removeNullValues(getAttributes()));
+    }
+
+    default <T> Collection<T> getCollectionAttribute(String code, Function<String, T> mapper) {
+        String value = getAttribute(code);
+        if (StringUtils.isBlank(value)) {
+            return new ArrayList<>();
+        }
+        return Stream.of(value.split(";")).map(mapper).collect(Collectors.toList());
+    }
+
+    default <T> void setCollectionAttribute(String code, Collection<T> items) {
+        if (Items.isEmpty(items)) {
+            setAttribute(code, null);
+            return;
+        }
+        setAttribute(code, items.stream().map(String::valueOf).collect(Collectors.joining(";")));
     }
 }

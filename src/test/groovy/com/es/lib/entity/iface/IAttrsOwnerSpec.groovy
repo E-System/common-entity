@@ -1,6 +1,5 @@
 package com.es.lib.entity.iface
 
-import com.es.lib.entity.iface.IAttrsOwner
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -9,7 +8,7 @@ import java.text.SimpleDateFormat
 class IAttrsOwnerSpec extends Specification {
 
     @Shared
-    def entity = new TestAttr(['SHORT': '100', 'INT': '50000', 'LONG': '1231231231231231231', 'DOUBLE': '123.123', 'DATE1': '12.03.2018', 'DATE2': '2018-03-12'])
+    def entity = new TestAttr(['SHORT': '100', 'INT': '50000', 'LONG': '1231231231231231231', 'DOUBLE': '123.123', 'DATE1': '12.03.2018', 'DATE2': '2018-03-12', 'COLL': '1;2;3;4;5'])
 
     def "Get date attribute"() {
         when:
@@ -112,6 +111,22 @@ class IAttrsOwnerSpec extends Specification {
         entity.getDateAttribute('DATE2', 'yyyy-MM-dd').getDate() == 12
         entity.getDateAttribute('DATE2', 'yyyy-MM-dd').getMonth() == 2
         entity.getDateAttribute('DATE2', 'yyyy-MM-dd').getYear() == 118
+    }
+
+    def "GetCollection"() {
+        expect:
+        entity.getCollectionAttribute('COLL1', { Long.parseLong(it) }) == []
+        entity.getCollectionAttribute('COLL', { Long.parseLong(it) }) == [1L, 2L, 3L, 4L, 5L]
+        entity.getCollectionAttribute('COLL', { Integer.parseInt(it) }) == [1, 2, 3, 4, 5]
+    }
+
+    def "SetCollection"(){
+        when:
+        def entity = new TestAttr([:])
+        entity.setCollectionAttribute("COLL", [1L, 2L])
+        then:
+        entity.getCollectionAttribute('COLL1', { Long.parseLong(it) }) == []
+        entity.getCollectionAttribute('COLL', { Long.parseLong(it) }) == [1L, 2L]
     }
 
     static enum PCode {
