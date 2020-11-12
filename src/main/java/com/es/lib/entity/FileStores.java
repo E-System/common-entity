@@ -52,7 +52,7 @@ public class FileStores {
     public static <T extends IFileStore> T toStore(Path basePath, String scope, TemporaryFileStore temporaryFile, Set<String> checkers, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         StorePath storePath;
         try {
-            storePath = moveTo(temporaryFile, basePath, StoreMode.PERSISTENT, scope, true);
+            storePath = moveTo(temporaryFile, basePath, StoreMode.PERSISTENT, scope, false);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
@@ -133,7 +133,6 @@ public class FileStores {
         if (deleteOriginal) {
             Files.deleteIfExists(source);
         }
-
         return result;
     }
 
