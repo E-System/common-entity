@@ -126,4 +126,48 @@ class FileStoresSpec extends Specification {
         new String(Files.readAllBytes(path)) == data
         Files.exists(temporaryPath)
     }
+
+    def "Create file in file store from temporary twice"(){
+        when:
+        def basePath = Paths.get('/tmp')
+        def crc32 = 4136033880
+        def data = '1231231'
+        def fileExt = 'txt'
+        def temporary = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
+        def result = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, new Supplier<FileStore>() {
+            @Override
+            FileStore get() {
+                return new FileStore()
+            }
+        }, null)
+        def result2 = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, new Supplier<FileStore>() {
+            @Override
+            FileStore get() {
+                return new FileStore()
+            }
+        }, null)
+        def temporaryPath = Paths.get(basePath.toString(), temporary.filePath)
+        def path = Paths.get(basePath.toString(), result.filePath)
+        then:
+        result != null
+        result.fileExt == fileExt
+        result.mime == 'text/plain'
+        result.size == data.length()
+        result.crc32 == crc32
+        result.filePath.endsWith(fileExt)
+        !result.checkers.isEmpty()
+        result.checkers == [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet
+        result2 != null
+        result2.fileExt == fileExt
+        result2.mime == 'text/plain'
+        result2.size == data.length()
+        result2.crc32 == crc32
+        result2.filePath.endsWith(fileExt)
+        !result2.checkers.isEmpty()
+        result2.checkers == [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet
+        Files.exists(path)
+        Files.isReadable(path)
+        new String(Files.readAllBytes(path)) == data
+        Files.exists(temporaryPath)
+    }
 }
