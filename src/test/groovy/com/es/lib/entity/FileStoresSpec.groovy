@@ -124,6 +124,6 @@ class FileStoresSpec extends Specification {
         Files.exists(path)
         Files.isReadable(path)
         new String(Files.readAllBytes(path)) == data
-        !Files.exists(temporaryPath)
+        Files.exists(temporaryPath)
     }
 }
