@@ -17,6 +17,8 @@ package com.es.lib.entity;
 
 import com.es.lib.common.reflection.Reflects;
 import com.es.lib.entity.iface.IPrimaryKey;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -27,9 +29,8 @@ import java.util.stream.Collectors;
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 14.02.2020
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PKeys {
-
-    private PKeys() { }
 
     /**
      * Get entity ID or null

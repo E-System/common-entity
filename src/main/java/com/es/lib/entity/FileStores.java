@@ -26,6 +26,8 @@ import com.es.lib.entity.model.file.StorePath;
 import com.es.lib.entity.model.file.TemporaryFileStore;
 import com.es.lib.entity.model.file.Thumb;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
@@ -47,6 +49,7 @@ import java.util.function.Supplier;
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 17.03.18
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileStores {
 
     public static <T extends IFileStore> T toStore(Path basePath, String scope, TemporaryFileStore temporaryFile, Set<String> checkers, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {

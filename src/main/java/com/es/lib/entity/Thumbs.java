@@ -19,6 +19,8 @@ import com.es.lib.common.file.Images;
 import com.es.lib.common.number.Numbers;
 import com.es.lib.entity.iface.file.IFileStore;
 import com.es.lib.entity.model.file.Thumb;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,14 +35,13 @@ import java.nio.file.Paths;
  * @since 17.03.2018
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Thumbs {
 
     public interface Generator {
 
         void process(Path source, String extension, Path target, Thumb thumb) throws IOException;
     }
-
-    private Thumbs() {}
 
     /**
      * Generate thumbnail file and return path to generated file

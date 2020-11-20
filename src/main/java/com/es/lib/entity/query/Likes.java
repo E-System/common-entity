@@ -15,16 +15,18 @@
  */
 package com.es.lib.entity.query;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Likes {
 
     public static final String ANY_STRING = "%";
     public static final String ANY_CHARACTER = "_";
-
-    private Likes() { }
 
     public static String like(String text, boolean anyMatch) {
         return anyMatch ? any(text) : begin(text);

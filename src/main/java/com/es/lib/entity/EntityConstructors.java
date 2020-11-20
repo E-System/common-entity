@@ -15,6 +15,9 @@
  */
 package com.es.lib.entity;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,11 +27,10 @@ import java.util.function.Supplier;
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EntityConstructors {
 
     private static final Map<Class<?>, Constructor<?>> CONSTRUCTOR_HASH_MAP = new ConcurrentHashMap<>();
-
-    private EntityConstructors() {}
 
     public static Constructor<?> get(Class<?> objectClass, Supplier<RuntimeException> exceptionSupplier) {
         return CONSTRUCTOR_HASH_MAP.computeIfAbsent(

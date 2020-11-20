@@ -17,6 +17,8 @@ package com.es.lib.entity.query;
 
 import com.es.lib.entity.PKeys;
 import com.es.lib.entity.iface.IPrimaryKey;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -26,9 +28,8 @@ import java.util.function.Supplier;
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class QueryEsl {
-
-    private QueryEsl() { }
 
     public static Joins joins(Joins.Item... joins) {
         return new Joins(joins);
