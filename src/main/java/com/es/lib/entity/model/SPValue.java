@@ -17,6 +17,9 @@ package com.es.lib.entity.model;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -33,6 +36,9 @@ import java.util.stream.Collectors;
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 05.03.18
  */
+@ToString
+@Getter
+@Setter
 public class SPValue {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
@@ -237,80 +243,10 @@ public class SPValue {
         return result;
     }
 
-    public ValueTypeCode getType() {
-        return type;
-    }
-
-    public void setType(ValueTypeCode type) {
-        this.type = type;
-    }
-
-    public String getString() {
-        return string;
-    }
-
-    public void setString(String string) {
-        this.string = string;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
     public Long getPriceAsLong() {
         if (price == null) {
             return null;
         }
         return Long.parseLong(price);
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public Number getNumeric() {
-        return numeric;
-    }
-
-    public void setNumeric(Number numeric) {
-        this.numeric = numeric;
-    }
-
-    public Boolean getBool() {
-        return bool;
-    }
-
-    public void setBool(Boolean bool) {
-        this.bool = bool;
-    }
-
-    public String getJson() {
-        return json;
-    }
-
-    public void setJson(String json) {
-        this.json = json;
-    }
-
-    public Collection<KeyValue> getProperty() {
-        return property;
-    }
-
-    public void setProperty(Collection<KeyValue> property) {
-        this.property = property;
-    }
-
-    @Override
-    public String toString() {
-        return "SPValue{" +
-               "type=" + type +
-               ", value='" + value + '\'' +
-               ", string='" + string + '\'' +
-               ", price='" + price + '\'' +
-               ", numeric=" + numeric +
-               ", bool=" + bool +
-               ", json='" + json + '\'' +
-               ", property=" + property +
-               '}';
     }
 }
