@@ -18,6 +18,7 @@ package com.es.lib.entity.query;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,14 +30,27 @@ import java.util.stream.Stream;
 @ToString
 public final class Orders {
 
-    private final Collection<Order> items = new ArrayList<>(4);
+    private final Collection<Item> items = new ArrayList<>(4);
 
-    Orders(Order... orders) {
+    Orders(Item... orders) {
         this.items.addAll(Arrays.asList(orders));
     }
 
-    public Orders add(Order... orders) {
+    Orders(Collection<Item> orders) {
+        if (orders != null) {
+            this.items.addAll(orders);
+        }
+    }
+
+    public Orders add(Item... orders) {
         this.items.addAll(Arrays.asList(orders));
+        return this;
+    }
+
+    public Orders add(Collection<Item> orders) {
+        if (orders != null) {
+            this.items.addAll(orders);
+        }
         return this;
     }
 
@@ -48,13 +62,47 @@ public final class Orders {
         if (items.isEmpty()) {
             return "";
         }
-        return items.stream().map(Order::format).collect(Collectors.joining(", "));
+        return items.stream().map(Item::format).collect(Collectors.joining(", "));
+    }
+
+    public static Collection<Item> parse(String value) {
+        if (StringUtils.isBlank(value)) {
+            return new ArrayList<>();
+        }
+        Collection<Item> result = new ArrayList<>();
+        for (String part : value.trim().split(",")) {
+            Item item = parseItem(part);
+            if (item != null) {
+                result.add(item);
+            }
+        }
+        return result;
+    }
+
+    private static Item parseItem(String value) {
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+        String expression = value
+            .trim()
+            .replaceAll("desc", "")
+            .replaceAll("asc", "")
+            .replaceAll("nulls last", "")
+            .replaceAll("nulls first", "").trim();
+        boolean desc = value.contains("desc");
+        Boolean nullsLast = null;
+        if (value.contains("nulls last")) {
+            nullsLast = true;
+        } else if (value.contains("nulls first")) {
+            nullsLast = false;
+        }
+        return new Item(expression, desc, nullsLast);
     }
 
     @Getter
     @ToString
     @RequiredArgsConstructor
-    public static class Order {
+    public static class Item {
 
         private final String expression;
         private final boolean desc;

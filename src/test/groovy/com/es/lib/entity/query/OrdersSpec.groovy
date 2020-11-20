@@ -40,4 +40,13 @@ class OrdersSpec extends Specification {
         then:
         orders.format() == "a asc nulls last, b desc nulls last"
     }
+
+    def "Parse"() {
+        expect:
+        orders(order("a asc nulls last, b desc nulls last")).format() == "a asc nulls last, b desc nulls last"
+        orders(order("a asc, b desc nulls last")).format() == "a asc, b desc nulls last"
+        orders(order("a, b desc nulls last")).format() == "a asc, b desc nulls last"
+        orders(order("a, b")).format() == "a asc, b asc"
+        orders(order("a, b desc")).format() == "a asc, b desc"
+    }
 }

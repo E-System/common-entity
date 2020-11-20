@@ -34,14 +34,27 @@ import java.util.stream.Stream;
 @ToString
 public final class Joins {
 
-    private final Collection<Join> items = new ArrayList<>(4);
+    private final Collection<Item> items = new ArrayList<>(4);
 
-    Joins(Join... joins) {
+    Joins(Item... joins) {
         this.items.addAll(Arrays.asList(joins));
     }
 
-    public Joins add(Join... joins) {
+    Joins(Collection<Item> joins) {
+        if (joins != null) {
+            this.items.addAll(joins);
+        }
+    }
+
+    public Joins add(Item... joins) {
         this.items.addAll(Arrays.asList(joins));
+        return this;
+    }
+
+    public Joins add(Collection<Item> joins) {
+        if (joins != null) {
+            this.items.addAll(joins);
+        }
         return this;
     }
 
@@ -61,7 +74,7 @@ public final class Joins {
             return path;
         }
         String result = path;
-        for (Join join : items) {
+        for (Item join : items) {
             if (result.startsWith(join.getPath())) {
                 result = result.replaceFirst(join.getPath(), join.getAlias());
             }
@@ -72,16 +85,16 @@ public final class Joins {
     @Getter
     @ToString
     @RequiredArgsConstructor
-    public static class Join {
+    public static class Item {
 
-        private final JoinType joinType;
+        private final Type type;
         private final boolean fetch;
         private final String path;
         private final String alias;
 
         String format(boolean useFetch) {
             return Stream.of(
-                joinType.format(),
+                type.format(),
                 "join",
                 fetch && useFetch ? "fetch" : null,
                 path,
@@ -90,7 +103,7 @@ public final class Joins {
         }
     }
 
-    public enum JoinType {
+    public enum Type {
         INNER,
         LEFT,
         RIGHT;

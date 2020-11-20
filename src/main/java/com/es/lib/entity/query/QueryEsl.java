@@ -19,6 +19,7 @@ import com.es.lib.entity.PKeys;
 import com.es.lib.entity.iface.IPrimaryKey;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.function.Supplier;
 
 /**
@@ -29,65 +30,77 @@ public final class QueryEsl {
 
     private QueryEsl() { }
 
-    public static Joins joins(Joins.Join... joins) {
+    public static Joins joins(Joins.Item... joins) {
         return new Joins(joins);
     }
 
-    public static Conditions conditions(Condition... conditions) {
+    public static Joins joins(Collection<Joins.Item> joins) {
+        return new Joins(joins);
+    }
+
+    public static Conditions conditions(Conditions.Item... conditions) {
         return new Conditions(conditions);
     }
 
-    public static Orders orders(Orders.Order... orders) {
+    public static Conditions conditions(Collection<Conditions.Item> conditions) {
+        return new Conditions(conditions);
+    }
+
+    public static Orders orders(Orders.Item... orders) {
+        return new Orders(orders);
+    }
+
+    public static Orders orders(Collection<Orders.Item> orders) {
         return new Orders(orders);
     }
 
     // Joins
-    public static Joins.Join inner(String path, String alias) {
+    public static Joins.Item inner(String path, String alias) {
         return inner(path, alias, false);
     }
 
-    public static Joins.Join inner(String path, String alias, boolean fetch) {
-        return new Joins.Join(Joins.JoinType.INNER, fetch, path, alias);
+    public static Joins.Item inner(String path, String alias, boolean fetch) {
+        return new Joins.Item(Joins.Type.INNER, fetch, path, alias);
     }
 
-    public static Joins.Join right(String path, String alias) {
+    public static Joins.Item right(String path, String alias) {
         return right(path, alias, false);
     }
 
-    public static Joins.Join right(String path, String alias, boolean fetch) {
-        return new Joins.Join(Joins.JoinType.RIGHT, fetch, path, alias);
+    public static Joins.Item right(String path, String alias, boolean fetch) {
+        return new Joins.Item(Joins.Type.RIGHT, fetch, path, alias);
     }
 
-    public static Joins.Join left(String path, String alias) {
+    public static Joins.Item left(String path, String alias) {
         return left(path, alias, false);
     }
 
-    public static Joins.Join left(String path, String alias, boolean fetch) {
-        return new Joins.Join(Joins.JoinType.LEFT, fetch, path, alias);
+    public static Joins.Item left(String path, String alias, boolean fetch) {
+        return new Joins.Item(Joins.Type.LEFT, fetch, path, alias);
     }
 
     // Conditions
-    public static Condition where(IStatement first) {
-        return new Condition(first);
+    public static Conditions.Item where(IStatement first) {
+        return new Conditions.Item(first);
     }
 
-    public static Condition where(String expression) {
-        return new Condition(stmt(expression));
+    public static Conditions.Item where(String expression) {
+        return new Conditions.Item(stmt(expression));
     }
 
-    public static Condition where(String expression, Param... params) {
-        return new Condition(stmt(expression, params));
+    public static Conditions.Item where(String expression, Param... params) {
+        return new Conditions.Item(stmt(expression, params));
     }
 
-    public static Condition where(Supplier<Boolean> predicate, IStatement first) {
-        return new Condition(predicate, first);
+    public static Conditions.Item where(Supplier<Boolean> predicate, IStatement first) {
+        return new Conditions.Item(predicate, first);
     }
 
-    public static Condition where(String fieldName, String paramName, Supplier<Object> value) {
+    public static Conditions.Item where(String fieldName, String paramName, Supplier<Object> value) {
         return where(fieldName, "=", paramName, value);
     }
 
-    public static Condition where(String fieldName, String equation, String paramName, Supplier<Object> value) {
+    public static Conditions.Item where(String fieldName, String equation, String paramName, Supplier<Object> value) {
         return where(() -> value.get() != null, stmt("and " + fieldName + " " + equation + " :" + paramName, param(paramName, () -> {
             Object val = value.get();
             if (val == null) {
@@ -99,8 +112,8 @@ public final class QueryEsl {
         })));
     }
 
-    public static Condition where(Supplier<Boolean> predicate, IStatement first, IStatement second) {
-        return new Condition(predicate, first, second);
+    public static Conditions.Item where(Supplier<Boolean> predicate, IStatement first, IStatement second) {
+        return new Conditions.Item(predicate, first, second);
     }
 
     public static IStatement skip() {
@@ -124,19 +137,23 @@ public final class QueryEsl {
     }
 
     // Sorting
-    public static Orders.Order asc(String expression) {
-        return new Orders.Order(expression, false, null);
+    public static Collection<Orders.Item> order(String value) {
+        return Orders.parse(value);
     }
 
-    public static Orders.Order asc(String expression, boolean nullsLast) {
-        return new Orders.Order(expression, false, nullsLast);
+    public static Orders.Item asc(String expression) {
+        return new Orders.Item(expression, false, null);
     }
 
-    public static Orders.Order desc(String expression) {
-        return new Orders.Order(expression, true, null);
+    public static Orders.Item asc(String expression, boolean nullsLast) {
+        return new Orders.Item(expression, false, nullsLast);
     }
 
-    public static Orders.Order desc(String expression, boolean nullsLast) {
-        return new Orders.Order(expression, true, nullsLast);
+    public static Orders.Item desc(String expression) {
+        return new Orders.Item(expression, true, null);
+    }
+
+    public static Orders.Item desc(String expression, boolean nullsLast) {
+        return new Orders.Item(expression, true, nullsLast);
     }
 }

@@ -16,9 +16,11 @@
 package com.es.lib.entity.query;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,14 +32,27 @@ import java.util.stream.Stream;
 @ToString
 public class Conditions {
 
-    private final Collection<Condition> items = new ArrayList<>();
+    private final Collection<Item> items = new ArrayList<>();
 
-    Conditions(Condition... conditions) {
+    Conditions(Item... conditions) {
         this.items.addAll(Arrays.asList(conditions));
     }
 
-    public Conditions add(Condition... conditions) {
+    Conditions(Collection<Item> conditions) {
+        if (conditions != null) {
+            this.items.addAll(conditions);
+        }
+    }
+
+    public Conditions add(Item... conditions) {
         this.items.addAll(Arrays.asList(conditions));
+        return this;
+    }
+
+    public Conditions add(Collection<Item> conditions) {
+        if (conditions != null) {
+            this.items.addAll(conditions);
+        }
         return this;
     }
 
@@ -49,7 +64,7 @@ public class Conditions {
         if (isEmpty()) {
             return false;
         }
-        for (Condition condition : items) {
+        for (Item condition : items) {
             IStatement statement = condition.getStatement();
             if (statement != null && statement.isSkip()) {
                 return true;
@@ -70,7 +85,7 @@ public class Conditions {
 
     public Map<String, Object> parameters() {
         Map<String, Object> result = new HashMap<>();
-        for (Condition condition : getItems()) {
+        for (Item condition : getItems()) {
             IStatement statement = condition.getStatement();
             if (statement != null && !statement.isSkip()) {
                 Statement qStatement = (Statement) statement;
@@ -89,5 +104,27 @@ public class Conditions {
             }
         }
         return result;
+    }
+
+    @Getter
+    @ToString
+    @RequiredArgsConstructor
+    public static class Item {
+
+        private final Supplier<Boolean> predicate;
+        private final IStatement first;
+        private final IStatement second;
+
+        public Item(IStatement first) {
+            this(null, first, null);
+        }
+
+        public Item(Supplier<Boolean> predicate, IStatement first) {
+            this(predicate, first, null);
+        }
+
+        public IStatement getStatement() {
+            return predicate == null || predicate.get() ? first : second;
+        }
     }
 }
