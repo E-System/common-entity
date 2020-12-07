@@ -45,6 +45,8 @@ public interface IFieldSetOwner extends IAttributeOwner {
 
     SelectorItemsJson getSelector();
 
+    String getSelectorRequest();
+
     default SimpleDateFormat getDateFormat() {
         if (!getFieldType().equals(FieldTypeCode.DATE)) {
             return null;
