@@ -126,19 +126,27 @@ public interface IAttrsOwner {
         setAttributes(Items.removeNullValues(getAttributes()));
     }
 
-    default <T> Collection<T> getCollectionAttribute(String code, Function<String, T> mapper) {
+    default <T> Collection<T> getCollectionAttribute(String code, String splitter, Function<String, T> mapper) {
         String value = getAttribute(code);
         if (StringUtils.isBlank(value)) {
             return new ArrayList<>();
         }
-        return Stream.of(value.split(";")).map(mapper).collect(Collectors.toList());
+        return Stream.of(value.split(splitter)).map(mapper).collect(Collectors.toList());
     }
 
-    default <T> void setCollectionAttribute(String code, Collection<T> items) {
+    default <T> Collection<T> getCollectionAttribute(String code, Function<String, T> mapper) {
+        return getCollectionAttribute(code, ";", mapper);
+    }
+
+    default <T> void setCollectionAttribute(String code, String splitter, Collection<T> items) {
         if (Items.isEmpty(items)) {
             setAttribute(code, null);
             return;
         }
-        setAttribute(code, items.stream().map(String::valueOf).collect(Collectors.joining(";")));
+        setAttribute(code, items.stream().map(String::valueOf).collect(Collectors.joining(splitter)));
+    }
+
+    default <T> void setCollectionAttribute(String code, Collection<T> items) {
+        setCollectionAttribute(code, ";", items);
     }
 }
