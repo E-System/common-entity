@@ -15,6 +15,7 @@
  */
 package com.es.lib.entity.event.audit;
 
+import com.es.lib.common.Jsons;
 import com.es.lib.entity.iface.audit.IAuditInfo;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -85,6 +86,10 @@ public class AuditEvent {
             this.valueType = valueType;
             this.value = value;
             return this;
+        }
+
+        public Builder value(Object value) {
+            return value(value.getClass().getCanonicalName(), Jsons.toJson(value));
         }
 
         public AuditEvent build() {
