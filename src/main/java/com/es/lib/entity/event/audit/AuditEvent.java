@@ -35,6 +35,14 @@ public class AuditEvent {
     private final String value;
     private final String valueType;
 
+    public static Builder create(String action, Object initiator) {
+        return new Builder(action, initiator);
+    }
+
+    public static Builder create(String action) {
+        return create(action, null);
+    }
+
     public AuditEvent(String action, String title) {
         this(null, action, title, null, null);
     }
@@ -53,5 +61,41 @@ public class AuditEvent {
 
     public AuditEvent(Object initiator, String action, IAuditInfo auditInfo) {
         this(initiator, action, auditInfo.getTitle(), auditInfo.getValue(), auditInfo.getValueType());
+    }
+
+    public static class Builder {
+
+        private final Object initiator;
+        private final String action;
+        private String title;
+        private String value;
+        private String valueType;
+
+        Builder(String action, Object initiator) {
+            this.action = action;
+            this.initiator = initiator;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder value(String valueType, String value) {
+            this.valueType = valueType;
+            this.value = value;
+            return this;
+        }
+
+        public AuditEvent build() {
+            return new AuditEvent(
+                initiator,
+                action,
+                title,
+                value,
+                valueType
+            );
+        }
+
     }
 }
