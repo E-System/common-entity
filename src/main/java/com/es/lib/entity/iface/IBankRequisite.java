@@ -19,7 +19,7 @@ package com.es.lib.entity.iface;
  * @author Vitaliy Savchenko - savchenko.v@ext-system.com
  * @since 02.08.16
  */
-public interface IBankInfo {
+public interface IBankRequisite {
 
     String getAccount();
 
@@ -40,5 +40,4 @@ public interface IBankInfo {
     String getBankOgrn();
 
     void setBankOgrn(String bankOgrn);
-
 }
