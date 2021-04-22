@@ -145,7 +145,7 @@ public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
         if (StringUtils.isBlank(type)) {
             type = defaultType;
         }
-        if (StringUtils.isBlank(type) && StringUtils.isBlank(value)) {
+        if (StringUtils.isBlank(value)) {
             return result;
         }
         if (divider != null && StringUtils.isNotBlank(result)) {

@@ -221,6 +221,16 @@ class IAddressSpec extends Specification {
         IAddress.fetch("PREFIX", parts, AddressKeys.City.TYPE_SHORT, null, AddressKeys.City.VALUE, ", ", ". ") == "PREFIX, CITY_TYPE. CITY_VALUE"
     }
 
+    def "Fetch city with empty value"() {
+        when:
+        def parts = [
+            (AddressKeys.City.TYPE_SHORT): "CITY_TYPE"
+        ]
+        then:
+        IAddress.fetch("", parts, AddressKeys.City.TYPE_SHORT, null, AddressKeys.City.VALUE, ", ", ". ") == ""
+        IAddress.fetch("PREFIX", parts, AddressKeys.City.TYPE_SHORT, null, AddressKeys.City.VALUE, ", ", ". ") == "PREFIX"
+    }
+
     def "Fetch locality"() {
         when:
         def parts = [
