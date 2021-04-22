@@ -30,6 +30,9 @@ import java.util.Map;
  */
 public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
 
+    String A_SHORT = "A_SHORT";
+    String A_FULL = "A_FULL";
+
     Map<String, String> getParts();
 
     void setParts(Map<String, String> parts);
