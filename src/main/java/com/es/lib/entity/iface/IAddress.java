@@ -16,6 +16,7 @@
 package com.es.lib.entity.iface;
 
 import com.es.lib.common.collection.Items;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -99,5 +100,59 @@ public interface IAddress<PK extends Serializable> extends IPrimaryKey<PK> {
             return new HashMap<>();
         }
         return new HashMap<>(address.getParts());
+    }
+
+    static String toStringShort(IAddress<? extends Serializable> item) {
+        return toStringShort(item.getParts());
+    }
+
+    static String toStringShort(Map<String, String> parts) {
+        return process("", parts, false);
+    }
+
+    static String toStringFull(IAddress<? extends Serializable> item) {
+        return toStringFull(item.getParts());
+    }
+
+    static String toStringFull(Map<String, String> parts) {
+        String result = "";
+        result = fetch(result, parts, null, null, AddressKeys.ZIPCODE, null, null);
+        result = fetch(result, parts, AddressKeys.Region.TYPE_SHORT, null, AddressKeys.Region.VALUE, ", ", " ");
+        return process(result, parts, true);
+    }
+
+    static String process(String result, Map<String, String> parts, boolean additional) {
+        result = fetch(result, parts, AddressKeys.Area.TYPE_SHORT, null, AddressKeys.Area.VALUE, additional ? ", " : null, ". ");
+        result = fetch(result, parts, AddressKeys.City.TYPE_SHORT, null, AddressKeys.City.VALUE, ", ", ". ");
+        result = fetch(result, parts, AddressKeys.Locality.TYPE_SHORT, null, AddressKeys.Locality.VALUE, ", ", ". ");
+        result = fetch(result, parts, AddressKeys.Street.TYPE_SHORT, null, AddressKeys.Street.VALUE, ", ", ". ");
+        result = fetch(result, parts, null, null, AddressKeys.HOUSE, " ", null);
+        result = fetch(result, parts, null, null, AddressKeys.HOUSING, " ", "кор. ");
+        result = fetch(result, parts, null, null, AddressKeys.BUILDING, " ", "стр. ");
+        result = fetch(result, parts, AddressKeys.FLAT_TYPE, "кв", AddressKeys.FLAT, " ", ". ");
+        return fetch(result, parts, null, null, AddressKeys.QUALIFICATION, " ", null);
+    }
+
+    static String fetch(String result, Map<String, String> parts, String typeCode, String defaultType, String valueCode, String divider, String valuePrefix) {
+        String value = parts.get(valueCode);
+        if (typeCode == null && StringUtils.isBlank(value)) {
+            return result;
+        }
+        String type = parts.get(typeCode);
+        if (StringUtils.isBlank(type)) {
+            type = defaultType;
+        }
+        if (StringUtils.isBlank(type) && StringUtils.isBlank(value)) {
+            return result;
+        }
+        if (divider != null && StringUtils.isNotBlank(result)) {
+            result += divider;
+        }
+        result += StringUtils.defaultString(type, "");
+        if (valuePrefix != null) {
+            result += valuePrefix;
+        }
+        result += value;
+        return result;
     }
 }
