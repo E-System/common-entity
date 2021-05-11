@@ -28,12 +28,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.1.1"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.2.0"
     }
 }
 
 wrapper {
-    gradleVersion = '6.8.3'
+    gradleVersion = '6.9'
 }
 
 apply from: "build-${profile}.gradle"
@@ -41,7 +41,6 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'java-library'
 apply plugin: 'groovy'
-apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
 
@@ -139,22 +138,28 @@ publishing {
         }
     }
 }
+ext{
+    pgVersion = "42.2.20"
+    hibernateVersion = "5.4.31.Final"
+    lombokVersion = "1.18.20"
+    testcontainersVersion = "1.15.3"
+}
 dependencies {
     api "com.es.lib:common-lib:1.5.0${project.ext.snapshot ? '-SNAPSHOT' : ''}"
 
     api "com.fasterxml.jackson.core:jackson-annotations:2.12.3"
-    api "org.hibernate:hibernate-entitymanager:5.4.30.Final"
-    api "org.hibernate:hibernate-core:5.4.30.Final"
+    api "org.hibernate:hibernate-entitymanager:${hibernateVersion}"
+    api "org.hibernate:hibernate-core:${hibernateVersion}"
 
-    compileOnly "org.postgresql:postgresql:42.2.19"
+    compileOnly "org.postgresql:postgresql:${pgVersion}"
 
-    compileOnly "org.projectlombok:lombok:1.18.20"
-    annotationProcessor "org.projectlombok:lombok:1.18.20"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testImplementation "org.spockframework:spock-core:1.3-groovy-2.5"
-    testImplementation "org.testcontainers:spock:1.15.3"
-    testImplementation "org.testcontainers:postgresql:1.15.3"
-    testImplementation "org.postgresql:postgresql:42.2.19"
+    testImplementation "org.testcontainers:spock:${testcontainersVersion}"
+    testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"
+    testImplementation "org.postgresql:postgresql:${pgVersion}"
 }
 
 test {
