@@ -60,11 +60,30 @@ public class Thumb {
         if (!Float.isNaN(quality)) {
             quality = Math.max(Math.min(quality, 1.0f), 0.0f);
         }
-        return new Thumb(
-            NumberUtils.toInt(tw, Thumb.DEFAULT_WIDTH),
-            NumberUtils.toInt(th, Thumb.DEFAULT_HEIGHT),
-            quality
-        );
+        Integer w = toInt(tw);
+        Integer h = toInt(th);
+        if (w == null && h == null) {
+            w = DEFAULT_WIDTH;
+            h = DEFAULT_HEIGHT;
+        } else {
+            if (w == null) {
+                w = h;
+            } else {
+                h = w;
+            }
+        }
+        return new Thumb(w, h, quality);
+    }
+
+    private static Integer toInt(String str) {
+        if (str == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException var3) {
+            return null;
+        }
     }
 
     public static Thumb create(Map<String, String> params) {
