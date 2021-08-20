@@ -17,6 +17,7 @@ package com.es.lib.entity.query;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
@@ -41,6 +42,9 @@ public final class Likes {
     }
 
     private static String like(String text, String leftSymbol, String rightSymbol, boolean trim) {
-        return leftSymbol + (text == null ? "" : (trim ? text.toLowerCase().trim() : text.toLowerCase())) + rightSymbol;
+        if (StringUtils.isBlank(text)){
+            return null;
+        }
+        return leftSymbol + (trim ? text.toLowerCase().trim() : text.toLowerCase()) + rightSymbol;
     }
 }

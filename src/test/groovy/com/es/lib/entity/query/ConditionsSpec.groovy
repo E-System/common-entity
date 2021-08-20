@@ -168,4 +168,15 @@ class ConditionsSpec extends Specification {
         cb.parameters() == [:]
         !cb.skipSelect
     }
+
+    def "where with empty like"() {
+        when:
+        def cb = conditions(
+            where("e.id=:id", like("id", true, {return null}))
+        )
+        then:
+        cb.format() == 'e.id=:id'
+        cb.parameters() == [:]
+        !cb.skipSelect
+    }
 }

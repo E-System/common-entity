@@ -29,9 +29,9 @@ class LikesSpec extends Specification {
         Likes.any(text) == result
         where:
         text                         || result
-        null                         || "%%"
-        ""                           || "%%"
-        " "                          || "%%"
+        null                         || null
+        ""                           || null
+        " "                          || null
         "find"                       || "%find%"
         "FIND"                       || "%find%"
         "FinD"                       || "%find%"
@@ -51,9 +51,9 @@ class LikesSpec extends Specification {
         Likes.begin(text) == result
         where:
         text                         || result
-        null                         || "%"
-        ""                           || "%"
-        " "                          || "%"
+        null                         || null
+        ""                           || null
+        " "                          || null
         "find"                       || "find%"
         "FIND"                       || "find%"
         "FinD"                       || "find%"

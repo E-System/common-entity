@@ -18,6 +18,7 @@ package com.es.lib.entity.query;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -78,9 +79,9 @@ public class Conditions {
             return "";
         }
         return items.stream().flatMap(v -> Stream.of(v.getStatement()))
-                    .filter(v -> v != null && !v.isSkip())
-                    .map(v -> ((Statement) v).getExpression())
-                    .collect(Collectors.joining(" "));
+            .filter(v -> v != null && !v.isSkip())
+            .map(v -> ((Statement) v).getExpression())
+            .collect(Collectors.joining(" "));
     }
 
     public Map<String, Object> parameters() {
@@ -92,13 +93,12 @@ public class Conditions {
                 if (!qStatement.isEmptyParams()) {
                     result.putAll(
                         qStatement.getParams()
-                                  .stream()
-                                  .collect(
-                                      Collectors.toMap(
-                                          Param::getName,
-                                          v -> v.getValue().get()
-                                      )
-                                  )
+                            .stream()
+                            .map(v -> Pair.of(v.getName(), v.getValue().get()))
+                            .filter(v -> v.getValue() != null)
+                            .collect(
+                                Collectors.toMap(Pair::getKey, Pair::getValue)
+                            )
                     );
                 }
             }

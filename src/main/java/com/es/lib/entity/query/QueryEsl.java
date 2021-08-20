@@ -19,6 +19,7 @@ import com.es.lib.entity.PKeys;
 import com.es.lib.entity.iface.IPrimaryKey;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
