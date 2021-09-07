@@ -96,6 +96,30 @@ class JsonbTypeSpec extends PgRunner {
         }
     }
 
+    def "Insert empty object"() {
+        setup:
+        Session session = newSessionFactory().openSession()
+        when:
+        Transaction txn = session.beginTransaction()
+
+        def entity = new TestJsonEntity()
+        entity.json = new TestJson(null, null)
+
+        session.persist(entity)
+        txn.commit()
+        session.clear()
+        entity = session.get(TestJsonEntity.class, entity.getId())
+        then:
+        entity.id != null
+        entity.json != null
+        entity.json.code == null
+        entity.json.attrs == null
+        cleanup:
+        if (session != null) {
+            session.close()
+        }
+    }
+
     @Override
     protected Collection<Class<?>> getEntityClasses() {
         return [TestJsonEntity.class, TestJsonFieldsEntity.class]
