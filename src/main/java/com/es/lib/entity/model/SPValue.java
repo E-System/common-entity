@@ -17,6 +17,7 @@ package com.es.lib.entity.model;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,7 +43,10 @@ import java.util.stream.Collectors;
 public class SPValue {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        .findAndRegisterModules()
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+        .enable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID);
 
     private ValueTypeCode type;
     private String value;

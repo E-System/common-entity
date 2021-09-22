@@ -142,12 +142,13 @@ ext{
     pgVersion = "42.2.23"
     hibernateVersion = "5.4.32.Final"
     lombokVersion = "1.18.20"
+    jacksonVersion = "2.12.5"
     testcontainersVersion = "1.16.0"
 }
 dependencies {
     api "com.es.lib:common-lib:1.5.0${project.ext.snapshot ? '-SNAPSHOT' : ''}"
 
-    api 'com.fasterxml.jackson.core:jackson-annotations:2.12.5'
+    api "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
     api "org.hibernate:hibernate-entitymanager:${hibernateVersion}"
     api "org.hibernate:hibernate-core:${hibernateVersion}"
 
@@ -157,6 +158,7 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testImplementation "org.spockframework:spock-core:2.0-groovy-3.0"
+    testImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
     testImplementation "org.testcontainers:spock:${testcontainersVersion}"
     testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"
     testImplementation "org.postgresql:postgresql:${pgVersion}"
