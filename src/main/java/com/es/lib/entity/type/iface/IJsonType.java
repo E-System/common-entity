@@ -39,6 +39,7 @@ public interface IJsonType extends IType {
         .findAndRegisterModules()
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         .enable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID);
 
     DbTypes.Json getDbType();
