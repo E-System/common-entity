@@ -15,11 +15,9 @@
  */
 package com.es.lib.entity.type.iface;
 
+import com.es.lib.common.Jsons;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.hibernate.HibernateException;
 import org.postgresql.util.PGobject;
 
@@ -35,12 +33,7 @@ import java.sql.Types;
  */
 public interface IJsonType extends IType {
 
-    ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-        .findAndRegisterModules()
-        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        .enable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID);
+    ObjectMapper OBJECT_MAPPER = Jsons.mapper();
 
     DbTypes.Json getDbType();
 

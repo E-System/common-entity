@@ -15,6 +15,7 @@
  */
 package com.es.lib.entity.model;
 
+import com.es.lib.common.Jsons;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -42,12 +43,7 @@ import java.util.stream.Collectors;
 @Setter
 public class SPValue {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-        .findAndRegisterModules()
-        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        .enable(SerializationFeature.WRITE_DATES_WITH_ZONE_ID);
+    private static final ObjectMapper OBJECT_MAPPER = Jsons.mapper();
 
     private ValueTypeCode type;
     private String value;
