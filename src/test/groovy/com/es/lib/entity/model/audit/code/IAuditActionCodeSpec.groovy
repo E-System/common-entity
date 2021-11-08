@@ -12,17 +12,18 @@ class IAuditActionCodeSpec extends Specification {
         expect:
         IAuditActionCode.class.getField(value).get(null) == value
         where:
-        value << [IAuditActionCode.INSERT,
-                  IAuditActionCode.UPDATE,
-                  IAuditActionCode.DELETE,
-                  IAuditActionCode.LOGIN_SUCCESS,
-                  IAuditActionCode.LOGIN_ERROR,
-                  IAuditActionCode.LOGOUT,
-                  IAuditActionCode.CHANGE_PASSWORD,
-                  IAuditActionCode.CHANGE_PERMISSION,
-                  IAuditActionCode.RESTORE_PASSWORD_REQUEST,
-                  IAuditActionCode.RESTORE_PASSWORD_SUCCESS,
-                  IAuditActionCode.RESTORE_PASSWORD_EXPIRED
+        value << [
+            IAuditActionCode.INSERT,
+            IAuditActionCode.UPDATE,
+            IAuditActionCode.DELETE,
+            IAuditActionCode.LOGIN_SUCCESS,
+            IAuditActionCode.LOGIN_ERROR,
+            IAuditActionCode.LOGOUT,
+            IAuditActionCode.CHANGE_PASSWORD,
+            IAuditActionCode.CHANGE_PERMISSION,
+            IAuditActionCode.RESTORE_PASSWORD_REQUEST,
+            IAuditActionCode.RESTORE_PASSWORD_SUCCESS,
+            IAuditActionCode.RESTORE_PASSWORD_EXPIRED
         ]
     }
 }
