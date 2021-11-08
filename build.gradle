@@ -139,16 +139,15 @@ publishing {
     }
 }
 ext{
-    pgVersion = "42.2.23"
+    pgVersion = "42.2.24"
     hibernateVersion = "5.4.32.Final"
-    lombokVersion = "1.18.20"
-    jacksonVersion = "2.12.5"
-    testcontainersVersion = "1.16.0"
+    lombokVersion = "1.18.22"
+    jacksonVersion = "2.13.0"
+    testcontainersVersion = "1.16.2"
 }
 dependencies {
     api "com.es.lib:common-lib:1.5.0${project.ext.snapshot ? '-SNAPSHOT' : ''}"
 
-    api "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
     api "org.hibernate:hibernate-entitymanager:${hibernateVersion}"
     api "org.hibernate:hibernate-core:${hibernateVersion}"
 
