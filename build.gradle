@@ -33,7 +33,7 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '7.3'
+    gradleVersion = '7.4'
 }
 
 apply from: "build-${profile}.gradle"
@@ -139,11 +139,11 @@ publishing {
     }
 }
 ext{
-    pgVersion = "42.2.24"
-    hibernateVersion = "5.4.32.Final"
+    pgVersion = "42.2.25"
+    hibernateVersion = "5.4.33.Final"
     lombokVersion = "1.18.22"
-    jacksonVersion = "2.13.0"
-    testcontainersVersion = "1.16.2"
+    jacksonVersion = "2.13.1"
+    testcontainersVersion = "1.16.3"
 }
 dependencies {
     api "com.es.lib:common-lib:1.5.0${project.ext.snapshot ? '-SNAPSHOT' : ''}"
