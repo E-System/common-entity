@@ -139,7 +139,7 @@ publishing {
     }
 }
 ext{
-    pgVersion = "42.2.25"
+    pgVersion = "42.3.3"
     hibernateVersion = "5.4.33.Final"
     lombokVersion = "1.18.22"
     jacksonVersion = "2.13.1"
