@@ -33,6 +33,14 @@ public interface IAttrsOwner {
 
     void setAttributes(Map<String, String> attributes);
 
+    default Map<String, String> getAttrs() {
+        return getAttributes();
+    }
+
+    default void setAttrs(Map<String, String> attributes) {
+        setAttributes(attributes);
+    }
+
     default String getAttribute(String code) {
         return getAttribute(code, (String) null);
     }
