@@ -78,7 +78,7 @@ public interface IField extends IAttrsOwner {
         if (!getType().equals(FieldType.DATE)) {
             return null;
         }
-        return new SimpleDateFormat(getAttribute(IFieldAttrs.FORMAT, CALENDAR_DATE_PATTERN));
+        return new SimpleDateFormat(getAttr(IFieldAttrs.FORMAT, CALENDAR_DATE_PATTERN));
     }
 
     default Collection<StringFieldValue> getSelectorValues() {
@@ -92,15 +92,15 @@ public interface IField extends IAttrsOwner {
     }
 
     default boolean isVisible() {
-        return getBoolAttribute(IFieldAttrs.VISIBLE, true);
+        return getBoolAttr(IFieldAttrs.VISIBLE, true);
     }
 
     default boolean isRequired() {
-        return getBoolAttribute(IFieldAttrs.REQUIRED, false);
+        return getBoolAttr(IFieldAttrs.REQUIRED, false);
     }
 
     default String getPosition() {
-        return getAttribute(IFieldAttrs.POSITION);
+        return getAttr(IFieldAttrs.POSITION);
     }
 
     default boolean isPositionLeft() {
@@ -120,10 +120,10 @@ public interface IField extends IAttrsOwner {
     }
 
     default boolean isParentOf(IField v) {
-        return Objects.equals(getOwnerId(), v.getOwnerId()) && getCode().equals(v.getAttribute(IFieldAttrs.PARENT));
+        return Objects.equals(getOwnerId(), v.getOwnerId()) && getCode().equals(v.getAttr(IFieldAttrs.PARENT));
     }
 
     default boolean isRoot() {
-        return getAttribute(IFieldAttrs.PARENT) == null;
+        return getAttr(IFieldAttrs.PARENT) == null;
     }
 }

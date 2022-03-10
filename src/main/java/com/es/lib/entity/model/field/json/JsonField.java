@@ -54,7 +54,7 @@ public class JsonField implements Serializable {
         this.type = field.getType();
         this.code = field.getCode();
         this.title = field.getName();
-        this.format = field.getAttribute(IFieldAttrs.FORMAT);
+        this.format = field.getAttr(IFieldAttrs.FORMAT);
     }
 
     public JsonField(FieldType type, String code, String title) {

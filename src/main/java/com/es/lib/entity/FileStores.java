@@ -108,7 +108,7 @@ public class FileStores {
         }
 
         T result = fill(fileStore, storePath, fileStoreCreator.get());
-        result.setAttributes(fileStore.getAttributes());
+        result.setAttrs(fileStore.getAttrs());
         return result;
     }
 
@@ -264,7 +264,7 @@ public class FileStores {
     public static void processAttributes(IFileStore fileStore, Path source, Set<String> checkers) {
         fileStore.setCheckers(checkers);
         if (IStore.isImage(fileStore)) {
-            fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
+            fileStore.getAttrs().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));
         }
     }
@@ -272,7 +272,7 @@ public class FileStores {
     public static void processAttributes(IFileStore fileStore, byte[] source, Set<String> checkers) {
         fileStore.setCheckers(checkers);
         if (IStore.isImage(fileStore)) {
-            fileStore.getAttributes().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
+            fileStore.getAttrs().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));
         }
     }
@@ -281,7 +281,7 @@ public class FileStores {
         if (source == null) {
             return;
         }
-        fileStore.setAttributes(Arrays.asList(
+        fileStore.setAttrs(Arrays.asList(
             Pair.of(IFileStoreAttrs.Image.WIDTH, String.valueOf(source.getWidth())),
             Pair.of(IFileStoreAttrs.Image.HEIGHT, String.valueOf(source.getHeight())),
             Pair.of(IFileStoreAttrs.Image.VERTICAL, String.valueOf(source.isVertical()))

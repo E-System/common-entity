@@ -13,10 +13,10 @@ class IAttrsOwnerSpec extends Specification {
     def "Get date attribute"() {
         when:
         def v = new TestAttr(["CODE1": "22.12.2019", "CODE2": null, "CODE3": "", "CODE4": "awd"])
-        def d1 = v.getDateAttribute("CODE1")
-        def d2 = v.getDateAttribute("CODE2")
-        def d3 = v.getDateAttribute("CODE3")
-        def d4 = v.getDateAttribute("CODE4")
+        def d1 = v.getDateAttr("CODE1")
+        def d2 = v.getDateAttr("CODE2")
+        def d3 = v.getDateAttr("CODE3")
+        def d4 = v.getDateAttr("CODE4")
         then:
         d1 != null && new SimpleDateFormat("dd.MM.yyyy").format(d1) == "22.12.2019"
         d2 == null
@@ -27,9 +27,9 @@ class IAttrsOwnerSpec extends Specification {
     def "Get enum attribute"() {
         when:
         def v = new TestAttr(["CODE": "VALUE", "CODE1": "", "CODE2": "VAL"])
-        def exist = v.getAttribute("CODE", PCode)
-        def notExist = v.getAttribute("CODE1", PCode)
-        def notEnum = v.getAttribute("CODE2", PCode)
+        def exist = v.getAttr("CODE", PCode)
+        def notExist = v.getAttr("CODE1", PCode)
+        def notEnum = v.getAttr("CODE2", PCode)
         then:
         exist == PCode.VALUE
         notExist == null
@@ -39,94 +39,94 @@ class IAttrsOwnerSpec extends Specification {
     def "Remove empty attributes"() {
         when:
         def v = new TestAttr(["CODE": null, "CODE1": "", "CODE2": "VAL"])
-        v.removeEmptyAttributes()
+        v.removeEmptyAttrs()
         then:
-        v.attributes.size() == 1
-        !v.isAttributeFilled("CODE")
-        !v.isAttributeFilled("CODE1")
-        v.isAttributeFilled("CODE2")
+        v.attrs.size() == 1
+        !v.isAttrFilled("CODE")
+        !v.isAttrFilled("CODE1")
+        v.isAttrFilled("CODE2")
     }
 
     def "Remove null attributes"() {
         when:
         def v = new TestAttr(["CODE": null, "CODE1": "", "CODE2": "VAL"])
-        v.removeNullAttributes()
+        v.removeNullAttrs()
         then:
-        v.attributes.size() == 2
-        !v.isAttributeFilled("CODE")
-        v.getAttribute("CODE1") == ""
-        v.isAttributeFilled("CODE2")
+        v.attrs.size() == 2
+        !v.isAttrFilled("CODE")
+        v.getAttr("CODE1") == ""
+        v.isAttrFilled("CODE2")
     }
 
     def "GetShort"() {
         expect:
-        entity.getShortAttribute('SHORT') == 100
-        entity.getShortAttribute('INT') == null
-        entity.getShortAttribute('LONG') == null
-        entity.getShortAttribute('DOUBLE') == null
-        entity.getShortAttribute('DATE1') == null
-        entity.getShortAttribute('DATE2') == null
+        entity.getShortAttr('SHORT') == 100
+        entity.getShortAttr('INT') == null
+        entity.getShortAttr('LONG') == null
+        entity.getShortAttr('DOUBLE') == null
+        entity.getShortAttr('DATE1') == null
+        entity.getShortAttr('DATE2') == null
     }
 
     def "GetInt"() {
         expect:
-        entity.getIntAttribute('SHORT') == 100
-        entity.getIntAttribute('INT') == 50000
-        entity.getIntAttribute('LONG') == null
-        entity.getIntAttribute('DOUBLE') == null
-        entity.getIntAttribute('DATE1') == null
-        entity.getIntAttribute('DATE2') == null
+        entity.getIntAttr('SHORT') == 100
+        entity.getIntAttr('INT') == 50000
+        entity.getIntAttr('LONG') == null
+        entity.getIntAttr('DOUBLE') == null
+        entity.getIntAttr('DATE1') == null
+        entity.getIntAttr('DATE2') == null
     }
 
     def "GetLong"() {
         expect:
-        entity.getLongAttribute('SHORT') == 100
-        entity.getLongAttribute('INT') == 50000
-        entity.getLongAttribute('LONG') == 1231231231231231231
-        entity.getLongAttribute('DOUBLE') == null
-        entity.getLongAttribute('DATE1') == null
-        entity.getLongAttribute('DATE2') == null
+        entity.getLongAttr('SHORT') == 100
+        entity.getLongAttr('INT') == 50000
+        entity.getLongAttr('LONG') == 1231231231231231231
+        entity.getLongAttr('DOUBLE') == null
+        entity.getLongAttr('DATE1') == null
+        entity.getLongAttr('DATE2') == null
     }
 
     def "GetDouble"() {
         expect:
-        entity.getDoubleAttribute('SHORT') == 100
-        entity.getDoubleAttribute('INT') == 50000
-        entity.getDoubleAttribute('LONG') == 1231231231231231231
-        entity.getDoubleAttribute('DOUBLE') == 123.123
-        entity.getDoubleAttribute('DATE1') == null
-        entity.getDoubleAttribute('DATE2') == null
+        entity.getDoubleAttr('SHORT') == 100
+        entity.getDoubleAttr('INT') == 50000
+        entity.getDoubleAttr('LONG') == 1231231231231231231
+        entity.getDoubleAttr('DOUBLE') == 123.123
+        entity.getDoubleAttr('DATE1') == null
+        entity.getDoubleAttr('DATE2') == null
     }
 
     def "GetDate"() {
         expect:
-        entity.getDateAttribute('SHORT') == null
-        entity.getDateAttribute('INT') == null
-        entity.getDateAttribute('LONG') == null
-        entity.getDateAttribute('DOUBLE') == null
-        entity.getDateAttribute('DATE1').getDate() == 12
-        entity.getDateAttribute('DATE1').getMonth() == 2
-        entity.getDateAttribute('DATE1').getYear() == 118
-        entity.getDateAttribute('DATE2') == null
-        entity.getDateAttribute('DATE2', 'yyyy-MM-dd').getDate() == 12
-        entity.getDateAttribute('DATE2', 'yyyy-MM-dd').getMonth() == 2
-        entity.getDateAttribute('DATE2', 'yyyy-MM-dd').getYear() == 118
+        entity.getDateAttr('SHORT') == null
+        entity.getDateAttr('INT') == null
+        entity.getDateAttr('LONG') == null
+        entity.getDateAttr('DOUBLE') == null
+        entity.getDateAttr('DATE1').getDate() == 12
+        entity.getDateAttr('DATE1').getMonth() == 2
+        entity.getDateAttr('DATE1').getYear() == 118
+        entity.getDateAttr('DATE2') == null
+        entity.getDateAttr('DATE2', 'yyyy-MM-dd').getDate() == 12
+        entity.getDateAttr('DATE2', 'yyyy-MM-dd').getMonth() == 2
+        entity.getDateAttr('DATE2', 'yyyy-MM-dd').getYear() == 118
     }
 
     def "GetCollection"() {
         expect:
-        entity.getCollectionAttribute('COLL1', { Long.parseLong(it) }) == []
-        entity.getCollectionAttribute('COLL', { Long.parseLong(it) }) == [1L, 2L, 3L, 4L, 5L]
-        entity.getCollectionAttribute('COLL', { Integer.parseInt(it) }) == [1, 2, 3, 4, 5]
+        entity.getCollectionAttr('COLL1', { Long.parseLong(it) }) == []
+        entity.getCollectionAttr('COLL', { Long.parseLong(it) }) == [1L, 2L, 3L, 4L, 5L]
+        entity.getCollectionAttr('COLL', { Integer.parseInt(it) }) == [1, 2, 3, 4, 5]
     }
 
-    def "SetCollection"(){
+    def "SetCollection"() {
         when:
         def entity = new TestAttr([:])
-        entity.setCollectionAttribute("COLL", [1L, 2L])
+        entity.setCollectionAttr("COLL", [1L, 2L])
         then:
-        entity.getCollectionAttribute('COLL1', { Long.parseLong(it) }) == []
-        entity.getCollectionAttribute('COLL', { Long.parseLong(it) }) == [1L, 2L]
+        entity.getCollectionAttr('COLL1', { Long.parseLong(it) }) == []
+        entity.getCollectionAttr('COLL', { Long.parseLong(it) }) == [1L, 2L]
     }
 
     static enum PCode {
@@ -135,20 +135,10 @@ class IAttrsOwnerSpec extends Specification {
 
     static class TestAttr implements IAttrsOwner {
 
-        Map<String, String> attributes
+        Map<String, String> attrs
 
-        TestAttr(Map<String, String> attributes) {
-            this.attributes = attributes
-        }
-
-        @Override
-        Map<String, String> getAttributes() {
-            return attributes
-        }
-
-        @Override
-        void setAttributes(Map<String, String> attributes) {
-            this.attributes = attributes
+        TestAttr(Map<String, String> attrs) {
+            this.attrs = attrs
         }
     }
 }

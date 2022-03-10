@@ -22,13 +22,13 @@ class IFieldSpec extends Specification {
         FieldType type
         String code
         String name
-        Map<String, String> attributes
+        Map<String, String> attrs
 
-        Field(FieldType type, String code, String name, Map<String, String> attributes) {
+        Field(FieldType type, String code, String name, Map<String, String> attrs) {
             this.type = type
             this.code = code
             this.name = name
-            this.attributes = attributes
+            this.attrs = attrs
         }
     }
 }

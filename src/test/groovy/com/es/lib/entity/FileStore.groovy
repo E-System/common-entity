@@ -12,7 +12,7 @@ class FileStore implements IFileStore {
     long size
     String mime
     boolean deleted
-    Map<String, String> attributes
+    Map<String, String> attrs
 
     @Override
     String getFullName() {

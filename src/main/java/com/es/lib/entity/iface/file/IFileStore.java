@@ -51,11 +51,11 @@ public interface IFileStore extends IStore, IAttrsOwner, IPrimaryKey<Long> {
     void setDeleted(boolean deleted);
 
     default void setCheckers(Set<String> checkers) {
-        setAttribute(IFileStoreAttrs.Security.CHECKERS, Items.isEmpty(checkers) ? null : String.join(";", checkers));
+        setAttr(IFileStoreAttrs.Security.CHECKERS, Items.isEmpty(checkers) ? null : String.join(";", checkers));
     }
 
     default Set<String> getCheckers() {
-        String checkersValue = getAttribute(IFileStoreAttrs.Security.CHECKERS);
+        String checkersValue = getAttr(IFileStoreAttrs.Security.CHECKERS);
         if (StringUtils.isBlank(checkersValue)) {
             return new HashSet<>();
         }
@@ -63,8 +63,8 @@ public interface IFileStore extends IStore, IAttrsOwner, IPrimaryKey<Long> {
     }
 
     default Images.Info getImageInfo() {
-        Integer width = getIntAttribute(IFileStoreAttrs.Image.WIDTH);
-        Integer height = getIntAttribute(IFileStoreAttrs.Image.HEIGHT);
+        Integer width = getIntAttr(IFileStoreAttrs.Image.WIDTH);
+        Integer height = getIntAttr(IFileStoreAttrs.Image.HEIGHT);
         if (width != null && height != null) {
             return Images.Info.of(width, height);
         }

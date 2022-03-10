@@ -24,11 +24,11 @@ import com.es.lib.entity.model.localization.JsonLocalization;
  */
 public interface ILocalizationAttrs extends IAttrsOwner {
 
-    String ATTRIBUTES_PREFIX = "attributes.";
+    String ATTRS_PREFIX = "attrs.";
 
     JsonLocalization getLocalization();
 
-    default String getAttributesValue(String code, String locale) {
-        return getLocalization() == null ? getAttribute(code) : getLocalization().getValue(ATTRIBUTES_PREFIX + code, locale, () -> getAttribute(code));
+    default String getAttrValue(String code, String locale) {
+        return getLocalization() == null ? getAttr(code) : getLocalization().getValue(ATTRS_PREFIX + code, locale, () -> getAttr(code));
     }
 }

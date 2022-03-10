@@ -29,69 +29,61 @@ import java.util.stream.Stream;
 
 public interface IAttrsOwner {
 
-    Map<String, String> getAttributes();
+    Map<String, String> getAttrs();
 
-    void setAttributes(Map<String, String> attributes);
+    void setAttrs(Map<String, String> attrs);
 
-    default Map<String, String> getAttrs() {
-        return getAttributes();
+    default String getAttr(String code) {
+        return getAttr(code, (String) null);
     }
 
-    default void setAttrs(Map<String, String> attributes) {
-        setAttributes(attributes);
-    }
-
-    default String getAttribute(String code) {
-        return getAttribute(code, (String) null);
-    }
-
-    default String getAttribute(String code, String defValue) {
-        Map<String, String> attributes = getAttributes();
+    default String getAttr(String code, String defValue) {
+        Map<String, String> attributes = getAttrs();
         if (attributes == null) {
             return defValue;
         }
         return attributes.getOrDefault(code, defValue);
     }
 
-    default boolean getBoolAttribute(String code) {
-        return getBoolAttribute(code, false);
+    default boolean getBoolAttr(String code) {
+        return getBoolAttr(code, false);
     }
 
-    default boolean getBoolAttribute(String code, boolean defValue) {
-        String attribute = getAttribute(code);
+    default boolean getBoolAttr(String code, boolean defValue) {
+        String attribute = getAttr(code);
         if (attribute == null) {
             return defValue;
         }
         return Boolean.parseBoolean(attribute);
     }
 
-    default Short getShortAttribute(String code) {
-        return getNumberAttribute(code, Short::parseShort);
+    default Short getShortAttr(String code) {
+        return getNumberAttr(code, Short::parseShort);
     }
 
-    default Integer getIntAttribute(String code) {
-        return getNumberAttribute(code, Integer::parseInt);
+    default Integer getIntAttr(String code) {
+        return getNumberAttr(code, Integer::parseInt);
     }
 
-    default Long getLongAttribute(String code) {
-        return getNumberAttribute(code, Long::parseLong);
+    default Long getLongAttr(String code) {
+        return getNumberAttr(code, Long::parseLong);
     }
 
-    default Double getDoubleAttribute(String code) {
-        return getNumberAttribute(code, Double::parseDouble);
+    default Double getDoubleAttr(String code) {
+        return getNumberAttr(code, Double::parseDouble);
     }
 
-    default <T> T getNumberAttribute(String code, Function<String, T> converter) {
+    default <T> T getNumberAttr(String code, Function<String, T> converter) {
         try {
-            return converter.apply(getAttribute(code));
+            return converter.apply(getAttr(code));
         } catch (NumberFormatException e) {
             return null;
         }
     }
 
 
-    default <T extends Enum<T>> T getAttribute(String code, Class<T> enumClass) {
-        String value = getAttribute(code);
+    default <T extends Enum<T>> T getAttr(String code, Class<T> enumClass) {
+        String value = getAttr(code);
         if (StringUtils.isBlank(value)) {
             return null;
         }
@@ -102,59 +94,59 @@ public interface IAttrsOwner {
         }
     }
 
-    default Date getDateAttribute(String code) {
-        return getDateAttribute(code, Constant.DEFAULT_DATE_PATTERN);
+    default Date getDateAttr(String code) {
+        return getDateAttr(code, Constant.DEFAULT_DATE_PATTERN);
     }
 
-    default Date getDateAttribute(String code, String format) {
+    default Date getDateAttr(String code, String format) {
         try {
-            return Dates.parser().parse(getAttribute(code), format);
+            return Dates.parser().parse(getAttr(code), format);
         } catch (ParseException e) {
             return null;
         }
     }
 
-    default void setAttributes(Collection<? extends Map.Entry<String, String>> items) {
-        Items.updateValues(this::getAttributes, this::setAttributes, items);
+    default void setAttrs(Collection<? extends Map.Entry<String, String>> items) {
+        Items.updateValues(this::getAttrs, this::setAttrs, items);
     }
 
-    default void setAttribute(String code, String value) {
-        setAttributes(Collections.singletonList(Pair.of(code, value)));
+    default void setAttr(String code, String value) {
+        setAttrs(Collections.singletonList(Pair.of(code, value)));
     }
 
-    default boolean isAttributeFilled(String code) {
-        return StringUtils.isNotBlank(getAttribute(code));
+    default boolean isAttrFilled(String code) {
+        return StringUtils.isNotBlank(getAttr(code));
     }
 
-    default void removeEmptyAttributes() {
-        setAttributes(Items.removeEmptyValues(getAttributes()));
+    default void removeEmptyAttrs() {
+        setAttrs(Items.removeEmptyValues(getAttrs()));
     }
 
-    default void removeNullAttributes() {
-        setAttributes(Items.removeNullValues(getAttributes()));
+    default void removeNullAttrs() {
+        setAttrs(Items.removeNullValues(getAttrs()));
     }
 
-    default <T> Collection<T> getCollectionAttribute(String code, String splitter, Function<String, T> mapper) {
-        String value = getAttribute(code);
+    default <T> Collection<T> getCollectionAttr(String code, String splitter, Function<String, T> mapper) {
+        String value = getAttr(code);
         if (StringUtils.isBlank(value)) {
             return new ArrayList<>();
         }
         return Stream.of(value.split(splitter)).map(mapper).collect(Collectors.toList());
     }
 
-    default <T> Collection<T> getCollectionAttribute(String code, Function<String, T> mapper) {
-        return getCollectionAttribute(code, ";", mapper);
+    default <T> Collection<T> getCollectionAttr(String code, Function<String, T> mapper) {
+        return getCollectionAttr(code, ";", mapper);
     }
 
-    default <T> void setCollectionAttribute(String code, String splitter, Collection<T> items) {
+    default <T> void setCollectionAttr(String code, String splitter, Collection<T> items) {
         if (Items.isEmpty(items)) {
-            setAttribute(code, null);
+            setAttr(code, null);
             return;
         }
-        setAttribute(code, items.stream().map(String::valueOf).collect(Collectors.joining(splitter)));
+        setAttr(code, items.stream().map(String::valueOf).collect(Collectors.joining(splitter)));
     }
 
-    default <T> void setCollectionAttribute(String code, Collection<T> items) {
-        setCollectionAttribute(code, ";", items);
+    default <T> void setCollectionAttr(String code, Collection<T> items) {
+        setCollectionAttr(code, ";", items);
     }
 }

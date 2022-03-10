@@ -98,16 +98,6 @@ class IFileStoreSpec extends Specification {
         }
 
         @Override
-        Map<String, String> getAttributes() {
-            return attrs
-        }
-
-        @Override
-        void setAttributes(Map<String, String> attributes) {
-            attrs = attributes
-        }
-
-        @Override
         Long getId() {
             return null
         }
