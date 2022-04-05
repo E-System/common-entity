@@ -29,6 +29,8 @@ import java.util.stream.Stream;
 
 public interface IAttrsOwner {
 
+    String COLLECTION_SPLITTER = ";";
+
     Map<String, String> getAttrs();
 
     void setAttrs(Map<String, String> attrs);
@@ -134,8 +136,16 @@ public interface IAttrsOwner {
         return Stream.of(value.split(splitter)).map(mapper).collect(Collectors.toList());
     }
 
+    default <T> Set<T> getSetAttr(String code, String splitter, Function<String, T> mapper) {
+        return new HashSet<>(getCollectionAttr(code, splitter, mapper));
+    }
+
     default <T> Collection<T> getCollectionAttr(String code, Function<String, T> mapper) {
-        return getCollectionAttr(code, ";", mapper);
+        return getCollectionAttr(code, COLLECTION_SPLITTER, mapper);
+    }
+
+    default <T> Set<T> getSetAttr(String code, Function<String, T> mapper) {
+        return new HashSet<>(getCollectionAttr(code, mapper));
     }
 
     default <T> void setCollectionAttr(String code, String splitter, Collection<T> items) {
@@ -147,6 +157,6 @@ public interface IAttrsOwner {
     }
 
     default <T> void setCollectionAttr(String code, Collection<T> items) {
-        setCollectionAttr(code, ";", items);
+        setCollectionAttr(code, COLLECTION_SPLITTER, items);
     }
 }

@@ -54,4 +54,9 @@ public interface IFileStoreAttrs {
         String CHECKER_LOGGED_CODE = "LOGGED";
         String CHECKERS = "S_CHECKERS";
     }
+
+    /**
+     * File tags
+     */
+    String TAGS = "TAGS";
 }

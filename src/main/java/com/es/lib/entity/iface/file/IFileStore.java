@@ -15,15 +15,11 @@
  */
 package com.es.lib.entity.iface.file;
 
-import com.es.lib.common.collection.Items;
 import com.es.lib.common.file.Images;
 import com.es.lib.entity.iface.IAttrsOwner;
 import com.es.lib.entity.iface.IPrimaryKey;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -51,15 +47,19 @@ public interface IFileStore extends IStore, IAttrsOwner, IPrimaryKey<Long> {
     void setDeleted(boolean deleted);
 
     default void setCheckers(Set<String> checkers) {
-        setAttr(IFileStoreAttrs.Security.CHECKERS, Items.isEmpty(checkers) ? null : String.join(";", checkers));
+        setCollectionAttr(IFileStoreAttrs.Security.CHECKERS, checkers);
     }
 
     default Set<String> getCheckers() {
-        String checkersValue = getAttr(IFileStoreAttrs.Security.CHECKERS);
-        if (StringUtils.isBlank(checkersValue)) {
-            return new HashSet<>();
-        }
-        return new HashSet<>(Arrays.asList(checkersValue.split(";").clone()));
+        return getSetAttr(IFileStoreAttrs.Security.CHECKERS, v -> v);
+    }
+
+    default void setTags(Set<String> tags) {
+        setCollectionAttr(IFileStoreAttrs.TAGS, tags);
+    }
+
+    default Set<String> getTags() {
+        return getSetAttr(IFileStoreAttrs.TAGS, v -> v);
     }
 
     default Images.Info getImageInfo() {

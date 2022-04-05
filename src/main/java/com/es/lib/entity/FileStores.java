@@ -52,7 +52,7 @@ import java.util.function.Supplier;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileStores {
 
-    public static <T extends IFileStore> T toStore(Path basePath, String scope, TemporaryFileStore temporaryFile, Set<String> checkers, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+    public static <T extends IFileStore> T toStore(Path basePath, String scope, TemporaryFileStore temporaryFile, Set<String> checkers, Set<String> tags, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         StorePath storePath;
         try {
             storePath = moveTo(temporaryFile, basePath, StoreMode.PERSISTENT, scope, false);
@@ -65,11 +65,11 @@ public class FileStores {
             }
         }
         T result = fill(temporaryFile, storePath, fileStoreCreator.get());
-        processAttributes(result, storePath.toAbsolutePath(), checkers);
+        processAttributes(result, storePath.toAbsolutePath(), checkers, tags);
         return result;
     }
 
-    public static <T extends IFileStore> T toStore(Path basePath, String scope, long crc32, long size, String fileName, String ext, String mime, byte[] data, Set<String> checkers, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+    public static <T extends IFileStore> T toStore(Path basePath, String scope, long crc32, long size, String fileName, String ext, String mime, byte[] data, Set<String> checkers, Set<String> tags, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, ext);
         T result = fileStoreCreator.get();
         result.setFilePath(storePath.getRelative().toString());
@@ -89,7 +89,7 @@ public class FileStores {
                 throw new ESRuntimeException(e);
             }
         }
-        processAttributes(result, data, checkers);
+        processAttributes(result, data, checkers, tags);
         return result;
     }
 
@@ -261,16 +261,18 @@ public class FileStores {
         }
     }
 
-    public static void processAttributes(IFileStore fileStore, Path source, Set<String> checkers) {
+    public static void processAttributes(IFileStore fileStore, Path source, Set<String> checkers, Set<String> tags) {
         fileStore.setCheckers(checkers);
+        fileStore.setTags(tags);
         if (IStore.isImage(fileStore)) {
             fileStore.getAttrs().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));
         }
     }
 
-    public static void processAttributes(IFileStore fileStore, byte[] source, Set<String> checkers) {
+    public static void processAttributes(IFileStore fileStore, byte[] source, Set<String> checkers, Set<String> tags) {
         fileStore.setCheckers(checkers);
+        fileStore.setTags(tags);
         if (IStore.isImage(fileStore)) {
             fileStore.getAttrs().put(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));

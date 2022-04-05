@@ -37,7 +37,7 @@ class FileStoresSpec extends Specification {
         def fileName = 'fileName'
         def fileExt = 'txt'
         def mime = 'text/plain'
-        def result = FileStores.toStore(basePath, null, crc32, data.length(), fileName, fileExt, mime, data.bytes, null, new Supplier<FileStore>() {
+        def result = FileStores.toStore(basePath, null, crc32, data.length(), fileName, fileExt, mime, data.bytes, null, null, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
@@ -104,7 +104,7 @@ class FileStoresSpec extends Specification {
         def data = '1231231'
         def fileExt = 'txt'
         def temporary = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
-        def result = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, new Supplier<FileStore>() {
+        def result = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, ["TAG1", "TAG2"] as HashSet, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
@@ -121,26 +121,28 @@ class FileStoresSpec extends Specification {
         result.filePath.endsWith(fileExt)
         !result.checkers.isEmpty()
         result.checkers == [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet
+        !result.tags.isEmpty()
+        result.tags == ["TAG1", "TAG2"] as HashSet
         Files.exists(path)
         Files.isReadable(path)
         new String(Files.readAllBytes(path)) == data
         Files.exists(temporaryPath)
     }
 
-    def "Create file in file store from temporary twice"(){
+    def "Create file in file store from temporary twice"() {
         when:
         def basePath = Paths.get('/tmp')
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
         def temporary = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
-        def result = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, new Supplier<FileStore>() {
+        def result = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, null, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
             }
         }, null)
-        def result2 = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, new Supplier<FileStore>() {
+        def result2 = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, null, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
