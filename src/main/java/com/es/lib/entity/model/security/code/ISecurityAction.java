@@ -35,7 +35,7 @@ public interface ISecurityAction {
      */
     String VIEW = "VIEW";
     /**
-     * Edit elements (create, update, delete)
+     * Edit elements (create, update, delete - optional if DELETE action not used)
      */
     String EDIT = "EDIT";
     /**
