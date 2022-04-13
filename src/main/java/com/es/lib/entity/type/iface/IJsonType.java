@@ -38,7 +38,7 @@ public interface IJsonType extends IType {
     DbTypes.Json getDbType();
 
     default boolean isCreateInstance() {
-        return true;
+        return false;
     }
 
     @Override

@@ -20,13 +20,15 @@ class TestDateJson {
     String code
     OffsetDateTime offsetDateTime
     ZonedDateTime zonedDateTime
+    int val
 
     TestDateJson() {
     }
 
-    TestDateJson(String code, OffsetDateTime offsetDateTime, ZonedDateTime zonedDateTime) {
+    TestDateJson(String code, OffsetDateTime offsetDateTime, ZonedDateTime zonedDateTime, int val) {
         this.code = code
         this.offsetDateTime = offsetDateTime
-        this.zonedDateTime = zonedDateTime;
+        this.zonedDateTime = zonedDateTime
+        this.val = val
     }
 }

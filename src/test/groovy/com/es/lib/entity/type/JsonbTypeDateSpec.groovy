@@ -19,9 +19,11 @@ class JsonbTypeDateSpec extends PgRunner {
         def offsetDateTime = OffsetDateTime.now()
         def zonedDateTime = ZonedDateTime.now()
         def entity = new TestDateJsonEntity()
-        entity.json = new TestDateJson("ABC", offsetDateTime, zonedDateTime)
+        entity.json = new TestDateJson("ABC", offsetDateTime, zonedDateTime, 1)
+        def entity2 = new TestDateJsonEntity()
 
         session.persist(entity)
+        session.persist(entity2)
         txn.commit()
         session.clear()
         entity = session.get(TestDateJsonEntity.class, entity.getId())
@@ -64,6 +66,24 @@ class JsonbTypeDateSpec extends PgRunner {
         entity.json.offsetDateTime == offsetDateTime
         entity.json.zonedDateTime != null
         entity.json.zonedDateTime == zonedDateTime
+        cleanup:
+        if (session != null) {
+            session.close()
+        }
+    }
+
+    def "Select json null"(){
+        setup:
+        Session session = newSessionFactory().openSession()
+        when:
+        Transaction txn = session.beginTransaction()
+
+        def entity = session.get(TestDateJsonEntity.class, 2)
+        txn.commit()
+        session.clear()
+        then:
+        entity.id != null
+        entity.json == null
         cleanup:
         if (session != null) {
             session.close()
