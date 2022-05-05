@@ -38,7 +38,7 @@ abstract class PgRunner extends Specification {
 
     protected SessionFactory newSessionFactory() {
         Properties properties = new Properties()
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL94Dialect")
+        properties.put("hibernate.dialect", "com.es.lib.entity.dialect.ESPostgresDialect")
         properties.put("hibernate.hbm2ddl.auto", "update")
         properties.put("hibernate.show_sql", "true")
         properties.put("hibernate.connection.url", postgres.jdbcUrl)
