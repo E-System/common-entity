@@ -32,11 +32,15 @@ class ESPostgresDialectSpec extends PgRunner {
         def sentity5 = session.createQuery("select e from ArrayEntity e where es_array_overlap(es_array_cast(:values,'INT[]'), e.integers) = true", ArrayEntity.class)
             .setParameter("values", "1,2")
             .getSingleResult()
+        def sentity6 = session.createQuery("select e from ArrayEntity e where :values is null or es_array_contain(e.integers, es_array_cast(:values,'INT[]')) = true", ArrayEntity.class)
+            .setParameter("values", null)
+            .getResultList()
         println(sentity)
         println(sentity2)
         println(sentity3)
         println(sentity4)
         println(sentity5)
+        println(sentity6)
         then:
         entity.id != null
         entity.strings != null

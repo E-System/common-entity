@@ -31,6 +31,6 @@ public class ArrayCast implements SQLFunction {
     public String render(Type firstArgumentType, List arguments, SessionFactoryImplementor factory) throws QueryException {
         final Object first = arguments.get(0);
         final Object second = arguments.get(1);
-        return "cast(string_to_array(" + first + ",',') AS " + second.toString().replaceAll("'", "") + ")";
+        return "cast(string_to_array(cast(" + first + " AS TEXT),',') AS " + second.toString().replaceAll("'", "") + ")";
     }
 }
