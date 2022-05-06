@@ -1,5 +1,9 @@
 package com.es.lib.entity.dialect;
 
+import com.es.lib.entity.dialect.function.ArrayCast;
+import com.es.lib.entity.dialect.function.ArrayOperatorContain;
+import com.es.lib.entity.dialect.function.ArrayOperatorContained;
+import com.es.lib.entity.dialect.function.ArrayOperatorOverlap;
 import org.hibernate.dialect.PostgreSQL10Dialect;
 
 public class ESPostgresDialect extends PostgreSQL10Dialect {

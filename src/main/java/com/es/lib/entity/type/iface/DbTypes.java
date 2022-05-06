@@ -15,28 +15,27 @@
  */
 package com.es.lib.entity.type.iface;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 03.02.2018
  */
 public interface DbTypes {
 
+    @Getter
+    @RequiredArgsConstructor
     enum Json {
 
         JSON("json"),
         JSONB("jsonb");
 
-        private String value;
-
-        Json(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
+        private final String value;
     }
 
+    @Getter
+    @RequiredArgsConstructor
     enum Primitive {
 
         VARCHAR("varchar"),
@@ -45,14 +44,6 @@ public interface DbTypes {
         BIGINT("bigint"),
         TIMESTAMPTZ("timestamptz");
 
-        private String value;
-
-        Primitive(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
+        private final String value;
     }
 }

@@ -32,12 +32,12 @@ public class EntityConstructors {
 
     private static final Map<Class<?>, Constructor<?>> CONSTRUCTOR_HASH_MAP = new ConcurrentHashMap<>();
 
-    public static Constructor<?> get(Class<?> objectClass, Supplier<RuntimeException> exceptionSupplier) {
+    public static Constructor<?> get(Class<?> cls, Supplier<RuntimeException> exceptionSupplier) {
         return CONSTRUCTOR_HASH_MAP.computeIfAbsent(
-            objectClass,
-            aClass -> {
+            cls,
+            v -> {
                 try {
-                    return objectClass.getMethod("getId").getReturnType().getConstructor(String.class);
+                    return v.getMethod("getId").getReturnType().getConstructor(String.class);
                 } catch (NoSuchMethodException e) {
                     throw exceptionSupplier.get();
                 }

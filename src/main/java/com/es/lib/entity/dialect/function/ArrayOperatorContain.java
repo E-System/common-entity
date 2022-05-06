@@ -1,4 +1,4 @@
-package com.es.lib.entity.dialect;
+package com.es.lib.entity.dialect.function;
 
 public class ArrayOperatorContain extends ArrayOperator {
 
