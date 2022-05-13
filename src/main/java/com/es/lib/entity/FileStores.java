@@ -288,6 +288,40 @@ public class FileStores {
         );
     }
 
+    public static TemporaryFileStore createTemporary(Path basePath, String url, StoreMode mode, String scope, Consumer<IOException> exceptionConsumer) {
+        Pair<Path, FileName> download = IO.download(url);
+        Path from = download.getKey();
+        FileName fileName = download.getValue();
+        StorePath storePath = StorePath.create(basePath, StoreMode.TEMPORARY, scope, fileName.getExt());
+
+        long crc32;
+        long size;
+        try (InputStream is = Files.newInputStream(from)) {
+            Files.createDirectories(storePath.toAbsolutePath().getParent());
+            crc32 = IO.copyWithCrc32(is, storePath.toAbsolutePath());
+            size = Files.size(from);
+            Files.deleteIfExists(from);
+        } catch (IOException e) {
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            } else {
+                throw new ESRuntimeException(e);
+            }
+        }
+
+        return new TemporaryFileStore(
+            storePath.toAbsolutePath(),
+            storePath.getRelative().toString(),
+            fileName.getName(),
+            fileName.getExt(),
+            size,
+            IO.mime(fileName.getExt()),
+            crc32,
+            mode
+        );
+    }
+
     public static void copyContent(Path path, OutputStream outputStream) throws IOException {
         if (Files.exists(path) && Files.isReadable(path)) {
             Files.copy(path, outputStream);

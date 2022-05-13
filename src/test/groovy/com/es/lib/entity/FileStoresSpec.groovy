@@ -124,6 +124,27 @@ class FileStoresSpec extends Specification {
         new String(Files.readAllBytes(path)) == data
     }
 
+    def "Create temporary file from url"() {
+        when:
+        def basePath = Paths.get('/tmp')
+        def fileName = 'Right_Stopper_WheelAble_SolutionBased'
+        def fileExt = 'jpg'
+        def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
+        def result = FileStores.createTemporary(basePath, url, StoreMode.TEMPORARY, null,null)
+        def path = Paths.get(basePath.toString(), result.filePath)
+        then:
+        result != null
+        result.fileName == fileName
+        result.fileExt == fileExt
+        result.mime == 'image/jpeg'
+        result.size == 72994
+        result.crc32 == 2287021278
+        result.filePath.endsWith(fileExt)
+        Files.exists(path)
+        Files.isReadable(path)
+        !new String(Files.readAllBytes(path)).isEmpty()
+    }
+
     def "Create file in file store from temporary"() {
         when:
         def basePath = Paths.get('/tmp')
