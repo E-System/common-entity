@@ -58,6 +58,33 @@ class FileStoresSpec extends Specification {
         new String(Files.readAllBytes(path)) == data
     }
 
+    def "Download file in file store"() {
+        when:
+        def basePath = Paths.get('/tmp')
+        def fileName = 'Right_Stopper_WheelAble_SolutionBased'
+        def fileExt = 'jpg'
+        def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
+        def result = FileStores.toStore(basePath, null, url, null, null, new Supplier<FileStore>() {
+            @Override
+            FileStore get() {
+                return new FileStore()
+            }
+        }, null)
+        def path = Paths.get(basePath.toString(), result.filePath)
+        then:
+        result != null
+        result.fileName == fileName
+        result.fileExt == fileExt
+        result.mime == 'image/jpeg'
+        result.size == 72994
+        result.crc32 == 2287021278
+        result.filePath.endsWith(fileExt)
+        result.checkers.isEmpty()
+        Files.exists(path)
+        Files.isReadable(path)
+        !new String(Files.readAllBytes(path)).isEmpty()
+    }
+
     /* def "Create temporary file with name"() {
          when:
          def basePath = '/tmp'

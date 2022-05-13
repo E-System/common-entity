@@ -93,6 +93,39 @@ public class FileStores {
         return result;
     }
 
+    public static <T extends IFileStore> T toStore(Path basePath, String scope, String url, Set<String> checkers, Set<String> tags, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+        Pair<Path, FileName> download = IO.download(url);
+        Path from = download.getKey();
+        FileName fileName = download.getValue();
+        StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, fileName.getExt());
+
+        long crc32;
+        long size;
+        try (InputStream is = Files.newInputStream(from)) {
+            Files.createDirectories(storePath.toAbsolutePath().getParent());
+            crc32 = IO.copyWithCrc32(is, storePath.toAbsolutePath());
+            size = Files.size(from);
+            Files.deleteIfExists(from);
+        } catch (IOException e) {
+            if (exceptionConsumer != null) {
+                exceptionConsumer.accept(e);
+                return null;
+            } else {
+                throw new ESRuntimeException(e);
+            }
+        }
+
+        T result = fileStoreCreator.get();
+        result.setFilePath(storePath.getRelative().toString());
+        result.setFileName(fileName.getName());
+        result.setFileExt(fileName.getExt());
+        result.setCrc32(crc32);
+        result.setSize(size);
+        result.setMime(IO.mime(result.getFullName()));
+        processAttributes(result, storePath.toAbsolutePath(), checkers, tags);
+        return result;
+    }
+
     public static <T extends IFileStore> T copyInStore(Path basePath, String scope, T fileStore, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, fileStore.getFileExt());
         try {
