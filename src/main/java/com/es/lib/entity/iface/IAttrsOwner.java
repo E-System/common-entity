@@ -116,6 +116,10 @@ public interface IAttrsOwner {
         setAttrs(Collections.singletonList(Pair.of(code, value)));
     }
 
+    default void setAttr(Map.Entry<String, String> entry) {
+        setAttrs(Collections.singletonList(entry));
+    }
+
     default boolean isAttrFilled(String code) {
         return StringUtils.isNotBlank(getAttr(code));
     }

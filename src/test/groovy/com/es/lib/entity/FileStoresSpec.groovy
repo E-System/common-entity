@@ -15,6 +15,7 @@
  */
 package com.es.lib.entity
 
+import com.es.lib.common.file.FileInfo
 import com.es.lib.entity.model.file.StoreMode
 import com.es.lib.entity.model.file.code.IFileStoreAttrs
 import spock.lang.Specification
@@ -37,12 +38,41 @@ class FileStoresSpec extends Specification {
         def fileName = 'fileName'
         def fileExt = 'txt'
         def mime = 'text/plain'
-        def result = FileStores.toStore(basePath, null, crc32, data.length(), fileName, fileExt, mime, data.bytes, null, null, new Supplier<FileStore>() {
+        def result = FileStores.toStore(basePath, null, new FileStores.ByteSource(data.bytes, new FileInfo(fileName, fileExt, data.length(), crc32, mime)), null, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
             }
         }, null)
+        def path = Paths.get(basePath.toString(), result.filePath)
+        then:
+        result != null
+        result.fileName == fileName
+        result.fileExt == fileExt
+        result.mime == mime
+        result.size == data.length()
+        result.crc32 == crc32
+        result.filePath.endsWith(fileExt)
+        result.checkers.isEmpty()
+        Files.exists(path)
+        Files.isReadable(path)
+        new String(Files.readAllBytes(path)) == data
+    }
+
+    def "Create file in file store with Instance"() {
+        when:
+        def basePath = Paths.get('/tmp')
+        def crc32 = 1231231
+        def data = '1231231'
+        def fileName = 'fileName'
+        def fileExt = 'txt'
+        def mime = 'text/plain'
+        def result = new FileStores.Instance(basePath, new Supplier<FileStore>() {
+            @Override
+            FileStore get() {
+                return new FileStore()
+            }
+        }, null).toStore(null, new FileStores.ByteSource(data.bytes, new FileInfo(fileName, fileExt, data.length(), crc32, mime)), null)
         def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
@@ -64,7 +94,7 @@ class FileStoresSpec extends Specification {
         def fileName = 'Right_Stopper_WheelAble_SolutionBased'
         def fileExt = 'jpg'
         def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
-        def result = FileStores.toStore(basePath, null, url, null, null, new Supplier<FileStore>() {
+        def result = FileStores.toStore(basePath, null, new FileStores.UrlSource(url, true), null, new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
@@ -83,6 +113,29 @@ class FileStoresSpec extends Specification {
         Files.exists(path)
         Files.isReadable(path)
         !new String(Files.readAllBytes(path)).isEmpty()
+    }
+
+    def "Create url in file store"() {
+        when:
+        def basePath = Paths.get('/tmp')
+        def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
+        def result = FileStores.toStore(basePath, null, new FileStores.UrlSource(url, false), null, new Supplier<FileStore>() {
+            @Override
+            FileStore get() {
+                return new FileStore()
+            }
+        }, null)
+        then:
+        result != null
+        result.fileName == null
+        result.fileExt == null
+        result.mime == null
+        result.size == 0
+        result.crc32 == 0
+        result.filePath == null
+        result.checkers.isEmpty()
+        result.url == url
+        result.onlyLink
     }
 
     /* def "Create temporary file with name"() {
@@ -111,7 +164,7 @@ class FileStoresSpec extends Specification {
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def result = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
+        def result = FileStores.toStore(basePath, StoreMode.TEMPORARY, null, new FileStores.ByteSource(data.bytes, new FileInfo(null, fileExt, 0, 0, null)), null)
         def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
@@ -130,7 +183,7 @@ class FileStoresSpec extends Specification {
         def fileName = 'Right_Stopper_WheelAble_SolutionBased'
         def fileExt = 'jpg'
         def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
-        def result = FileStores.createTemporary(basePath, url, StoreMode.TEMPORARY, null,null)
+        def result = FileStores.toStore(basePath, StoreMode.TEMPORARY, null, new FileStores.UrlSource(url, true), null)
         def path = Paths.get(basePath.toString(), result.filePath)
         then:
         result != null
@@ -145,14 +198,31 @@ class FileStoresSpec extends Specification {
         !new String(Files.readAllBytes(path)).isEmpty()
     }
 
+    def "Create temporary url from url"() {
+        when:
+        def basePath = Paths.get('/tmp')
+        def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
+        def result = FileStores.toStore(basePath, StoreMode.TEMPORARY, null, new FileStores.UrlSource(url, false), null)
+        then:
+        result != null
+        result.fileName == null
+        result.fileExt == null
+        result.mime == null
+        result.size == 0
+        result.crc32 == 0
+        result.filePath == null
+        result.url == url
+        result.onlyLink
+    }
+
     def "Create file in file store from temporary"() {
         when:
         def basePath = Paths.get('/tmp')
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def temporary = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
-        def result = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, ["TAG1", "TAG2"] as HashSet, new Supplier<FileStore>() {
+        def temporary = FileStores.toStore(basePath, StoreMode.TEMPORARY, null, new FileStores.ByteSource(data.bytes, new FileInfo(null, fileExt, 0, 0, null)), null)
+        def result = FileStores.toStore(basePath, null, new FileStores.TemporaryFileSource(temporary), new FileStores.Attrs([IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, ["TAG1", "TAG2"] as HashSet), new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
@@ -183,14 +253,14 @@ class FileStoresSpec extends Specification {
         def crc32 = 4136033880
         def data = '1231231'
         def fileExt = 'txt'
-        def temporary = FileStores.createTemporary(basePath, data.bytes, fileExt, StoreMode.TEMPORARY, null, null)
-        def result = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, null, new Supplier<FileStore>() {
+        def temporary = FileStores.toStore(basePath, StoreMode.TEMPORARY, null, new FileStores.ByteSource(data.bytes, new FileInfo(null, fileExt, 0, 0, null)), null)
+        def result = FileStores.toStore(basePath, null, new FileStores.TemporaryFileSource(temporary), new FileStores.Attrs([IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet), new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()
             }
         }, null)
-        def result2 = FileStores.toStore(basePath, null, temporary, [IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet, null, new Supplier<FileStore>() {
+        def result2 = FileStores.toStore(basePath, null, new FileStores.TemporaryFileSource(temporary), new FileStores.Attrs([IFileStoreAttrs.Security.CHECKER_LOGGED_CODE] as HashSet), new Supplier<FileStore>() {
             @Override
             FileStore get() {
                 return new FileStore()

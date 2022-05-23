@@ -15,6 +15,9 @@
  */
 package com.es.lib.entity.model.file.code;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * File store element attributes
  *
@@ -59,4 +62,13 @@ public interface IFileStoreAttrs {
      * File tags
      */
     String TAGS = "TAGS";
+
+    Collection<String> RESERVED = Arrays.asList(
+        Image.IMAGE,
+        Image.WIDTH,
+        Image.HEIGHT,
+        Image.VERTICAL,
+        Security.CHECKERS,
+        TAGS
+    );
 }

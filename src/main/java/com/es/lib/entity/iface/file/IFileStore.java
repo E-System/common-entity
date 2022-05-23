@@ -16,6 +16,7 @@
 package com.es.lib.entity.iface.file;
 
 import com.es.lib.common.file.Images;
+import com.es.lib.common.store.IStore;
 import com.es.lib.entity.iface.IAttrsOwner;
 import com.es.lib.entity.iface.IPrimaryKey;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
@@ -41,6 +42,8 @@ public interface IFileStore extends IStore, IAttrsOwner, IPrimaryKey<Long> {
     void setSize(long size);
 
     void setMime(String mime);
+
+    default void setUrl(String url) {}
 
     boolean isDeleted();
 

@@ -15,7 +15,7 @@
  */
 package com.es.lib.entity.model.file;
 
-import com.es.lib.entity.iface.file.IStore;
+import com.es.lib.common.store.IStore;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -45,6 +45,8 @@ public class TemporaryFileStore implements IStore {
 
     private String base64Path;
 
+    private String url;
+
     public TemporaryFileStore(Path file, String filePath, String fileName, String fileExt, long size, String mime, long crc32) {
         this(file, filePath, fileName, fileExt, size, mime, crc32, StoreMode.TEMPORARY);
     }
@@ -59,6 +61,10 @@ public class TemporaryFileStore implements IStore {
         this.crc32 = crc32;
         this.mode = mode;
         this.base64Path = Base64.getUrlEncoder().encodeToString(filePath.getBytes());
+    }
+
+    public TemporaryFileStore(String url) {
+        this.url = url;
     }
 
     public String getModeRelativePath() {

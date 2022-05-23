@@ -11,6 +11,7 @@ class FileStore implements IFileStore {
     long crc32
     long size
     String mime
+    String url
     boolean deleted
     Map<String, String> attrs
 
