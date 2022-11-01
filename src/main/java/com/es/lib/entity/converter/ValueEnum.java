@@ -27,6 +27,6 @@ public interface ValueEnum<R> {
     }
 
     static <T extends Enum<T>> String toLabel(T item) {
-        return item == null ? null : StringUtils.capitalize(item.name().toLowerCase());
+        return item == null ? null : StringUtils.capitalize(item.name().toLowerCase()).replace("_", " ");
     }
 }
