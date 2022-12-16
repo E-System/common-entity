@@ -33,7 +33,7 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '7.5.1'
+    gradleVersion = '7.6'
 }
 
 apply from: "build-${profile}.gradle"
@@ -140,10 +140,10 @@ publishing {
 }
 ext{
     pgVersion = "42.3.4"
-    hibernateVersion = "5.6.8.Final"
+    hibernateVersion = "5.6.14.Final"
     lombokVersion = "1.18.24"
-    jacksonVersion = "2.13.2"
-    testcontainersVersion = "1.17.1"
+    jacksonVersion = "2.14.1"
+    testcontainersVersion = "1.17.6"
 }
 dependencies {
     api "com.es.lib:common-lib:1.5.0${project.ext.snapshot ? '-SNAPSHOT' : ''}"
@@ -156,7 +156,7 @@ dependencies {
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-    testImplementation "org.spockframework:spock-core:2.1-groovy-3.0"
+    testImplementation "org.spockframework:spock-core:2.3-groovy-4.0"
     testImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
     testImplementation "org.testcontainers:spock:${testcontainersVersion}"
     testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"
