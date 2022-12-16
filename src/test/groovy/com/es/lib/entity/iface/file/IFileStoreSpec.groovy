@@ -1,5 +1,6 @@
 package com.es.lib.entity.iface.file
 
+import com.es.lib.common.store.IStore
 import com.es.lib.entity.model.file.code.IFileStoreAttrs
 import spock.lang.Specification
 
@@ -69,12 +70,12 @@ class IFileStoreSpec extends Specification {
 
         @Override
         String getAbbreviatedFileName(int maxWidth) {
-            return abbreviatedFileName(this, maxWidth)
+            return IStore.abbreviatedFileName(this, maxWidth)
         }
 
         @Override
         boolean isImage() {
-            return isImage(this)
+            return IStore.isImage(this)
         }
 
         @Override
@@ -84,7 +85,7 @@ class IFileStoreSpec extends Specification {
 
         @Override
         String getFullName() {
-            return fullName(this)
+            return IStore.fullName(this)
         }
 
         @Override
