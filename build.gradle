@@ -31,7 +31,9 @@ buildscript {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3"
     }
 }
-
+plugins {
+    id "com.github.ben-manes.versions" version "0.44.0"
+}
 wrapper {
     gradleVersion = '7.6'
 }
@@ -139,7 +141,7 @@ publishing {
     }
 }
 ext{
-    pgVersion = "42.3.4"
+    pgVersion = "42.5.1"
     hibernateVersion = "5.6.14.Final"
     lombokVersion = "1.18.24"
     jacksonVersion = "2.14.1"
