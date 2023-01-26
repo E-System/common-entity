@@ -1,5 +1,6 @@
 package com.es.lib.entity
 
+import com.es.lib.common.store.IStore
 import com.es.lib.entity.iface.file.IFileStore
 
 class FileStore implements IFileStore {
@@ -17,16 +18,16 @@ class FileStore implements IFileStore {
 
     @Override
     String getFullName() {
-        return fullName(this)
+        return IStore.fullName(this)
     }
 
     @Override
     String getAbbreviatedFileName(int maxWidth) {
-        return abbreviatedFileName(this, maxWidth)
+        return IStore.abbreviatedFileName(this, maxWidth)
     }
 
     @Override
     boolean isImage() {
-        return isImage(this)
+        return IStore.isImage(this)
     }
 }
