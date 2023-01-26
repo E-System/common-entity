@@ -42,6 +42,7 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -71,7 +72,8 @@ public class FileStores {
         }
     }
 
-    public interface Source {}
+    public interface Source {
+    }
 
     @Getter
     @ToString
@@ -144,6 +146,12 @@ public class FileStores {
 
         private final String value;
         private final boolean upload;
+
+        private final Function<String, FileName> fileNameCreator;
+
+        public UrlSource(String value, boolean upload) {
+            this(value, upload, null);
+        }
     }
 
     @RequiredArgsConstructor
@@ -214,7 +222,7 @@ public class FileStores {
                 processAttributes(result, (Path) null, attrs);
                 return result;
             }
-            Pair<Path, FileName> download = IO.download(urlSource.getValue());
+            Pair<Path, FileName> download = IO.download(urlSource.getValue(), urlSource.getFileNameCreator());
             Path from = download.getKey();
             FileName fileName = download.getValue();
             StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, fileName.getExt());
@@ -316,7 +324,7 @@ public class FileStores {
             if (!urlSource.isUpload()) {
                 return new TemporaryFileStore(urlSource.getValue());
             }
-            Pair<Path, FileName> download = IO.download(urlSource.getValue());
+            Pair<Path, FileName> download = IO.download(urlSource.getValue(), urlSource.getFileNameCreator());
             Path from = download.getKey();
             FileName fileName = download.getValue();
             StorePath storePath = StorePath.create(basePath, mode, scope, fileName.getExt());
