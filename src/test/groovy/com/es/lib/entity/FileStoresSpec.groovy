@@ -92,9 +92,9 @@ class FileStoresSpec extends Specification {
     def "Download file in file store"() {
         when:
         def basePath = Paths.get('/tmp')
-        def fileName = 'Right_Stopper_WheelAble_SolutionBased'
+        def fileName = 'solution-detail1'
         def fileExt = 'jpg'
-        def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
+        def url = 'https://ext-system.com/pictures/solutions/solution-detail1.jpg'
         def result = FileStores.toStore(basePath, null, new FileStores.UrlSource(url, true), null, new Supplier<FileStore>() {
             @Override
             FileStore get() {
@@ -107,8 +107,8 @@ class FileStoresSpec extends Specification {
         result.fileName == fileName
         result.fileExt == fileExt
         result.mime == 'image/jpeg'
-        result.size == 72994
-        result.crc32 == 2287021278
+        result.size == 13468
+        result.crc32 == 2788201918
         result.filePath.endsWith(fileExt)
         result.checkers.isEmpty()
         Files.exists(path)
@@ -119,9 +119,9 @@ class FileStoresSpec extends Specification {
     def "Download file in file store with other file name"() {
         when:
         def basePath = Paths.get('/tmp')
-        def fileName = 'Right_Stopper_WheelAble_SolutionBased'
+        def fileName = 'solution-detail1'
         def fileExt = 'JPG'
-        def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
+        def url = 'https://ext-system.com/pictures/solutions/solution-detail1.jpg'
         def result = FileStores.toStore(basePath, null, new FileStores.UrlSource(url, true, {
             def r = FileName.create(it)
             return FileName.create(r.name, "JPG")
@@ -137,8 +137,8 @@ class FileStoresSpec extends Specification {
         result.fileName == fileName
         result.fileExt == fileExt
         result.mime == 'image/jpeg'
-        result.size == 72994
-        result.crc32 == 2287021278
+        result.size == 13468
+        result.crc32 == 2788201918
         result.filePath.endsWith(fileExt)
         result.checkers.isEmpty()
         Files.exists(path)
@@ -149,7 +149,7 @@ class FileStoresSpec extends Specification {
     def "Create url in file store"() {
         when:
         def basePath = Paths.get('/tmp')
-        def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
+        def url = 'https://ext-system.com/pictures/solutions/solution-detail1.jpg'
         def result = FileStores.toStore(basePath, null, new FileStores.UrlSource(url, false), null, new Supplier<FileStore>() {
             @Override
             FileStore get() {
@@ -211,9 +211,9 @@ class FileStoresSpec extends Specification {
     def "Create temporary file from url"() {
         when:
         def basePath = Paths.get('/tmp')
-        def fileName = 'Right_Stopper_WheelAble_SolutionBased'
+        def fileName = 'solution-detail1'
         def fileExt = 'jpg'
-        def url = 'https://cdn.shopify.com/s/files/1/0277/7631/9588/products/Right_Stopper_WheelAble_SolutionBased.jpg?v=1594327034'
+        def url = 'https://ext-system.com/pictures/solutions/solution-detail1.jpg'
         def result = FileStores.toStore(basePath, StoreMode.TEMPORARY, null, new FileStores.UrlSource(url, true), null)
         def path = Paths.get(basePath.toString(), result.filePath)
         then:
@@ -221,8 +221,8 @@ class FileStoresSpec extends Specification {
         result.fileName == fileName
         result.fileExt == fileExt
         result.mime == 'image/jpeg'
-        result.size == 72994
-        result.crc32 == 2287021278
+        result.size == 13468
+        result.crc32 == 2788201918
         result.filePath.endsWith(fileExt)
         Files.exists(path)
         Files.isReadable(path)
