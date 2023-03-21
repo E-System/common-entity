@@ -18,6 +18,9 @@ package com.es.lib.entity.model.file;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.math.NumberUtils;
+
+import java.util.Base64;
 
 /**
  * File store request data
@@ -36,5 +39,18 @@ public class StoreRequest {
 
     public static StoreRequest create(String id, boolean generateEmpty, Thumb thumb) {
         return new StoreRequest(id, generateEmpty, thumb);
+    }
+
+    public boolean isValidForFileStore() {
+        long value = NumberUtils.toLong(getId(), 0);
+        if (value > 0) {
+            return true;
+        }
+        try {
+            Base64.getUrlDecoder().decode(getId());
+            return true;
+        } catch (IllegalArgumentException ignore) {
+        }
+        return false;
     }
 }
