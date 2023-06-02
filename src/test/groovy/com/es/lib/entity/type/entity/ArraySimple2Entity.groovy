@@ -1,6 +1,7 @@
 package com.es.lib.entity.type.entity
 
-import com.es.lib.entity.type.array.DateArrayType
+import com.es.lib.entity.type.array.date.DateArrayType
+import com.es.lib.entity.type.array.date.DateTimeArrayType
 import com.es.lib.entity.type.array.IntegerPrimitiveArrayType
 import com.es.lib.entity.type.array.LongPrimitiveArrayType
 import com.es.lib.entity.type.array.StringArrayType
@@ -15,6 +16,7 @@ import javax.persistence.*
     @TypeDef(name = "StringArray", typeClass = StringArrayType.class),
     @TypeDef(name = "IntegerPrimitiveArray", typeClass = IntegerPrimitiveArrayType.class),
     @TypeDef(name = "LongPrimitiveArray", typeClass = LongPrimitiveArrayType.class),
+    @TypeDef(name = "DateTimeArray", typeClass = DateTimeArrayType.class),
     @TypeDef(name = "DateArray", typeClass = DateArrayType.class)
 ])
 @Table(name = "ArrayEntity")
@@ -32,9 +34,12 @@ class ArraySimple2Entity {
     @Type(type = "LongPrimitiveArray")
     @Column(columnDefinition = "BIGINT[]")
     private long[] longs
-    @Type(type = "DateArray")
+    @Type(type = "DateTimeArray")
     @Column(columnDefinition = "TIMESTAMPTZ[]")
     private Date[] dates
+    @Type(type = "DateArray")
+    @Column(columnDefinition = "DATE[]")
+    private Date[] dates2
 
     Integer getId() {
         return id
@@ -74,5 +79,13 @@ class ArraySimple2Entity {
 
     void setDates(Date[] dates) {
         this.dates = dates
+    }
+
+    Date[] getDates2() {
+        return dates2
+    }
+
+    void setDates2(Date[] dates2) {
+        this.dates2 = dates2
     }
 }

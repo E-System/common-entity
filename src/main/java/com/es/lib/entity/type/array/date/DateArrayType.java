@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.es.lib.entity.type.array;
+package com.es.lib.entity.type.array.date;
 
 import com.es.lib.entity.type.CommonArrayType;
 import com.es.lib.entity.type.iface.DbTypes;
@@ -26,6 +26,6 @@ public class DateArrayType extends CommonArrayType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.TIMESTAMPTZ;
+        return DbTypes.Primitive.DATE;
     }
 }

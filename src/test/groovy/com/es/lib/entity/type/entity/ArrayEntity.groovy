@@ -1,6 +1,7 @@
 package com.es.lib.entity.type.entity
 
-import com.es.lib.entity.type.array.list.DateArrayListType
+import com.es.lib.entity.type.array.date.DateArrayListType
+import com.es.lib.entity.type.array.date.DateTimeArrayListType
 import com.es.lib.entity.type.array.list.IntegerArrayListType
 import com.es.lib.entity.type.array.list.LongArrayListType
 import com.es.lib.entity.type.array.list.StringArrayListType
@@ -18,6 +19,7 @@ import javax.persistence.Id
     @TypeDef(name = "StringList", typeClass = StringArrayListType.class),
     @TypeDef(name = "IntegerList", typeClass = IntegerArrayListType.class),
     @TypeDef(name = "LongList", typeClass = LongArrayListType.class),
+    @TypeDef(name = "DateTimeList", typeClass = DateTimeArrayListType.class),
     @TypeDef(name = "DateList", typeClass = DateArrayListType.class)
 ])
 class ArrayEntity {
@@ -34,9 +36,12 @@ class ArrayEntity {
     @Type(type = "LongList")
     @Column(columnDefinition = "BIGINT[]")
     private List<Long> longs
-    @Type(type = "DateList")
+    @Type(type = "DateTimeList")
     @Column(columnDefinition = "TIMESTAMPTZ[]")
     private List<Date> dates
+    @Type(type = "DateList")
+    @Column(columnDefinition = "DATE[]")
+    private List<Date> dates2
 
     Integer getId() {
         return id
@@ -76,5 +81,13 @@ class ArrayEntity {
 
     void setDates(List<Date> dates) {
         this.dates = dates
+    }
+
+    List<Date> getDates2() {
+        return dates2
+    }
+
+    void setDates2(List<Date> dates2) {
+        this.dates2 = dates2
     }
 }

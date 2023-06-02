@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.es.lib.entity.type.array.list;
+package com.es.lib.entity.type.array.date;
 
 import com.es.lib.entity.type.CommonArrayListType;
 import com.es.lib.entity.type.iface.DbTypes;
@@ -26,7 +26,7 @@ import java.util.Date;
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class DateArrayListType extends CommonArrayListType {
+public class DateTimeArrayListType extends CommonArrayListType {
 
     @Override
     public DbTypes.Primitive getDbType() {

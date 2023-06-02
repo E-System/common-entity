@@ -1,9 +1,10 @@
 package com.es.lib.entity.type.entity
 
-import com.es.lib.entity.type.array.DateArrayType
 import com.es.lib.entity.type.array.IntegerArrayType
 import com.es.lib.entity.type.array.LongArrayType
 import com.es.lib.entity.type.array.StringArrayType
+import com.es.lib.entity.type.array.date.DateArrayType
+import com.es.lib.entity.type.array.date.DateTimeArrayType
 import org.hibernate.annotations.Type
 import org.hibernate.annotations.TypeDef
 import org.hibernate.annotations.TypeDefs
@@ -12,10 +13,11 @@ import javax.persistence.*
 
 @Entity
 @TypeDefs([
-    @TypeDef(name = "StringArray", typeClass = StringArrayType.class),
-    @TypeDef(name = "IntegerArray", typeClass = IntegerArrayType.class),
-    @TypeDef(name = "LongArray", typeClass = LongArrayType.class),
-    @TypeDef(name = "DateArray", typeClass = DateArrayType.class)
+        @TypeDef(name = "StringArray", typeClass = StringArrayType.class),
+        @TypeDef(name = "IntegerArray", typeClass = IntegerArrayType.class),
+        @TypeDef(name = "LongArray", typeClass = LongArrayType.class),
+        @TypeDef(name = "DateTimeArray", typeClass = DateTimeArrayType.class),
+        @TypeDef(name = "DateArray", typeClass = DateArrayType.class)
 ])
 @Table(name = "ArrayEntity")
 class ArraySimpleEntity {
@@ -32,9 +34,12 @@ class ArraySimpleEntity {
     @Type(type = "LongArray")
     @Column(columnDefinition = "BIGINT[]")
     private Long[] longs
-    @Type(type = "DateArray")
+    @Type(type = "DateTimeArray")
     @Column(columnDefinition = "TIMESTAMPTZ[]")
     private Date[] dates
+    @Type(type = "DateArray")
+    @Column(columnDefinition = "DATE[]")
+    private Date[] dates2
 
     Integer getId() {
         return id
@@ -74,5 +79,13 @@ class ArraySimpleEntity {
 
     void setDates(Date[] dates) {
         this.dates = dates
+    }
+
+    Date[] getDates2() {
+        return dates2
+    }
+
+    void setDates2(Date[] dates2) {
+        this.dates2 = dates2
     }
 }

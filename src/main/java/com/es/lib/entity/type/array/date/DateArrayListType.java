@@ -13,24 +13,26 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.es.lib.entity.type.array.set;
+package com.es.lib.entity.type.array.date;
 
-import com.es.lib.entity.type.CommonSetType;
+import com.es.lib.entity.type.CommonArrayListType;
 import com.es.lib.entity.type.iface.DbTypes;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
-public class DateSetType extends CommonSetType {
+public class DateArrayListType extends CommonArrayListType {
 
     @Override
     public DbTypes.Primitive getDbType() {
-        return DbTypes.Primitive.TIMESTAMPTZ;
+        return DbTypes.Primitive.DATE;
     }
 
     @Override
@@ -44,19 +46,19 @@ public class DateSetType extends CommonSetType {
             ps.setNull(index, Types.ARRAY);
             return;
         }
-        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), ((TreeSet<Date>) value).stream().map(v->new Timestamp(v.getTime())).toArray()));
+        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), ((List<Date>) value).stream().map(v->new Timestamp(v.getTime())).toArray()));
     }
 
     @Override
     public <T> Object getTypedArrayObject(ResultSet rs, String[] names, Class<?> returnedClass, Class<T> arrayClass) throws SQLException {
         String col = names[0];
         Array result = rs.getArray(col);
-        TreeSet<T> res = new TreeSet<>();
+        Collection<T> res = new ArrayList<>();
         if (rs.wasNull()) {
             return res;
         }
-        for (Timestamp timestamp : (Timestamp[]) result.getArray()) {
-            res.add((T) new Date(timestamp.getTime()));
+        for (java.sql.Date item : (java.sql.Date[]) result.getArray()) {
+            res.add((T) new Date(item.getTime()));
         }
         return res;
     }

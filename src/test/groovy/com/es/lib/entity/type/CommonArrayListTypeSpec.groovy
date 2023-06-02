@@ -1,5 +1,6 @@
 package com.es.lib.entity.type
 
+import com.es.lib.common.date.Dates
 import com.es.lib.entity.PgRunner
 import com.es.lib.entity.type.entity.ArrayEntity
 import com.es.lib.entity.type.entity.ArraySetEntity
@@ -23,6 +24,7 @@ class CommonArrayListTypeSpec extends PgRunner {
         entity.integers = [1, 2, 3]
         entity.longs = [1L, 2L, 3L]
         entity.dates = [date, date, date]
+        entity.dates2 = [date, date, date]
 
         session.persist(entity)
         txn.commit()
@@ -51,6 +53,13 @@ class CommonArrayListTypeSpec extends PgRunner {
         entity.dates[0].time == date.time
         entity.dates[1].time == date.time
         entity.dates[2].time == date.time
+
+        entity.dates2 != null
+        entity.dates2.size() == 3
+        println(entity.dates2[0].class)
+        entity.dates2[0].time == date.time
+        entity.dates2[1].time == date.time
+        entity.dates2[2].time == date.time
         cleanup:
         if (session != null) {
             session.close()
@@ -81,6 +90,10 @@ class CommonArrayListTypeSpec extends PgRunner {
         entity.dates.add(date)
         entity.dates.remove(0)
         entity.dates.add(date)
+
+        entity.dates2.add(date)
+        entity.dates2.remove(0)
+        entity.dates2.add(date)
 
         session.persist(entity)
         txn.commit()
@@ -116,6 +129,13 @@ class CommonArrayListTypeSpec extends PgRunner {
         entity.dates[2] == date
         entity.dates[3] == date
 
+        entity.dates2 != null
+        entity.dates2.size() == 4
+        entity.dates2[0] != date
+        entity.dates2[1] != date
+        entity.dates2[2] == date
+        entity.dates2[3] == date
+
         ent.id != null
         ent.strings != null
         ent.strings.length == 4
@@ -142,6 +162,13 @@ class CommonArrayListTypeSpec extends PgRunner {
         ent.dates[2] == date
         ent.dates[3] == date
 
+        ent.dates2 != null
+        ent.dates2.length == 4
+        ent.dates2[0] != date
+        ent.dates2[1] != date
+        ent.dates2[2] == date
+        ent.dates2[3] == date
+
         entSet.id != null
         entSet.strings != null
         entSet.strings.size() == 4
@@ -165,6 +192,10 @@ class CommonArrayListTypeSpec extends PgRunner {
         entSet.dates.size() == 2
         entSet.dates[0] != date
         entSet.dates[1] == date
+        entSet.dates2 != null
+        entSet.dates2.size() == 2
+        entSet.dates2[0] != date
+        entSet.dates2[1] == date
 
         entSimple.id != null
         entSimple.strings != null
@@ -191,6 +222,12 @@ class CommonArrayListTypeSpec extends PgRunner {
         entSimple.dates[1] != date
         entSimple.dates[2] == date
         entSimple.dates[3] == date
+        entSimple.dates2 != null
+        entSimple.dates2.length == 4
+        entSimple.dates2[0] != date
+        entSimple.dates2[1] != date
+        entSimple.dates2[2] == date
+        entSimple.dates2[3] == date
 
         cleanup:
         if (session != null) {

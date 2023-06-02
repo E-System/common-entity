@@ -1,6 +1,7 @@
 package com.es.lib.entity.type.entity
 
-import com.es.lib.entity.type.array.set.DateSetType
+import com.es.lib.entity.type.array.date.DateSetType
+import com.es.lib.entity.type.array.date.DateTimeSetType
 import com.es.lib.entity.type.array.set.IntegerSetType
 import com.es.lib.entity.type.array.set.LongSetType
 import com.es.lib.entity.type.array.set.StringSetType
@@ -15,6 +16,7 @@ import javax.persistence.*
     @TypeDef(name = "StringSet", typeClass = StringSetType.class),
     @TypeDef(name = "IntegerSet", typeClass = IntegerSetType.class),
     @TypeDef(name = "LongSet", typeClass = LongSetType.class),
+    @TypeDef(name = "DateTimeSet", typeClass = DateTimeSetType.class),
     @TypeDef(name = "DateSet", typeClass = DateSetType.class)
 ])
 @Table(name = "ArrayEntity")
@@ -32,9 +34,12 @@ class ArraySetEntity {
     @Type(type = "LongSet")
     @Column(columnDefinition = "BIGINT[]")
     private TreeSet<Integer> longs
-    @Type(type = "DateSet")
+    @Type(type = "DateTimeSet")
     @Column(columnDefinition = "TIMESTAMPTZ[]")
     private TreeSet<Date> dates
+    @Type(type = "DateSet")
+    @Column(columnDefinition = "DATE[]")
+    private TreeSet<Date> dates2
 
     Integer getId() {
         return id
@@ -74,5 +79,13 @@ class ArraySetEntity {
 
     void setDates(TreeSet<Date> dates) {
         this.dates = dates
+    }
+
+    TreeSet<Date> getDates2() {
+        return dates2
+    }
+
+    void setDates2(TreeSet<Date> dates2) {
+        this.dates2 = dates2
     }
 }

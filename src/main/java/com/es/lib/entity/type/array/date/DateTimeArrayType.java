@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 E-System LLC
+ * Copyright 2016 E-System LLC
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -13,38 +13,19 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.es.lib.entity.type.iface;
+package com.es.lib.entity.type.array.date;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.es.lib.entity.type.CommonArrayType;
+import com.es.lib.entity.type.iface.DbTypes;
 
 /**
  * @author Dmitriy Zuzoev - zuzoev.d@ext-system.com
- * @since 03.02.2018
+ * @since 10.04.15
  */
-public interface DbTypes {
+public class DateTimeArrayType extends CommonArrayType {
 
-    @Getter
-    @RequiredArgsConstructor
-    enum Json {
-
-        JSON("json"),
-        JSONB("jsonb");
-
-        private final String value;
-    }
-
-    @Getter
-    @RequiredArgsConstructor
-    enum Primitive {
-
-        VARCHAR("varchar"),
-        SMALLINT("smallint"),
-        INT("int"),
-        BIGINT("bigint"),
-        TIMESTAMPTZ("timestamptz"),
-        DATE("date");
-
-        private final String value;
+    @Override
+    public DbTypes.Primitive getDbType() {
+        return DbTypes.Primitive.TIMESTAMPTZ;
     }
 }
