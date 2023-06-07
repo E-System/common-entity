@@ -9,6 +9,8 @@ import com.es.lib.entity.type.entity.ArraySimpleEntity
 import org.hibernate.Session
 import org.hibernate.Transaction
 
+import java.time.LocalDateTime
+
 class CommonArrayListTypeSpec extends PgRunner {
 
     def "Insert"() {
@@ -17,7 +19,9 @@ class CommonArrayListTypeSpec extends PgRunner {
         when:
         Transaction txn = session.beginTransaction()
 
-        def date = new Date()
+        def localDateTime = LocalDateTime.now()
+        def date = Dates.converter().get(localDateTime)
+        def dateWithoutTime = Dates.converter().get(localDateTime.toLocalDate().atStartOfDay())
 
         def entity = new ArrayEntity()
         entity.strings = ["A1", "A2", "A3"]
@@ -57,9 +61,9 @@ class CommonArrayListTypeSpec extends PgRunner {
         entity.dates2 != null
         entity.dates2.size() == 3
         println(entity.dates2[0].class)
-        entity.dates2[0].time == date.time
-        entity.dates2[1].time == date.time
-        entity.dates2[2].time == date.time
+        entity.dates2[0].time == dateWithoutTime.time
+        entity.dates2[1].time == dateWithoutTime.time
+        entity.dates2[2].time == dateWithoutTime.time
         cleanup:
         if (session != null) {
             session.close()
@@ -74,7 +78,10 @@ class CommonArrayListTypeSpec extends PgRunner {
 
         def entity = session.get(ArrayEntity.class, 1)
 
-        def date = new Date()
+        def localDateTime = LocalDateTime.now().plusDays(1)
+        def date = Dates.converter().get(localDateTime)
+        def dateWithoutTime = Dates.converter().get(localDateTime.toLocalDate().atStartOfDay())
+
         entity.strings.add("A4")
         entity.strings.remove("A1")
         entity.strings.add("A5")
@@ -131,10 +138,10 @@ class CommonArrayListTypeSpec extends PgRunner {
 
         entity.dates2 != null
         entity.dates2.size() == 4
-        entity.dates2[0] != date
-        entity.dates2[1] != date
-        entity.dates2[2] == date
-        entity.dates2[3] == date
+        entity.dates2[0] != dateWithoutTime
+        entity.dates2[1] != dateWithoutTime
+        entity.dates2[2] == dateWithoutTime
+        entity.dates2[3] == dateWithoutTime
 
         ent.id != null
         ent.strings != null
@@ -164,10 +171,10 @@ class CommonArrayListTypeSpec extends PgRunner {
 
         ent.dates2 != null
         ent.dates2.length == 4
-        ent.dates2[0] != date
-        ent.dates2[1] != date
-        ent.dates2[2] == date
-        ent.dates2[3] == date
+        ent.dates2[0] != dateWithoutTime
+        ent.dates2[1] != dateWithoutTime
+        ent.dates2[2] == dateWithoutTime
+        ent.dates2[3] == dateWithoutTime
 
         entSet.id != null
         entSet.strings != null
@@ -194,8 +201,8 @@ class CommonArrayListTypeSpec extends PgRunner {
         entSet.dates[1] == date
         entSet.dates2 != null
         entSet.dates2.size() == 2
-        entSet.dates2[0] != date
-        entSet.dates2[1] == date
+        entSet.dates2[0] != dateWithoutTime
+        entSet.dates2[1] == dateWithoutTime
 
         entSimple.id != null
         entSimple.strings != null
@@ -224,10 +231,10 @@ class CommonArrayListTypeSpec extends PgRunner {
         entSimple.dates[3] == date
         entSimple.dates2 != null
         entSimple.dates2.length == 4
-        entSimple.dates2[0] != date
-        entSimple.dates2[1] != date
-        entSimple.dates2[2] == date
-        entSimple.dates2[3] == date
+        entSimple.dates2[0] != dateWithoutTime
+        entSimple.dates2[1] != dateWithoutTime
+        entSimple.dates2[2] == dateWithoutTime
+        entSimple.dates2[3] == dateWithoutTime
 
         cleanup:
         if (session != null) {
