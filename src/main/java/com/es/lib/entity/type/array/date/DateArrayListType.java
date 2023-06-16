@@ -46,7 +46,7 @@ public class DateArrayListType extends CommonArrayListType {
             ps.setNull(index, Types.ARRAY);
             return;
         }
-        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), ((List<Date>) value).stream().map(v->new Timestamp(v.getTime())).toArray()));
+        ps.setArray(index, ps.getConnection().createArrayOf(getDbType().getValue(), ((List<Date>) value).stream().map(v->new java.sql.Date(v.getTime())).toArray()));
     }
 
     @Override
