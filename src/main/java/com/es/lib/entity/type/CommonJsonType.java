@@ -36,13 +36,14 @@ import java.util.TimeZone;
  */
 public abstract class CommonJsonType implements UserType, IJsonType {
 
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
+
+    public CommonJsonType() {
+        this.mapper = createMapper();
+    }
 
     @Override
     public ObjectMapper getMapper() {
-        if (mapper == null) {
-            mapper = createMapper();
-        }
         return mapper;
     }
 
