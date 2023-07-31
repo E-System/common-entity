@@ -15,7 +15,6 @@
  */
 package com.es.lib.entity.model.security.code;
 
-import com.es.lib.entity.iface.security.IDomainPermissionItem;
 import com.es.lib.entity.iface.security.IPermissionItem;
 import com.es.lib.entity.model.security.PermissionItem;
 
@@ -32,10 +31,6 @@ public interface ISecurityAction {
     String _JOIN_STRING = "$_#_$";
 
     /**
-     * Select elements
-     */
-    String SELECT = "SELECT";
-    /**
      * View elements
      */
     String VIEW = "VIEW";
@@ -51,10 +46,6 @@ public interface ISecurityAction {
      * Delete elements
      */
     String DELETE = "DELETE";
-
-    static String join(IDomainPermissionItem item) {
-        return join((IPermissionItem) item);
-    }
 
     static String join(IPermissionItem item) {
         if (item == null) {
