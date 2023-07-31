@@ -31,6 +31,10 @@ public interface ISecurityAction {
     String _JOIN_STRING = "$_#_$";
 
     /**
+     * Select elements
+     */
+    String SELECT = "SELECT";
+    /**
      * View elements
      */
     String VIEW = "VIEW";
@@ -62,10 +66,18 @@ public interface ISecurityAction {
     }
 
     static PermissionItem split(String key) {
-        return split(null, key);
+        return split(key, null);
+    }
+
+    static PermissionItem split(String key, String domain) {
+        return split(null, key, domain);
     }
 
     static PermissionItem split(Integer idRole, String key) {
+        return split(idRole, key, null);
+    }
+
+    static PermissionItem split(Integer idRole, String key, String domain) {
         if (key == null) {
             return null;
         }
@@ -73,6 +85,6 @@ public interface ISecurityAction {
         if (split.length < 2) {
             return null;
         }
-        return new PermissionItem(idRole, split[0], split[1]);
+        return new PermissionItem(idRole, split[0], split[1], domain);
     }
 }

@@ -41,10 +41,16 @@ public class PermissionItem implements IPermissionItem {
     private String target;
     @Id
     private String action;
+    private String domain;
+
+    public PermissionItem(Integer idRole, String target, String action) {
+        this(idRole, target, action, null);
+    }
 
     public PermissionItem(IPermissionItem item) {
         this.idRole = item.getIdRole();
         this.target = item.getTarget();
         this.action = item.getAction();
+        this.domain = item.getDomain();
     }
 }

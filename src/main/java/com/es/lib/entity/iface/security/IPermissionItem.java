@@ -27,6 +27,8 @@ public interface IPermissionItem extends Serializable {
 
     String getAction();
 
+    String getDomain();
+
     default String getKey() {
         return ISecurityAction.join(getTarget(), getAction());
     }
