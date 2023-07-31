@@ -15,10 +15,24 @@
  */
 package com.es.lib.entity.iface.security;
 
-public interface IDomainPermissionItem extends IPermissionItem {
+import com.es.lib.entity.model.security.code.ISecurityAction;
+
+import java.io.Serializable;
+
+public interface IDomainPermissionItem extends Serializable {
 
     String DOMAIN_OWNER = "OWNER";
     String DOMAIN_TEAM = "TEAM";
 
+    Integer getIdRole();
+
+    String getTarget();
+
+    String getAction();
+
     String getDomain();
+
+    default String getKey() {
+        return ISecurityAction.join(getTarget(), getAction());
+    }
 }

@@ -53,7 +53,10 @@ public interface ISecurityAction {
     String DELETE = "DELETE";
 
     static String join(IDomainPermissionItem item) {
-        return join((IPermissionItem) item);
+        if (item == null) {
+            return null;
+        }
+        return join(item.getTarget(), item.getAction());
     }
 
     static String join(IPermissionItem item) {
