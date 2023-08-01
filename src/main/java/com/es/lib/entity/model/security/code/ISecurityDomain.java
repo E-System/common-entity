@@ -1,6 +1,6 @@
 package com.es.lib.entity.model.security.code;
 
-public class ISecurityDomain {
+public interface ISecurityDomain {
 
     String OWNER = "OWNER";
     String TEAM = "TEAM";
