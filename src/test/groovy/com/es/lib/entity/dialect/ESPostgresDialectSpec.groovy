@@ -35,12 +35,15 @@ class ESPostgresDialectSpec extends PgRunner {
         def sentity6 = session.createQuery("select e from ArrayEntity e where :values is null or es_array_contain(e.integers, es_array_cast(:values,'INT[]')) = true", ArrayEntity.class)
             .setParameter("values", null)
             .getResultList()
+        def sentity7 = session.createQuery("select cast(array_agg(e.id) as string) from ArrayEntity e", String.class)
+            .getSingleResult()
         println(sentity)
         println(sentity2)
         println(sentity3)
         println(sentity4)
         println(sentity5)
         println(sentity6)
+        println(sentity7)
         then:
         entity.id != null
         entity.strings != null
@@ -64,6 +67,7 @@ class ESPostgresDialectSpec extends PgRunner {
         entity.dates[0].time == date.time
         entity.dates[1].time == date.time
         entity.dates[2].time == date.time
+
         cleanup:
         if (session != null) {
             session.close()

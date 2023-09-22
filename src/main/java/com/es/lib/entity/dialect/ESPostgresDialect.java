@@ -5,6 +5,7 @@ import com.es.lib.entity.dialect.function.ArrayOperatorContain;
 import com.es.lib.entity.dialect.function.ArrayOperatorContained;
 import com.es.lib.entity.dialect.function.ArrayOperatorOverlap;
 import org.hibernate.dialect.PostgreSQL10Dialect;
+import org.hibernate.dialect.function.StandardSQLFunction;
 
 public class ESPostgresDialect extends PostgreSQL10Dialect {
 
@@ -14,5 +15,6 @@ public class ESPostgresDialect extends PostgreSQL10Dialect {
         registerFunction(ArrayOperatorContained.NAME, new ArrayOperatorContained());
         registerFunction(ArrayOperatorOverlap.NAME, new ArrayOperatorOverlap());
         registerFunction(ArrayCast.NAME, new ArrayCast());
+        registerFunction( "array_agg", new StandardSQLFunction( "array_agg" ) );
     }
 }
