@@ -18,6 +18,7 @@ class CommonArrayListTypeSpec extends PgRunner {
         Transaction txn = session.beginTransaction()
 
         def date = new Date()
+        def dateW
 
         def entity = new ArrayEntity()
         entity.strings = ["A1", "A2", "A3"]

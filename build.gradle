@@ -127,7 +127,7 @@ publishing {
 }
 ext{
     pgVersion = "42.5.1"
-    hibernateVersion = "5.6.14.Final"
+    hibernateVersion = "5.6.15.Final"
     lombokVersion = "1.18.24"
     jacksonVersion = "2.14.1"
     testcontainersVersion = "1.17.6"
