@@ -237,11 +237,12 @@ public class FileStores {
         if (converter != null) {
             source = converter.apply(source);
         }
+        StoreMode mode = StoreMode.PERSISTENT;
         if (source instanceof TemporaryFileSource) {
             TemporaryFileStore temporaryFileStore = ((TemporaryFileSource) source).getValue();
             StorePath storePath;
             try {
-                storePath = moveTo(basePath, StoreMode.PERSISTENT, scope, temporaryFileStore, false);
+                storePath = moveTo(basePath, mode, scope, temporaryFileStore, false);
             } catch (IOException e) {
                 return exception(e, exceptionConsumer);
             }
@@ -251,7 +252,7 @@ public class FileStores {
         } else if (source instanceof ByteSource) {
             ByteSource byteSource = (ByteSource) source;
             FileInfo inputAttrs = byteSource.getAttrs();
-            StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, inputAttrs.getFileName().getExt());
+            StorePath storePath = StorePath.create(basePath, mode, scope, inputAttrs.getFileName().getExt());
             T result = fileStoreCreator.get();
             result.setFilePath(storePath.getRelative().toString());
             result.setFileName(inputAttrs.getFileName().getName());
@@ -270,7 +271,7 @@ public class FileStores {
         } else if (source instanceof StreamSource) {
             StreamSource streamSource = (StreamSource) source;
             FileInfo inputAttrs = streamSource.getAttrs();
-            StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, inputAttrs.getFileName().getExt());
+            StorePath storePath = StorePath.create(basePath, mode, scope, inputAttrs.getFileName().getExt());
             FileInfo fileInfo;
             try {
                 fileInfo = streamSource.load(storePath.toAbsolutePath());
@@ -297,7 +298,7 @@ public class FileStores {
             Pair<Path, FileName> download = IO.download(urlSource.getValue(), urlSource.getFileNameCreator());
             Path from = download.getKey();
             FileName fileName = download.getValue();
-            StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, fileName.getExt());
+            StorePath storePath = StorePath.create(basePath, mode, scope, fileName.getExt());
 
             FileInfo fileInfo;
             try (InputStream is = Files.newInputStream(from)) {
