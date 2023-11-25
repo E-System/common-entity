@@ -28,6 +28,7 @@ import com.es.lib.entity.model.file.StorePath;
 import com.es.lib.entity.model.file.TemporaryFileStore;
 import com.es.lib.entity.model.file.code.IFileStoreAttrs;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
@@ -73,6 +74,8 @@ public class FileStores {
     }
 
     public interface Source {
+
+        boolean isInvalid();
     }
 
     @Getter
@@ -81,6 +84,11 @@ public class FileStores {
     public static class TemporaryFileSource implements Source {
 
         private final TemporaryFileStore value;
+
+        @Override
+        public boolean isInvalid() {
+            return value == null;
+        }
     }
 
     @Getter
@@ -91,6 +99,7 @@ public class FileStores {
         private final byte[] value;
         private final FileInfo attrs;
 
+        @Override
         public boolean isInvalid() {
             return value == null;
         }
@@ -111,6 +120,7 @@ public class FileStores {
         private final Path value;
         private final FileInfo attrs;
 
+        @Override
         public boolean isInvalid() {
             return value == null || !Files.exists(value) || !Files.isReadable(value);
         }
@@ -130,6 +140,7 @@ public class FileStores {
         private final InputStream value;
         private final FileInfo attrs;
 
+        @Override
         public boolean isInvalid() {
             return value == null;
         }
@@ -152,6 +163,11 @@ public class FileStores {
         public UrlSource(String value, boolean upload) {
             this(value, upload, null);
         }
+
+        @Override
+        public boolean isInvalid() {
+            return StringUtils.isBlank(value);
+        }
     }
 
     @RequiredArgsConstructor
@@ -160,6 +176,11 @@ public class FileStores {
         private final Path basePath;
         private final Supplier<T> creator;
         private final Consumer<IOException> exceptionConsumer;
+        private final Function<Source, Source> converter;
+
+        public Instance(Path basePath, Supplier<T> creator, Consumer<IOException> exceptionConsumer) {
+            this(basePath, creator, exceptionConsumer, null);
+        }
 
         public T toStore(String scope, Source source, Attrs attrs) {
             return FileStores.toStore(
@@ -168,7 +189,8 @@ public class FileStores {
                 source,
                 attrs,
                 creator,
-                exceptionConsumer
+                exceptionConsumer,
+                converter
             );
         }
 
@@ -178,12 +200,23 @@ public class FileStores {
                 mode,
                 scope,
                 source,
-                exceptionConsumer
+                exceptionConsumer,
+                converter
             );
         }
     }
 
     public static <T extends IFileStore> T toStore(Path basePath, String scope, Source source, Attrs attrs, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
+        return toStore(basePath, scope, source, attrs, fileStoreCreator, exceptionConsumer, null);
+    }
+
+    public static <T extends IFileStore> T toStore(Path basePath, String scope, Source source, Attrs attrs, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer, Function<Source, Source> converter) {
+        if (source == null || source.isInvalid()) {
+            return null;
+        }
+        if (converter != null) {
+            source = converter.apply(source);
+        }
         if (source instanceof TemporaryFileSource) {
             TemporaryFileStore temporaryFileStore = ((TemporaryFileSource) source).getValue();
             StorePath storePath;
@@ -213,6 +246,25 @@ public class FileStores {
                 return exception(e, exceptionConsumer);
             }
             processAttributes(result, byteSource.getValue(), attrs);
+            return result;
+        } else if (source instanceof StreamSource) {
+            StreamSource streamSource = (StreamSource) source;
+            FileInfo inputAttrs = streamSource.getAttrs();
+            StorePath storePath = StorePath.create(basePath, StoreMode.PERSISTENT, scope, inputAttrs.getFileName().getExt());
+            FileInfo fileInfo;
+            try {
+                fileInfo = streamSource.load(storePath.toAbsolutePath());
+            } catch (IOException e) {
+                return exception(e, exceptionConsumer);
+            }
+            T result = fileStoreCreator.get();
+            result.setFilePath(storePath.getRelative().toString());
+            result.setFileName(inputAttrs.getFileName().getName());
+            result.setFileExt(inputAttrs.getFileName().getExt());
+            result.setCrc32(fileInfo.getCrc32());
+            result.setSize(fileInfo.getSize());
+            result.setMime(fileInfo.getMime());
+            processAttributes(result, streamSource.getValue(), attrs);
             return result;
         } else if (source instanceof UrlSource) {
             UrlSource urlSource = (UrlSource) source;
@@ -250,11 +302,18 @@ public class FileStores {
     }
 
     public static TemporaryFileStore toStore(Path basePath, StoreMode mode, String scope, Source source, Consumer<IOException> exceptionConsumer) {
+        return toStore(basePath, mode, scope, source, exceptionConsumer, null);
+    }
+
+    public static TemporaryFileStore toStore(Path basePath, StoreMode mode, String scope, Source source, Consumer<IOException> exceptionConsumer, Function<Source, Source> converter) {
+        if (source == null || source.isInvalid()) {
+            return null;
+        }
+        if (converter != null) {
+            source = converter.apply(source);
+        }
         if (source instanceof PathSource) {
             PathSource pathSource = (PathSource) source;
-            if (pathSource.isInvalid()) {
-                return null;
-            }
             FileName fileName = FileName.create(pathSource.getValue());
             StorePath storePath = StorePath.create(basePath, mode, scope, fileName.getExt());
             FileInfo fileInfo;
@@ -275,9 +334,6 @@ public class FileStores {
             );
         } else if (source instanceof ByteSource) {
             ByteSource byteSource = (ByteSource) source;
-            if (byteSource.isInvalid()) {
-                return null;
-            }
             String ext = byteSource.getAttrs().getFileName().getExt();
             StorePath storePath = StorePath.create(basePath, mode, scope, ext);
             FileInfo fileInfo;
@@ -298,9 +354,6 @@ public class FileStores {
             );
         } else if (source instanceof StreamSource) {
             StreamSource streamSource = (StreamSource) source;
-            if (streamSource.isInvalid()) {
-                return null;
-            }
             String ext = streamSource.getAttrs().getFileName().getExt();
             StorePath storePath = StorePath.create(basePath, mode, scope, ext);
             FileInfo fileInfo;
@@ -420,6 +473,16 @@ public class FileStores {
         if (IStore.isImage(fileStore)) {
             fileStore.setAttr(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
             fillImageInfo(fileStore, Images.info(source));
+        }
+    }
+
+    public static void processAttributes(IFileStore fileStore, InputStream source, Attrs attrs) {
+        processAttributes(fileStore, attrs);
+        if (IStore.isImage(fileStore)) {
+            fileStore.setAttr(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
+            try {
+                fillImageInfo(fileStore, Images.info(source));
+            } catch (Exception ignore) {}
         }
     }
 
