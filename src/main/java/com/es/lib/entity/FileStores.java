@@ -76,6 +76,8 @@ public class FileStores {
     public interface Source {
 
         boolean isInvalid();
+
+        FileInfo getAttrs();
     }
 
     @Getter
@@ -84,6 +86,19 @@ public class FileStores {
     public static class TemporaryFileSource implements Source {
 
         private final TemporaryFileStore value;
+
+        @Override
+        public FileInfo getAttrs() {
+            return new FileInfo(
+                FileName.create(
+                    value.getFileName(),
+                    value.getFileExt()
+                ),
+                value.getSize(),
+                value.getCrc32(),
+                value.getMime()
+            );
+        }
 
         @Override
         public boolean isInvalid() {
@@ -167,6 +182,11 @@ public class FileStores {
         @Override
         public boolean isInvalid() {
             return StringUtils.isBlank(value);
+        }
+
+        @Override
+        public FileInfo getAttrs() {
+            return null;
         }
     }
 
