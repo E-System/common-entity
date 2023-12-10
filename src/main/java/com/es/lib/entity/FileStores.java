@@ -485,7 +485,9 @@ public class FileStores {
         processAttributes(fileStore, attrs);
         if (IStore.isImage(fileStore)) {
             fileStore.setAttr(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
-            fillImageInfo(fileStore, Images.info(source));
+            try {
+                fillImageInfo(fileStore, Images.info(source));
+            } catch (Exception ignore) {}
         }
     }
 
@@ -493,7 +495,9 @@ public class FileStores {
         processAttributes(fileStore, attrs);
         if (IStore.isImage(fileStore)) {
             fileStore.setAttr(IFileStoreAttrs.Image.IMAGE, String.valueOf(true));
-            fillImageInfo(fileStore, Images.info(source));
+            try {
+                fillImageInfo(fileStore, Images.info(source));
+            } catch (Exception ignore) {}
         }
     }
 
@@ -521,7 +525,6 @@ public class FileStores {
                 fileStore.setAttr(entry);
             }
         }
-
     }
 
     public static void fillImageInfo(IFileStore fileStore, Images.Info source) {
