@@ -249,6 +249,25 @@ public class FileStores {
             T result = fill(storePath, temporaryFileStore, fileStoreCreator.get());
             processAttributes(result, storePath.toAbsolutePath(), attrs);
             return result;
+        }else if (source instanceof PathSource){
+            PathSource pathSource = (PathSource) source;
+            FileName fileName = FileName.create(pathSource.getValue());
+            StorePath storePath = StorePath.create(basePath, mode, scope, fileName.getExt());
+            FileInfo fileInfo;
+            try {
+                fileInfo = pathSource.load(storePath.toAbsolutePath());
+            } catch (IOException e) {
+                return exception(e, exceptionConsumer);
+            }
+            T result = fileStoreCreator.get();
+            result.setFilePath(storePath.getRelative().toString());
+            result.setFileName(fileName.getName());
+            result.setFileExt(fileName.getExt());
+            result.setCrc32(fileInfo.getCrc32());
+            result.setSize(fileInfo.getSize());
+            result.setMime(fileInfo.getMime());
+            processAttributes(result, pathSource.getValue(), attrs);
+            return result;
         } else if (source instanceof ByteSource) {
             ByteSource byteSource = (ByteSource) source;
             FileInfo inputAttrs = byteSource.getAttrs();
