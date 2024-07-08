@@ -115,6 +115,7 @@ public interface AddressKeys {
     String FLAT = "FLAT";
     String QUALIFICATION = "QUALIFICATION";
     String ZIPCODE = "ZIPCODE";
+    String GUID = "GUID";
     String GEO_LAT = "GEO_LAT";
     String GEO_LON = "GEO_LON";
 }
