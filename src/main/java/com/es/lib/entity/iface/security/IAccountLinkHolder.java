@@ -1,6 +1,8 @@
-package com.es.lib.entity.iface;
+package com.es.lib.entity.iface.security;
 
-public interface ILinkAccountHolder extends IAttrsOwner {
+import com.es.lib.entity.iface.IAttrsOwner;
+
+public interface IAccountLinkHolder extends IAttrsOwner {
 
     /**
      * Active account link
