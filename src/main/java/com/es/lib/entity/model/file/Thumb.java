@@ -58,10 +58,19 @@ public class Thumb {
         if (!need) {
             return null;
         }
-        return new Thumb(
-            NumberUtils.toInt(tw, Thumb.DEFAULT_WIDTH),
-            NumberUtils.toInt(th, Thumb.DEFAULT_HEIGHT)
-        );
+        Integer w = toInt(tw);
+        Integer h = toInt(th);
+        if (w == null && h == null) {
+            w = DEFAULT_WIDTH;
+            h = DEFAULT_HEIGHT;
+        } else {
+            if (w == null) {
+                w = h;
+            } else {
+                h = w;
+            }
+        }
+        return new Thumb(w, h);
     }
 
     public static Thumb extract(Map<String, String> params) {
@@ -70,6 +79,17 @@ public class Thumb {
             params.get("tw"),
             params.get("th")
         );
+    }
+
+    private static Integer toInt(String str) {
+        if (str == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException var3) {
+            return null;
+        }
     }
 
     @Override
