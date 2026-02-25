@@ -48,7 +48,7 @@ public class FileStoreUtil {
     public static <T extends IFileStore> T toStore(String basePath, String scope, TemporaryFileStore temporaryFile, Supplier<T> fileStoreCreator, Consumer<IOException> exceptionConsumer) {
         FileStorePath storePath;
         try {
-            storePath = moveTo(temporaryFile, basePath, FileStoreMode.PERSISTENT, scope, true);
+            storePath = moveTo(temporaryFile, basePath, FileStoreMode.PERSISTENT, scope, false);
         } catch (IOException e) {
             if (exceptionConsumer != null) {
                 exceptionConsumer.accept(e);
