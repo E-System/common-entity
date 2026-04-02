@@ -9,7 +9,7 @@ name: Gradle Package
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ 1.4.0 ]
   workflow_dispatch:
 
 
