@@ -34,10 +34,9 @@ import java.sql.Types;
  */
 public interface IJsonType extends IType {
 
-    ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
     DbTypes.Json getDbType();
+
+    ObjectMapper getMapper();
 
     default boolean isCreateInstance() {
         return true;
@@ -91,10 +90,10 @@ public interface IJsonType extends IType {
     }
 
     default String asString(Object value) throws JsonProcessingException {
-        return OBJECT_MAPPER.writeValueAsString(value);
+        return getMapper().writeValueAsString(value);
     }
 
     default Object asObject(String value, Class<?> returnedClass) throws IOException {
-        return OBJECT_MAPPER.readValue(value, returnedClass);
+        return getMapper().readValue(value, returnedClass);
     }
 }

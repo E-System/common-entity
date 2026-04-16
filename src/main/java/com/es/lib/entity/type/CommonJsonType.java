@@ -17,6 +17,8 @@
 package com.es.lib.entity.type;
 
 import com.es.lib.entity.type.iface.IJsonType;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 
@@ -25,13 +27,40 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.ZoneId;
 import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 06.05.15
  */
 public abstract class CommonJsonType implements UserType, IJsonType {
+
+    private final ObjectMapper mapper;
+
+    public CommonJsonType() {
+        this.mapper = createMapper();
+    }
+
+    @Override
+    public ObjectMapper getMapper() {
+        return mapper;
+    }
+
+    protected ObjectMapper createMapper() {
+        ObjectMapper result = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        ZoneId zoneId = getTimeZone();
+        if (zoneId != null) {
+            result.setTimeZone(TimeZone.getTimeZone(zoneId));
+        }
+        return result;
+    }
+
+    protected ZoneId getTimeZone() {
+        return null;
+    }
 
     @Override
     public int[] sqlTypes() {
