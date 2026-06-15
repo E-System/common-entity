@@ -6,8 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.text.ParseException;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.TemporalAccessor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -49,6 +47,18 @@ public interface IAttributeOwner {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    default boolean getBoolAttr(String code) {
+        return getBoolAttr(code, false);
+    }
+
+    default boolean getBoolAttr(String code, boolean defValue) {
+        String attribute = getAttribute(code);
+        if (attribute == null) {
+            return defValue;
+        }
+        return Boolean.parseBoolean(attribute);
     }
 
     default void setAttributes(Collection<? extends Map.Entry<String, String>> items) {

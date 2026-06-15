@@ -6,6 +6,23 @@ import java.text.SimpleDateFormat
 
 class IAttributeOwnerSpec extends Specification {
 
+    def "Bool attr"() {
+        when:
+        def v = new TestAttr(["CODE1": "true", "CODE2": null, "CODE3": "", "CODE4": "false", "CODE5": "asd"])
+        def d1 = v.getBoolAttr("CODE1")
+        def d2 = v.getBoolAttr("CODE2")
+        def d3 = v.getBoolAttr("CODE3")
+        def d4 = v.getBoolAttr("CODE4")
+        def d5 = v.getBoolAttr("CODE5")
+        then:
+        d1
+        !d2
+        !d3
+        !d4
+        !d5
+    }
+
+
     def "Get date attribute"() {
         when:
         def v = new TestAttr(["CODE1": "22.12.2019", "CODE2": null, "CODE3": "", "CODE4": "awd"])
