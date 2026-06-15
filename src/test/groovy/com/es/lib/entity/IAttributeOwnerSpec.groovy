@@ -22,6 +22,21 @@ class IAttributeOwnerSpec extends Specification {
         !d5
     }
 
+    def "Set Bool attr"() {
+        when:
+        def v = new TestAttr([:])
+        v.setAttribute('CODE1', true)
+        v.setAttribute('CODE2', false)
+        v.setAttribute('CODE3', null)
+        then:
+        v.getBoolAttr('CODE1')
+        !v.getBoolAttr('CODE2')
+        !v.getBoolAttr('CODE3')
+        v.attributes.containsKey('CODE1')
+        !v.attributes.containsKey('CODE2')
+        !v.attributes.containsKey('CODE3')
+    }
+
 
     def "Get date attribute"() {
         when:

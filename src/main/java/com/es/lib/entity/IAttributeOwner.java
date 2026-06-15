@@ -69,6 +69,10 @@ public interface IAttributeOwner {
         setAttributes(Collections.singletonList(Pair.of(code, value)));
     }
 
+    default void setAttribute(String code, boolean value) {
+        setAttributes(Collections.singletonList(Pair.of(code, value ? String.valueOf(true) : null)));
+    }
+
     default boolean isAttributeFilled(String code) {
         return StringUtils.isNotBlank(getAttribute(code));
     }
