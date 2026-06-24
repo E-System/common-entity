@@ -16,6 +16,9 @@
 
 package com.es.lib.entity.iface.file.code;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * File store element attributes
  *
@@ -51,8 +54,26 @@ public interface IFileStoreAttributes {
      * Security attributes
      */
     interface Security {
+
         String OWNER_LOGGED_CODE = "LOGGED";
         String OWNER = "S_OWNER";
         String OWNER_ID = "S_OWNER_ID";
+
+        String CHECKER_LOGGED_CODE = "LOGGED";
+        String CHECKERS = "S_CHECKERS";
     }
+
+    /**
+     * File tags
+     */
+    String TAGS = "TAGS";
+
+    Collection<String> RESERVED = Arrays.asList(
+        Image.IMAGE,
+        Image.WIDTH,
+        Image.HEIGHT,
+        Image.VERTICAL,
+        Security.CHECKERS,
+        TAGS
+    );
 }

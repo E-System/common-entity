@@ -186,4 +186,51 @@ class IFileStoreSpec extends Specification {
         value == "Very lo..e name.jpeg"
         value.length() == size
     }
+
+    def "Get checkers"() {
+        expect:
+        f.checkers == result
+        where:
+        f                                                                                                    || result
+        new FileStore(null)                                                                                  || new HashSet<String>()
+        new FileStore([:])                                                                                   || new HashSet<String>()
+        new FileStore([(IFileStoreAttributes.Security.CHECKERS): ""])                                             || new HashSet<String>()
+        new FileStore([(IFileStoreAttributes.Security.CHECKERS): (IFileStoreAttributes.Security.CHECKER_LOGGED_CODE)]) || new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE])
+    }
+
+    def "Set checkers"(){
+        when:
+        def item = new FileStore(null)
+        then:
+        item.setCheckers(new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE]))
+        item.checkers == new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE])
+        item.attrs[IFileStoreAttributes.Security.CHECKERS] == IFileStoreAttributes.Security.CHECKER_LOGGED_CODE
+        item.setCheckers(null)
+        item.checkers == new HashSet<String>()
+        item.attrs[IFileStoreAttributes.Security.CHECKERS] == null
+    }
+
+    def "Get tags"() {
+        expect:
+        f.tags == result
+        where:
+        f                                                    || result
+        new FileStore(null)                                  || new HashSet<String>()
+        new FileStore([:])                                   || new HashSet<String>()
+        new FileStore([(IFileStoreAttributes.TAGS): ""])          || new HashSet<String>()
+        new FileStore([(IFileStoreAttributes.TAGS): "TAG1;TAG2"]) || new HashSet<String>(["TAG1", "TAG2"])
+    }
+
+    def "Set tags"(){
+        when:
+        def item = new FileStore(null)
+        then:
+        item.setTags(new HashSet<String>(["TAG1", "TAG2"]))
+        item.tags == new HashSet<String>(["TAG1", "TAG2"])
+        item.attrs[IFileStoreAttributes.TAGS] == "TAG1;TAG2"
+        item.setTags(null)
+        item.tags == new HashSet<String>()
+        item.attrs[IFileStoreAttributes.TAGS] == null
+
+    }
 }

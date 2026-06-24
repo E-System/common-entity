@@ -21,6 +21,8 @@ import com.es.lib.entity.IPrimaryKey;
 import com.es.lib.entity.iface.file.code.IFileStoreAttributes;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Set;
+
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 01.02.16
@@ -90,5 +92,21 @@ public interface IFileStore extends IAttributeOwner, IPrimaryKey<Long> {
 
     default String getOwner() {
         return getAttribute(IFileStoreAttributes.Security.OWNER);
+    }
+
+    default void setCheckers(Set<String> checkers) {
+        setCollectionAttr(IFileStoreAttributes.Security.CHECKERS, checkers);
+    }
+
+    default Set<String> getCheckers() {
+        return getSetAttr(IFileStoreAttributes.Security.CHECKERS, v -> v);
+    }
+
+    default void setTags(Set<String> tags) {
+        setCollectionAttr(IFileStoreAttributes.TAGS, tags);
+    }
+
+    default Set<String> getTags() {
+        return getSetAttr(IFileStoreAttributes.TAGS, v -> v);
     }
 }

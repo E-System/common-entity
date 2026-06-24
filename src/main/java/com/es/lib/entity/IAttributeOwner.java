@@ -6,12 +6,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.text.ParseException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public interface IAttributeOwner {
+
+    String COLLECTION_SPLITTER = ";";
+
 
     Map<String, String> getAttributes();
 
@@ -83,5 +86,37 @@ public interface IAttributeOwner {
 
     default void removeNullAttributes() {
         setAttributes(CollectionUtil.removeNullValues(getAttributes()));
+    }
+
+    default <T> Collection<T> getCollectionAttr(String code, String splitter, Function<String, T> mapper) {
+        String value = getAttribute(code);
+        if (StringUtils.isBlank(value)) {
+            return new ArrayList<>();
+        }
+        return Stream.of(value.split(splitter)).map(mapper).collect(Collectors.toList());
+    }
+
+    default <T> Set<T> getSetAttr(String code, String splitter, Function<String, T> mapper) {
+        return new HashSet<>(getCollectionAttr(code, splitter, mapper));
+    }
+
+    default <T> Collection<T> getCollectionAttr(String code, Function<String, T> mapper) {
+        return getCollectionAttr(code, COLLECTION_SPLITTER, mapper);
+    }
+
+    default <T> Set<T> getSetAttr(String code, Function<String, T> mapper) {
+        return new HashSet<>(getCollectionAttr(code, mapper));
+    }
+
+    default <T> void setCollectionAttr(String code, String splitter, Collection<T> items) {
+        if (CollectionUtil.isEmpty(items)) {
+            setAttribute(code, null);
+            return;
+        }
+        setAttribute(code, items.stream().map(String::valueOf).collect(Collectors.joining(splitter)));
+    }
+
+    default <T> void setCollectionAttr(String code, Collection<T> items) {
+        setCollectionAttr(code, COLLECTION_SPLITTER, items);
     }
 }
