@@ -6,6 +6,7 @@ import spock.lang.Specification
 class IFileStoreSpec extends Specification {
 
     class FileStore implements IFileStore {
+
         Map<String, String> attrs
 
         FileStore(attrs) {
@@ -191,14 +192,14 @@ class IFileStoreSpec extends Specification {
         expect:
         f.checkers == result
         where:
-        f                                                                                                    || result
-        new FileStore(null)                                                                                  || new HashSet<String>()
-        new FileStore([:])                                                                                   || new HashSet<String>()
-        new FileStore([(IFileStoreAttributes.Security.CHECKERS): ""])                                             || new HashSet<String>()
+        f                                                                                                              || result
+        new FileStore(null)                                                                                            || new HashSet<String>()
+        new FileStore([:])                                                                                             || new HashSet<String>()
+        new FileStore([(IFileStoreAttributes.Security.CHECKERS): ""])                                                  || new HashSet<String>()
         new FileStore([(IFileStoreAttributes.Security.CHECKERS): (IFileStoreAttributes.Security.CHECKER_LOGGED_CODE)]) || new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE])
     }
 
-    def "Set checkers"(){
+    def "Set checkers"() {
         when:
         def item = new FileStore(null)
         then:
@@ -210,18 +211,30 @@ class IFileStoreSpec extends Specification {
         item.attrs[IFileStoreAttributes.Security.CHECKERS] == null
     }
 
+    def "Set multiple checkers"() {
+        when:
+        def item = new FileStore(null)
+        then:
+        item.setCheckers(new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE, IFileStoreAttributes.Security.CHECKER_OR_CODE]))
+        item.checkers == new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE, IFileStoreAttributes.Security.CHECKER_OR_CODE])
+        item.attrs[IFileStoreAttributes.Security.CHECKERS] == IFileStoreAttributes.Security.CHECKER_OR_CODE + ';' + IFileStoreAttributes.Security.CHECKER_LOGGED_CODE
+        item.setCheckers(null)
+        item.checkers == new HashSet<String>()
+        item.attrs[IFileStoreAttributes.Security.CHECKERS] == null
+    }
+
     def "Get tags"() {
         expect:
         f.tags == result
         where:
-        f                                                    || result
-        new FileStore(null)                                  || new HashSet<String>()
-        new FileStore([:])                                   || new HashSet<String>()
+        f                                                         || result
+        new FileStore(null)                                       || new HashSet<String>()
+        new FileStore([:])                                        || new HashSet<String>()
         new FileStore([(IFileStoreAttributes.TAGS): ""])          || new HashSet<String>()
         new FileStore([(IFileStoreAttributes.TAGS): "TAG1;TAG2"]) || new HashSet<String>(["TAG1", "TAG2"])
     }
 
-    def "Set tags"(){
+    def "Set tags"() {
         when:
         def item = new FileStore(null)
         then:

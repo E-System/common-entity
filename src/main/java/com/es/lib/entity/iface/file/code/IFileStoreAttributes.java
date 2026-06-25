@@ -55,11 +55,15 @@ public interface IFileStoreAttributes {
      */
     interface Security {
 
+        @Deprecated
         String OWNER_LOGGED_CODE = "LOGGED";
+        @Deprecated
         String OWNER = "S_OWNER";
+        @Deprecated
         String OWNER_ID = "S_OWNER_ID";
 
         String CHECKER_LOGGED_CODE = "LOGGED";
+        String CHECKER_OR_CODE = "OR";
         String CHECKERS = "S_CHECKERS";
     }
 

@@ -88,12 +88,8 @@ public interface IAttributeOwner {
         setAttributes(CollectionUtil.removeNullValues(getAttributes()));
     }
 
-    default <T> Collection<T> getCollectionAttr(String code, String splitter, Function<String, T> mapper) {
-        String value = getAttribute(code);
-        if (StringUtils.isBlank(value)) {
-            return new ArrayList<>();
-        }
-        return Stream.of(value.split(splitter)).map(mapper).collect(Collectors.toList());
+    default <T> Set<T> getSetAttr(String code, Function<String, T> mapper) {
+        return new HashSet<>(getCollectionAttr(code, mapper));
     }
 
     default <T> Set<T> getSetAttr(String code, String splitter, Function<String, T> mapper) {
@@ -104,8 +100,16 @@ public interface IAttributeOwner {
         return getCollectionAttr(code, COLLECTION_SPLITTER, mapper);
     }
 
-    default <T> Set<T> getSetAttr(String code, Function<String, T> mapper) {
-        return new HashSet<>(getCollectionAttr(code, mapper));
+    default <T> Collection<T> getCollectionAttr(String code, String splitter, Function<String, T> mapper) {
+        String value = getAttribute(code);
+        if (StringUtils.isBlank(value)) {
+            return new ArrayList<>();
+        }
+        return Stream.of(value.split(splitter)).map(mapper).collect(Collectors.toList());
+    }
+
+    default <T> void setCollectionAttr(String code, Collection<T> items) {
+        setCollectionAttr(code, COLLECTION_SPLITTER, items);
     }
 
     default <T> void setCollectionAttr(String code, String splitter, Collection<T> items) {
@@ -114,9 +118,5 @@ public interface IAttributeOwner {
             return;
         }
         setAttribute(code, items.stream().map(String::valueOf).collect(Collectors.joining(splitter)));
-    }
-
-    default <T> void setCollectionAttr(String code, Collection<T> items) {
-        setCollectionAttr(code, COLLECTION_SPLITTER, items);
     }
 }

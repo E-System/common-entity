@@ -65,31 +65,37 @@ public interface IFileStore extends IAttributeOwner, IPrimaryKey<Long> {
         if ((nameSize + extSize + 1) < maxWidth) {
             return getFullName();
         }
-        return StringUtils.abbreviateMiddle(getFileName(),"..", maxWidth - extSize - 1) + "." + getFileExt();
+        return StringUtils.abbreviateMiddle(getFileName(), "..", maxWidth - extSize - 1) + "." + getFileExt();
     }
 
+    @Deprecated
     default boolean isPublicVisible() {
         return getOwner() == null;
     }
 
+    @Deprecated
     default boolean isLoggedVisible() {
         String owner = getOwner();
         return IFileStoreAttributes.Security.OWNER_LOGGED_CODE.equals(owner);
     }
 
+    @Deprecated
     default boolean isOwnedVisible() {
         String owner = getOwner();
         return owner != null && !owner.isEmpty() && !IFileStoreAttributes.Security.OWNER_LOGGED_CODE.equals(owner);
     }
 
+    @Deprecated
     default boolean isVisible(String code, String id) {
         return code.equals(getOwner()) && id.equals(getOwnerId());
     }
 
+    @Deprecated
     default String getOwnerId() {
         return getAttribute(IFileStoreAttributes.Security.OWNER_ID);
     }
 
+    @Deprecated
     default String getOwner() {
         return getAttribute(IFileStoreAttributes.Security.OWNER);
     }
