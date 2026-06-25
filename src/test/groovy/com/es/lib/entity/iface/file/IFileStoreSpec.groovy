@@ -202,10 +202,11 @@ class IFileStoreSpec extends Specification {
     def "Set checkers"() {
         when:
         def item = new FileStore(null)
+        def checkers = new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE])
         then:
-        item.setCheckers(new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE]))
-        item.checkers == new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE])
-        item.attrs[IFileStoreAttributes.Security.CHECKERS] == IFileStoreAttributes.Security.CHECKER_LOGGED_CODE
+        item.setCheckers(checkers)
+        item.checkers == checkers
+        item.attrs[IFileStoreAttributes.Security.CHECKERS] == String.join(';', checkers)
         item.setCheckers(null)
         item.checkers == new HashSet<String>()
         item.attrs[IFileStoreAttributes.Security.CHECKERS] == null
@@ -214,10 +215,11 @@ class IFileStoreSpec extends Specification {
     def "Set multiple checkers"() {
         when:
         def item = new FileStore(null)
+        def checkers = new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE, IFileStoreAttributes.Security.CHECKER_OR_CODE, IFileStoreAttributes.Security.CHECKER_ROLE_CODE])
         then:
-        item.setCheckers(new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE, IFileStoreAttributes.Security.CHECKER_OR_CODE]))
-        item.checkers == new HashSet<String>([IFileStoreAttributes.Security.CHECKER_LOGGED_CODE, IFileStoreAttributes.Security.CHECKER_OR_CODE])
-        item.attrs[IFileStoreAttributes.Security.CHECKERS] == IFileStoreAttributes.Security.CHECKER_OR_CODE + ';' + IFileStoreAttributes.Security.CHECKER_LOGGED_CODE
+        item.setCheckers(checkers)
+        item.checkers == checkers
+        item.attrs[IFileStoreAttributes.Security.CHECKERS] == String.join(';', checkers)
         item.setCheckers(null)
         item.checkers == new HashSet<String>()
         item.attrs[IFileStoreAttributes.Security.CHECKERS] == null

@@ -64,6 +64,7 @@ public interface IFileStoreAttributes {
 
         String CHECKER_LOGGED_CODE = "LOGGED";
         String CHECKER_OR_CODE = "OR";
+        String CHECKER_ROLE_CODE = "ROLE";
         String CHECKERS = "S_CHECKERS";
     }
 
