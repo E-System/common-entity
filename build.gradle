@@ -28,12 +28,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
+        classpath "org.sonarqube:org.sonarqube.gradle.plugin:7.3.1.8318"
     }
 }
 
 wrapper {
-    gradleVersion = '9.4.1'
+    gradleVersion = '9.6.0'
 }
 
 def resolve(String name) {
@@ -126,28 +126,30 @@ publishing {
     }
 }
 ext {
-    jacksonVersion = "2.14.1"
+    jacksonVersion = "2.14.3"
+    hibernateVersion = "5.3.9.Final"
+    lombokVersion = "1.18.46"
+    testContainersVersion = "2.0.5"
+    pgVersion = "42.2.9"
 }
 dependencies {
     api "com.es.lib:common-lib:1.3.0${project.ext.snapshot ? '-SNAPSHOT' : ''}"
 
-    api "com.fasterxml.jackson.core:jackson-databind:2.9.9.2"
-    api "com.fasterxml.jackson.core:jackson-annotations:2.9.9"
-    api "org.hibernate:hibernate-entitymanager:5.3.9.Final"
-    api "org.hibernate:hibernate-core:5.3.9.Final"
+    api "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    api "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    api "org.hibernate:hibernate-entitymanager:${hibernateVersion}"
+    api "org.hibernate:hibernate-core:${hibernateVersion}"
 
-    compileOnly "org.postgresql:postgresql:42.2.9"
-    compileOnly "org.projectlombok:lombok:1.18.44"
-    annotationProcessor "org.projectlombok:lombok:1.18.44"
+    compileOnly "org.postgresql:postgresql:${pgVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     testImplementation "org.spockframework:spock-core:2.3-groovy-4.0"
-    testImplementation "org.testcontainers:spock:1.15.3"
-    testImplementation "org.testcontainers:postgresql:1.15.3"
-    testImplementation "org.postgresql:postgresql:42.2.9"
+    testImplementation "org.testcontainers:testcontainers-spock:${testContainersVersion}"
+    testImplementation "org.testcontainers:testcontainers-postgresql:${testContainersVersion}"
+    testImplementation "org.postgresql:postgresql:${pgVersion}"
     testImplementation 'javax.xml.bind:jaxb-api:2.3.1'
-    testCompileOnly "org.projectlombok:lombok:1.18.44"
-
 }
 
 def sonarAvailable = resolve('sonar_url') != null && resolve('sonar_user') != null && resolve('sonar_password') != null

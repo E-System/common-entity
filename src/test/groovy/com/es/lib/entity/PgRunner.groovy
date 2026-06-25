@@ -3,7 +3,7 @@ package com.es.lib.entity
 import org.hibernate.SessionFactory
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder
 import org.hibernate.cfg.Configuration
-import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.postgresql.PostgreSQLContainer
 import org.testcontainers.spock.Testcontainers
 import spock.lang.Shared
 import spock.lang.Specification
@@ -25,9 +25,9 @@ abstract class PgRunner extends Specification {
     String dbPassword = "test"
     @Shared
     PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:11")
-    .withDatabaseName(dbName)
-    .withUsername(dbUser)
-    .withPassword(dbPassword)
+            .withDatabaseName(dbName)
+            .withUsername(dbUser)
+            .withPassword(dbPassword)
 
     def setupSpec() {
         println postgres.jdbcUrl
