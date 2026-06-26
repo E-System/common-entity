@@ -24,7 +24,7 @@ abstract class PgRunner extends Specification {
     @Shared
     String dbPassword = "test"
     @Shared
-    PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:11")
+    PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:11-alpine")
             .withDatabaseName(dbName)
             .withUsername(dbUser)
             .withPassword(dbPassword)
