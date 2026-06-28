@@ -16,6 +16,7 @@
 
 package com.es.lib.entity.iface.total;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,12 +29,21 @@ import java.io.Serializable;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 16.04.15
  */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Total1 implements Serializable {
+public class Total5 implements Serializable {
 
     @Id
     private long sum1;
+    @Id
+    private long sum2;
+    @Id
+    private long sum3;
+    @Id
+    private long sum4;
+    @Id
+    private long sum5;
 }
