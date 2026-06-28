@@ -16,17 +16,18 @@
 
 package com.es.lib.entity.db;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LikeUtil {
 
     public static final String ANY_STRING = "%";
     public static final String ANY_CHARACTER = "_";
-
-    private LikeUtil() {
-    }
 
     public static String like(String text, boolean anyMatch) {
         return anyMatch ? any(text) : begin(text);
