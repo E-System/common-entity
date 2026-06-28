@@ -19,7 +19,7 @@ import java.time.LocalDateTime
  *    limitations under the License.
  */
 buildscript {
-    configurations.all {
+    configurations.configureEach {
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     }
     repositories {
