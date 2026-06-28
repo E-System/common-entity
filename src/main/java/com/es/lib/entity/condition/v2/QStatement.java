@@ -16,6 +16,8 @@
 
 package com.es.lib.entity.condition.v2;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -25,9 +27,10 @@ import static com.es.lib.entity.condition.v2.QC.*;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
 public class QStatement extends IQStatement {
 
-	private String expression;
+	private final String expression;
 	private Collection<QParam> params;
 
 	public QStatement(String expression) {
@@ -41,15 +44,7 @@ public class QStatement extends IQStatement {
 		this.params = Arrays.asList(params);
 	}
 
-	public String getExpression() {
-		return expression;
-	}
-
-	public Collection<QParam> getParams() {
-		return params;
-	}
-
-	public boolean isEmptyParams(){
+    public boolean isEmptyParams(){
 		return params == null || params.isEmpty();
 	}
 

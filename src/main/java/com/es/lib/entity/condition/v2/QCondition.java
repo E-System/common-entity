@@ -16,17 +16,20 @@
 
 package com.es.lib.entity.condition.v2;
 
+import lombok.Getter;
+
 import java.util.function.Supplier;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
 public class QCondition {
 
     private static final Supplier<Boolean> ALWAYS_TRUE = () -> true;
-    private Supplier<Boolean> decisionFunction;
-    private IQStatement first;
+    private final Supplier<Boolean> decisionFunction;
+    private final IQStatement first;
     private IQStatement second;
 
     public QCondition(IQStatement first) {
@@ -43,18 +46,6 @@ public class QCondition {
         this.decisionFunction = decisionFunction;
         this.first = first;
         this.second = second;
-    }
-
-    public Supplier<Boolean> getDecisionFunction() {
-        return decisionFunction;
-    }
-
-    public IQStatement getFirst() {
-        return first;
-    }
-
-    public IQStatement getSecond() {
-        return second;
     }
 
     public IQStatement getStatement() {

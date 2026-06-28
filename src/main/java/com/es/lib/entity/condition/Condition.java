@@ -23,7 +23,7 @@ package com.es.lib.entity.condition;
 public class Condition {
 
 	private final boolean firstActive;
-	private Statement statement1;
+	private final Statement statement1;
 	private Statement statement2;
 
 	public Condition(Statement statement1) {

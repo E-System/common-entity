@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @ToString
 public class PermissionListBuilder {
 
-    private Map<String, Map<String, Set<String>>> items;
+    private final Map<String, Map<String, Set<String>>> items;
 
     public PermissionListBuilder() {
         items = new LinkedHashMap<>();

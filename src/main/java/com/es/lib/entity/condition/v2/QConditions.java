@@ -16,6 +16,8 @@
 
 package com.es.lib.entity.condition.v2;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
 public class QConditions {
 
     private Collection<QCondition> conditions;
@@ -40,10 +43,6 @@ public class QConditions {
     public QConditions add(QCondition... conditions) {
         this.conditions.addAll(Arrays.asList(conditions));
         return this;
-    }
-
-    public Collection<QCondition> getConditions() {
-        return conditions;
     }
 
     public boolean isEmpty() {

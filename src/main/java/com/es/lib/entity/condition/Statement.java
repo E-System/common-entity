@@ -16,6 +16,10 @@
 
 package com.es.lib.entity.condition;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,36 +27,18 @@ import java.util.Map;
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
  * @since 10.04.15
  */
+@Getter
+@ToString
+@RequiredArgsConstructor
 public class Statement {
 
-	private String equation;
-	private Map<String, Object> params;
-
-	public Statement(String equation, Map<String, Object> params) {
-		this.equation = equation;
-		this.params = params;
-	}
-
-	public String getEquation() {
-		return equation;
-	}
-
-	public Map<String, Object> getParams() {
-		return params;
-	}
-
-	@Override
-	public String toString() {
-		return "Statement [" +
-		       "equation='" + equation + "'" +
-		       ", params=" + params +
-		       ']';
-	}
+	private final String equation;
+	private final Map<String, Object> params;
 
 	public static class Builder {
 
-		private Condition.Builder conditionBuilder;
-		private String equation;
+		private final Condition.Builder conditionBuilder;
+		private final String equation;
 		private ParamsBuilder paramsBuilder;
 
 		Builder(final Condition.Builder conditionBuilder, final String equation) {
@@ -93,7 +79,7 @@ public class Statement {
 
 		public class ParamsBuilder {
 
-			private Condition.Builder conditionBuilder;
+			private final Condition.Builder conditionBuilder;
 			private Map<String, Object> params;
 
 			ParamsBuilder(final Condition.Builder conditionBuilder, final String key, final Object value) {
