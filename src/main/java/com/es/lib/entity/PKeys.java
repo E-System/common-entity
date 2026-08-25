@@ -16,7 +16,7 @@ public class PKeys {
      * @param <PK>   Primary key type
      * @return Entity ID or null
      */
-    static <PK extends Number> PK id(IPrimaryKey<PK> entity) {
+    public static <PK extends Number> PK id(IPrimaryKey<PK> entity) {
         return entity != null ? entity.getId() : null;
     }
 
@@ -27,7 +27,7 @@ public class PKeys {
      * @param <PK> Primary key type
      * @return Entity ID collection
      */
-    static <PK extends Number> Collection<PK> id(Collection<? extends IPrimaryKey<PK>> list) {
+    public static <PK extends Number> Collection<PK> id(Collection<? extends IPrimaryKey<PK>> list) {
         return list.stream().map(IPrimaryKey::getId).collect(Collectors.toList());
     }
 
@@ -41,5 +41,4 @@ public class PKeys {
     public static <T extends IPrimaryKey> boolean idExist(final T instance) {
         return id(instance) != null;
     }
-
 }
