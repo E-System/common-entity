@@ -19,7 +19,6 @@ package com.es.lib.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author Zuzoev Dmitry - zuzoev.d@ext-system.com
@@ -81,8 +80,9 @@ public interface IPrimaryKey<PK extends Number> extends Serializable {
      * @param <PK>   Primary key type
      * @return Entity ID or null
      */
+    @Deprecated
     static <PK extends Number> PK getNullOrId(IPrimaryKey<PK> entity) {
-        return entity != null ? entity.getId() : null;
+        return PKeys.id(entity);
     }
 
     /**
@@ -92,8 +92,9 @@ public interface IPrimaryKey<PK extends Number> extends Serializable {
      * @param <T>      Entity type
      * @return True if instance != null and id != null
      */
+    @Deprecated
     static <T extends IPrimaryKey> boolean isManaged(final T instance) {
-        return getNullOrId(instance) != null;
+        return PKeys.idExist(instance);
     }
 
     /**
@@ -103,7 +104,8 @@ public interface IPrimaryKey<PK extends Number> extends Serializable {
      * @param <PK> Primary key type
      * @return Entity ID collection
      */
+    @Deprecated
     static <PK extends Number> Collection<PK> getIds(Collection<? extends IPrimaryKey<PK>> list) {
-        return list.stream().map(IPrimaryKey::getId).collect(Collectors.toList());
+        return PKeys.id(list);
     }
 }
